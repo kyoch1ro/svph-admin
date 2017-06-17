@@ -1,0 +1,15 @@
+.c-pointer{
+    cursor: pointer;
+}
+
+.no-marg{
+    margin: 0;
+}
+
+.img-holder .modal-content{
+    background-color: transparent!important;
+    border: none!important;
+}
+/*.app-header.navbar .navbar-brand {
+    background-image: none;
+}*/

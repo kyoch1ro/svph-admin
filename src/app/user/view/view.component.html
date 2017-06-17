@@ -1,0 +1,92 @@
+<div class="card">
+  <div class="card-header">
+    <span *ngIf="user">
+      <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;User Details
+    </span>
+    <span *ngIf="!user">
+      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>&nbsp;Loading
+    </span>
+    
+  </div>
+  <div class="card-block">
+    <section *ngIf="user"> 
+      <div  class="row"> 
+        <div class="col-md-4 push-md-8">
+          <div class="c-pointer" (click)="open(content)">
+            <img src="http://surveyph.heroesrider.com/public/images/{{user.govt_id}}" class="img-fluid" alt="Responsive image">
+          </div>
+        </div>
+
+
+        <div class="col-md-8 pull-md-4">
+          <div class="form-group">
+            <label class="text-muted">Email</label>
+            <p>{{user.email}}</p>
+          </div>
+          
+          <div class="row">
+            <div class="col-9">
+              <div class="form-group">
+                <label class="text-muted">Name</label>
+                <p class="text-capitalize">{{user.firstname + ' ' + user.middlename  + ' ' + user.lastname}}</p>
+              </div>    
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label class="text-muted">Age</label>
+                <p class="text-capitalize">{{user.age}}</p>
+              </div>
+            </div>
+          </div>
+          
+
+          <div class="form-group">
+            <label class="text-muted">Address</label>
+            <p class="text-capitalize no-marg">{{user.address1 +' '+ user.address2 }}</p>
+            <p class="text-capitalize no-marg">{{user.city}}</p>
+            <p class="text-capitalize no-marg">{{user.province}}</p>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label class="text-muted">Civil Status</label>
+                <p class="text-capitalize">{{user.civilstatus}}</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label class="text-muted">Gender</label>
+                <p class="text-capitalize">{{user.gender}}</p>
+              </div>
+            </div>
+          </div>
+
+
+            <div class="form-group">
+              <label class="text-muted">Status</label>
+              <p>
+                <span *ngIf="user.is_verified == 0" class="badge badge-success">New</span>
+                <span *ngIf="user.is_verified == 1" class="badge badge-warning">Approved</span>    
+              </p>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="btn-holder">
+        <button *ngIf="user.is_verified == 0" [disabled]="approved_pending" (click)="verifyUser(user.id)" class="btn btn-primary">
+          <span *ngIf="approved_pending">Approving registration...&nbsp;<i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          <span *ngIf="!approved_pending">Approve Application</span>
+        </button>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div *ngIf="user" class="modal-body">
+    <img src="http://surveyph.heroesrider.com/public/images/{{user.govt_id}}" width="100%" alt="Responsive image">
+  </div>
+</ng-template>

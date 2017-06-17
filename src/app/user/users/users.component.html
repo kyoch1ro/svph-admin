@@ -1,0 +1,51 @@
+
+<div class="animated fadeIn">
+
+      <div class="card">
+        <div class="card-header">
+          <span *ngIf="users.length > 0">
+            <i class="fa fa-align-justify"></i>
+            User List
+          </span>
+
+          <span *ngIf="users.length == 0">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+            Loading...
+          </span>
+          
+        </div>
+        <div class="card-block">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Date registered</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users" (click)="view(user.id)" class="c-pointer">
+                <td>{{user.email}}</td>
+                <td class="text-capitalize">{{ user.firstname + ' ' + user.lastname}}</td>
+                <td>{{ user.created_at | date:'shortDate'}}</td>
+                <td>
+                   <span *ngIf="user.is_verified == 0" class="badge badge-success">New</span>
+                   <span *ngIf="user.is_verified == 1" class="badge badge-warning">Approved</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
+      </div>
+</div>
