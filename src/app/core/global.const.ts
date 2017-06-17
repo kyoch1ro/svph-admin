@@ -1,1 +1,3 @@
-export const apiUrl = 'http://surveyph.heroesrider.com/api/admin';
+
+export const baseApiUrl = 'http://surveyph.heroesrider.com/api';
+export const apiUrl = `${baseApiUrl}/admin`;

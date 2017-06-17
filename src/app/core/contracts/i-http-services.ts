@@ -17,3 +17,8 @@ export interface IUserService extends IHttpService{
 }
 
 
+
+export interface ISurveyService extends IHttpService{
+  getRespondentsCount(id: number): Observable<any>;
+}
+

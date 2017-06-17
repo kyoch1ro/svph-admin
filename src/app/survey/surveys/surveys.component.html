@@ -1,0 +1,69 @@
+<div class="animated fadeIn">
+      <div class="card">
+        <div class="card-header clearfix">
+          <button (click)="open(surveyAdd)" class="float-right btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Survey</button>
+
+
+          <span *ngIf="surveys.length > 0">
+            <i class="fa fa-align-justify"></i>
+            Survey List
+          </span>
+          <span *ngIf="surveys.length == 0">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+            Loading...
+          </span>
+        </div>
+        <div class="card-block">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Survey</th>
+                <th>Respondents</th>
+                <th>Category</th>
+                <th>Valid from</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let survey of surveys" (click)="view(survey.id)" class="c-pointer">
+                <td>{{ survey.survey_title }}</td>
+                <td>{{ survey.respondents || 0}}</td>
+                <td>{{ survey.category || survey.survey_category_id}}</td>
+                <td>{{ survey.start_date | date:'short' }}&nbsp;to&nbsp;{{ survey.end_date | date:'short' }}</td>
+                
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
+      </div>
+</div>
+
+
+
+
+
+
+<ng-template #surveyAdd let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">New Survey</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <sur-form></sur-form>
+  </div>
+</ng-template>
+
+
+
+

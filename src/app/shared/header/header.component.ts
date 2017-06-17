@@ -7,6 +7,7 @@ import { AuthService } from 'app/core/services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  
 
   constructor(@Inject(AuthService) private _auth: iAuth) { }
 
@@ -15,6 +16,10 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this._auth.logout();
+  }
+
+  public toggled(open: boolean): void {
+    console.log('Dropdown is now: ', open);
   }
 
 }

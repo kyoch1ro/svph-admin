@@ -1,0 +1,44 @@
+<form action=""  [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <div class="form-group">
+        <label for="survey_title">Survey Title</label>
+        <input type="text" class="form-control" id="survey_title" placeholder="Enter Survey Title" 
+            [formGroup]="form"
+            formControlName="survey_title">    
+            <small *ngIf="form.controls['survey_title'].touched &&
+                          form.controls['survey_title'].hasError('required')" 
+                class="form-text text-danger">This is a required field.</small>
+    </div>
+
+
+    <div class="form-group">
+        <label for="start_date">Validity</label>
+        <div class="d-flex justify-content-between">
+            <div class="flex-inline">
+                <input class="form-control" type="datetime-local"
+                       [formGroup]="form"
+                       formControlName="start_date">
+                    <small *ngIf="form.controls['start_date'].touched &&
+                                form.controls['start_date'].hasError('required')" 
+                        class="form-text text-danger">This is a required field.</small>
+            </div>
+            <div class="flex-inline d-flex">
+                <p class="m-auto">To</p>
+            </div>
+
+
+
+
+            <div class="flex-inline">
+                <input type="text" class="form-control" id="start_date" placeholder="Enter Survey Title" 
+                    [formGroup]="form"
+                    formControlName="start_date">    
+                    <small *ngIf="form.controls['start_date'].touched &&
+                                form.controls['start_date'].hasError('required')" 
+                        class="form-text text-danger">This is a required field.</small>
+            </div>
+        </div>
+        
+    </div>
+
+</form>
+

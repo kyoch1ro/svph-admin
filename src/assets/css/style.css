@@ -10,6 +10,6 @@
     background-color: transparent!important;
     border: none!important;
 }
-/*.app-header.navbar .navbar-brand {
-    background-image: none;
-}*/
+.card-header .btn-sm{
+    padding: 0.10rem 0.5rem;
+}

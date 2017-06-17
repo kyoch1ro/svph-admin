@@ -34,6 +34,11 @@ export const routes: Routes = [
         path: 'users',
         loadChildren: './user/user.module#UserModule',
         canActivate: [LoginGuard],        
+      },
+      {
+        path: 'surveys',
+        loadChildren: './survey/survey.module#SurveyModule',
+        canActivate: [LoginGuard],        
       }
     ]
   },
