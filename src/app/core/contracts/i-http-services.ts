@@ -22,3 +22,11 @@ export interface ISurveyService extends IHttpService{
   getRespondentsCount(id: number): Observable<any>;
 }
 
+
+export interface ICategoryService extends IHttpService{
+  
+}
+
+export interface ITypeService extends IHttpService{
+  
+}

@@ -21,7 +21,9 @@ export class SurveysComponent implements OnInit {
 
 
   open(content) {
-    this.modalService.open(content);
+    this.modalService.open(content,{
+      size: 'lg'
+    });
   }
 
   surveys: ISurveyForList[] = [];
@@ -46,13 +48,10 @@ export class SurveysComponent implements OnInit {
 
   }
 
-
+  addSurvey(event){
+    console.log(event);
+  }
   view(id: number){
     this._route.navigate(['surveys',id]);
-  }
-
-
-  getFormat(){
-    
   }
 }

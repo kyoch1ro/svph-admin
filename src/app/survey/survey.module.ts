@@ -7,11 +7,14 @@ import { SurveysComponent } from './surveys/surveys.component';
 import { AddComponent } from './add/add.component';
 import { ViewComponent } from './view/view.component';
 import { FormComponent } from './shared/form/form.component';
-
+import { CategoryModule } from './category/category.module';
+import { TypeModule } from './type/type.module';
 @NgModule({
   imports: [
     PagesRoutingModule,
-    SharedModule
+    SharedModule,
+    CategoryModule,
+    TypeModule
   ],
   declarations: [SurveyComponent, SurveysComponent, AddComponent, ViewComponent, FormComponent],
   providers: [SURVEY_PROVIDERS]

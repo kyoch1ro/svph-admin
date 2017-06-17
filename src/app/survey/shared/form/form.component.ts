@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output } from '@angular/core';
+import { ICategoryService, ITypeService } from 'app/core/contracts/i-http-services';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { EventEmitter } from '@angular/core';
 import { Survey } from './../../survey.model';
@@ -7,7 +8,14 @@ import { FormGroup,
          FormBuilder, 
          Validators, 
          FormControl} from '@angular/forms';
+import { ISubscription } from 'rxjs/Subscription';
 
+import { ICategoryDTO } from 'app/survey/category/i-category';
+import { CategoryService } from 'app/survey/category/category.service';
+
+
+import { ITypeDTO } from 'app/survey/type/i-type';
+import { TypeService } from 'app/survey/type/type.service';
 @Component({
   selector: 'sur-form',
   templateUrl: './form.component.html',
@@ -18,21 +26,42 @@ export class FormComponent implements OnInit, IFormComponent  {
     this._survey.next(val);
   };
 
-  get survey(){ return this._survey.getValue(); }
+
+  categories : ICategoryDTO[];
+  types: ITypeDTO[];
+  get survey(){ return this._survey.getValue(); } 
   private _survey = new BehaviorSubject<Survey>(new Survey())
-  formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+  @Output()formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
   isPending : boolean;
   form: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              @Inject(CategoryService) private _categorySrvc: ICategoryService,
+              @Inject(TypeService) private _typeSrvc: ITypeService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
-      survey_type_id: [ this.survey.survey_type_id, Validators.required ],
+      survey_type_id: [ this.survey.survey_type_id || '', Validators.required ],
+      survey_category_id: [ this.survey.survey_category_id || '', Validators.required ],
       survey_title: [ this.survey.survey_title, Validators.required ],
-      survey_isfeatured: [ this.survey.survey_isfeatured, Validators.required ],
+      survey_isfeatured: [ this.survey.survey_isfeatured || 0, Validators.required ],
       start_date: [ this.survey.start_date, Validators.required ],
       end_date: [ this.survey.end_date, Validators.required ]
     })
+
+    let cat_sub : ISubscription =  this._categorySrvc.list()
+    .subscribe(
+      data => { this.categories = <ICategoryDTO[]> data['category'] },
+      err=> {},
+      () => {
+        cat_sub.unsubscribe()
+      });
+    
+    let typ_sub: ISubscription = this._typeSrvc.list()
+    .subscribe(
+      data => { this.types = <ITypeDTO[]> data.type},
+      err => {},
+      () => typ_sub.unsubscribe()
+    );
   }
 
 
@@ -41,6 +70,9 @@ export class FormComponent implements OnInit, IFormComponent  {
   };
 
   onSubmit(data: any){
-    console.log(data)
+    if(this.form.invalid){
+       return; 
+    }
+    this.formSubmit.emit(data);
   }
 }
