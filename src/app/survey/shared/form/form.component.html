@@ -51,8 +51,6 @@
                           form.controls['survey_type_id'].hasError('required')" 
                 class="form-text text-danger">This is a required field.</small>
     </div>
-{{types | json}}
-
     <p class="text-muted no-marg">Survey Validity</p>
     <div class="row">
         
@@ -83,7 +81,7 @@
     </div>
 
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" [disabled]="isPending" class="btn btn-primary">Submit</button>
 
 </form>
 

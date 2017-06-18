@@ -35,15 +35,7 @@ export class LoginFormComponent implements OnInit, IFormComponent{
       password: ['', Validators.required]
     })
 
-    this._isPending.subscribe(data => {
-      if(data){
-        this.form.get('email').disable();
-        this.form.get('password').disable();
-      }else{
-        this.form.get('email').enable();
-        this.form.get('password').enable();
-      }
-    })
+    this._isPending.subscribe(data => this.toggleControls(data));
   }
 
   onSubmit(data: any){
@@ -57,6 +49,18 @@ export class LoginFormComponent implements OnInit, IFormComponent{
 
   isDirty() :boolean{
     return;
+  }
+  
+  toggleControls(data: boolean){
+    if(data){
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.get(key).disable();
+      });
+    }else{
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.get(key).enable();
+      });
+    }
   }
 
 }

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SurveyComponent } from './survey.component';
 import { SurveysComponent } from './surveys/surveys.component';
-import { AddComponent } from './add/add.component';
 import { ViewComponent } from './view/view.component';
 
 const routes: Routes = [
@@ -25,13 +24,6 @@ const routes: Routes = [
                 component: ViewComponent,
                 data: {
                     title: 'View'
-                }
-            },
-            {
-                path: 'add',
-                component: AddComponent,
-                data: {
-                    title: 'Add'
                 }
             }
         ]

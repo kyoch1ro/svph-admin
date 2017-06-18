@@ -14,18 +14,18 @@ export class Survey implements ISurveyDTO{
     questions: IQuestionDTO[];
 
     constructor(obj?: any){
-        this.id = obj && obj.id || null;
-        this.survey_type_id = obj && obj.numbersurvey_type_id || null;
-        this.survey_category_id = obj && obj.survey_category_id || null;
-        this.survey_title = obj && obj.survey_title || null;
-        this.survey_isactive =  obj && obj.numbersurvey_isactive || null;
-        this.survey_isfeatured = obj && obj.survey_isfeatured || null;
-        this.survey_isdeleted = obj && obj.survey_isdeleted || null;
-        this.created_at = obj && obj.created_at || null;
-        this.updated_at = obj && obj.updated_at || null;
-        this.start_date = obj && obj.start_date || null;
-        this.end_date = obj && obj.end_date || null;
-        this.questions = obj && obj.questions || null;
+        this.id                 = obj && obj.id || 0;
+        this.survey_type_id     = obj && obj.survey_type_id || 0;
+        this.survey_category_id = obj && obj.survey_category_id || 0;
+        this.survey_title       = obj && obj.survey_title || '';
+        this.survey_isactive    = obj && obj.survey_isactive || 0;
+        this.survey_isfeatured  = obj && obj.survey_isfeatured || 0;
+        this.survey_isdeleted   = obj && obj.survey_isdeleted || 0;
+        this.created_at         = obj && obj.created_at || '';
+        this.updated_at         = obj && obj.updated_at || '';
+        this.start_date         = obj && obj.start_date || '';
+        this.end_date           = obj && obj.end_date || '';
+        this.questions          = obj && obj.questions || [];
         
     }
 }
