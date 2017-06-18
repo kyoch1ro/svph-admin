@@ -1,7 +1,83 @@
-{{survey | json}}
+<div class="row">
+    <div class="col-md-3 push-md-9">
+        <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-cog" aria-hidden="true"></i> Actions
+                </div>
+                <div class="card-block">
+                    <button class="btn btn-success btn-block">Publish Survey</button>
+                    <button class="btn btn-info btn-block">Statistics</button>
+                    <hr>
+                    <p class="text-danger text-center">Delete this survey</p>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-9 pull-md-3">
+        <div class="card">
+                <div class="card-header">
+                    <span *ngIf="!survey">
+                        <i class="fa fa-spinner fa-spin fa-fw"></i> Loading...
+                    </span>
+                    <span *ngIf="survey">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> Survey
+                    </span>
+                </div>
+                <div class="card-block">
+                    <sur-form *ngIf="survey"
+                        [btnLabel]="'Update'"
+                        [survey]="survey"
+                        [isPending]="isPending" 
+                        [alert]="alert"
+                        (formSubmit)="updateSurvey($event)"></sur-form> 
+                </div>
+        </div>
+    </div>
+</div>
+ 
+ 
+<div class="card">
+    <div class="card-header">
+        <button (click)="open(questionAdd)" class="float-right btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Question</button>
+        Survey Questions
+    </div>
+    <div *ngIf="survey" class="card-block question" >
+        <div *ngFor="let question of survey.questions; let i = index" class="row q-holder">
+            <div class="col-md-8">
+                <p class="text-muted no-marg">Survey Question #{{i+1}}</p>
+                <sur-que-form 
+                    [btnLabel]="'Update'"
+                    [question]="question"
+                    (formSubmit)="updateQuestion(i,$event)"></sur-que-form>
+                    <br>
+            </div>
+            <div class="col-md-4">
+                <p class="text-muted no-marg">Question Options</p>
+                <sur-que-opt-form *ngFor="let option of question.options;let j = index"
+                                [option]="option"
+                                [btnLabel]="'Update'"
+                                (formSubmit)="updateOption(i,j,$event)"></sur-que-opt-form>
+                <hr>
+                <p class="text-muted no-marg">Add Option</p>
+                <sur-que-opt-form
+                    (formSubmit)="addOption(i,$event)"></sur-que-opt-form>
+            </div>
+        </div>
+        
+        <pre *ngIf="survey">{{survey.questions | json }}</pre>
+    </div>
+</div>
 
 
-<sur-form [survey]="survey"
-          [isPending]="isPending" 
-          [alert]="alert"
-          (formSubmit)="updateSurvey($event)"></sur-form> 
+<ng-template #questionAdd let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">New Survey Question</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <sur-que-form 
+                    (formSubmit)="addQuestion($event)"></sur-que-form>
+
+  </div>
+</ng-template>

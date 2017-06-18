@@ -13,10 +13,10 @@ import { ISubscription } from 'rxjs/Subscription';
 import { ICategoryDTO } from 'app/survey/category/i-category';
 import { CategoryService } from 'app/survey/category/category.service';
 
-
 import { ITypeDTO } from 'app/survey/type/i-type';
 import { TypeService } from 'app/survey/type/type.service';
 import { IAlert } from 'app/core/contracts/i-alert';
+
 @Component({
   selector: 'sur-form',
   templateUrl: './form.component.html',
@@ -31,6 +31,8 @@ export class FormComponent implements OnInit, IFormComponent  {
     return this._survey.getValue(); 
   } 
 
+  @Input() btnLabel : string = "Submit";
+
   @Input() set isPending(val){
     this._ispending.next(val);
   }
@@ -41,7 +43,7 @@ export class FormComponent implements OnInit, IFormComponent  {
   @Input() alert: IAlert;
   
   
-  @Output()formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+  @Output() formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
 
   private _survey = new BehaviorSubject<Survey>(new Survey());
   private _ispending = new BehaviorSubject<boolean>(false);

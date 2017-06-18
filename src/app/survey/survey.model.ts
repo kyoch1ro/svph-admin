@@ -1,4 +1,5 @@
-import { ISurveyDTO,IQuestionDTO } from './i-survey';
+import { ISurveyDTO,IQuestionDTO, IOptionDTO } from './i-survey';
+
 export class Survey implements ISurveyDTO{
     id: number;
     survey_type_id: number;
@@ -27,5 +28,19 @@ export class Survey implements ISurveyDTO{
         this.end_date           = obj && obj.end_date || '';
         this.questions          = obj && obj.questions || [];
         
+    }
+
+
+    setQuestions(val: IQuestionDTO[]){
+        this.questions = val;
+    }
+
+    addQuestion(val:IQuestionDTO){
+        this.questions.push(val);
+    }
+
+
+    addQuestionOption(indx: number,val : IOptionDTO){
+        this.questions[indx].options.push(val);
     }
 }

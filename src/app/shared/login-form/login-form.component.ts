@@ -14,6 +14,7 @@ import { IAlert } from 'app/core/contracts/i-alert';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit, IFormComponent{
+  
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
   @Input() set isPending(val: boolean){
     this._isPending.next(val)
@@ -25,6 +26,7 @@ export class LoginFormComponent implements OnInit, IFormComponent{
   private _isPending: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Input() alert: IAlert;
   form : FormGroup;
+  btnLabel: string = "Login";
   constructor(private fb: FormBuilder) { }
 
 

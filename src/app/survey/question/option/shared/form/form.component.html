@@ -1,0 +1,21 @@
+<form action=""  [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <input type="hidden" class="" [formGroup]="form" formControlName="option_id">
+    <input type="hidden" class="" [formGroup]="form" formControlName="question_id">
+    <div class="input-group">
+    <input type="text" class="form-control"
+            [formGroup]="form"
+            formControlName="option_caption">
+    <div *ngIf="option.option_id > 0" ngbDropdown class="input-group-btn">
+      <button class="btn btn-primary" type="button" ngbDropdownToggle>Action</button>
+      <div class="dropdown-menu">
+        <button type="submit"  class="dropdown-item">Update</button>
+        <button type="button" class="dropdown-item">Remove</button>
+      </div>
+    </div>
+    <button *ngIf="option.option_id == 0" [disabled]="isPending" class="btn btn-success"  type="submit">{{ btnLabel }}</button>
+  </div>
+
+    <small class="form-text text-danger" 
+          *ngIf="form.controls['option_caption'].touched && form.controls['option_caption'].hasError('required')" >Option caption is required.</small>
+</form>
+

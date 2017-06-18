@@ -30,3 +30,12 @@ export interface ICategoryService extends IHttpService{
 export interface ITypeService extends IHttpService{
   
 }
+
+
+export interface IQuestionService extends IHttpService{
+  
+}
+
+export interface IOptionService extends IHttpService{
+  
+}
