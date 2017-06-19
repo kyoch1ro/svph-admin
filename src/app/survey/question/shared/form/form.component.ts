@@ -51,6 +51,8 @@ export class FormComponent implements OnInit, IFormComponent {
       if(!data) return;
       this.form.patchValue(data);
     })
+
+    this._ispending.subscribe(data => this.toggleControls(data));
   }
 
   isDirty(): boolean{

@@ -78,10 +78,11 @@ export class ViewComponent implements OnInit {
         this.survey.questions.push(data.question);
       },
       err => {
-        this.isQuestionPending = true;
+        this.isQuestionPending = false;
       },
       () => {
-        this.isQuestionPending = true;
+        this.modalReference.close();
+        this.isQuestionPending = false;
         add_que.unsubscribe();
       }
 

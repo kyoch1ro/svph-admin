@@ -27,7 +27,7 @@
             class="form-text text-danger">This is a required field.</small>
     </div>   
     <button type="submit" [disabled]="isPending" class="btn btn-primary">
-        <span *ngIf="isPending">Saving <shrd-save-spinner></shrd-save-spinner></span>
+        <span *ngIf="isPending">Saving&nbsp;<shrd-save-spinner></shrd-save-spinner></span>
         <span *ngIf="!isPending">{{btnLabel}}</span>
 
     </button>
