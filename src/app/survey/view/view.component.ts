@@ -19,6 +19,7 @@ import 'rxjs/add/observable/forkJoin';
 export class ViewComponent implements OnInit {
   survey: Survey;
   isPending: boolean;
+  isQuestionPending: boolean;
   alert: IAlert;
   modalReference: any;
   
@@ -29,14 +30,13 @@ export class ViewComponent implements OnInit {
               private modalService: NgbModal) { }
   ngOnInit() {
     let id_param_subscription = 
-
-     this._route.params.switchMap((params: Params) => 
+      this._route.params.switchMap((params: Params) => 
       Observable.forkJoin([
         this._surveySrvc.getById(params['id']),
         this._questionSrvc.list(params['id'])
       ])).map((data: any) => {
-        let survey : ISurveyDTO = data[0];
-        let questions: IQuestionDTO[] = data[1];
+        let survey : ISurveyDTO = data[0].survey;
+        let questions: IQuestionDTO[] = data[1].questionnaire;
         survey.questions = questions;
         return survey;
       })
@@ -71,7 +71,21 @@ export class ViewComponent implements OnInit {
   }
 
   addQuestion(event){
-    console.log('Question Add Event: ',event)
+    this.isQuestionPending = true;
+    event['survey_id'] = this.survey.id;
+    let add_que: ISubscription = this._questionSrvc.add(event).subscribe(
+      data => {
+        this.survey.questions.push(data.question);
+      },
+      err => {
+        this.isQuestionPending = true;
+      },
+      () => {
+        this.isQuestionPending = true;
+        add_que.unsubscribe();
+      }
+
+    );
   }
 
   updateSurvey(event){

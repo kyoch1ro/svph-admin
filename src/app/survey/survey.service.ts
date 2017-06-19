@@ -15,7 +15,7 @@ export class SurveyService implements ISurveyService {
   
   getById(id: number): Observable<any>{
     const token = this._auth.getToken();
-     return this._http.get(`${devBaseApiUrl}/survey/${id}?token=${token}`)
+     return this._http.get(`${apiUrl}/survey/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
 
@@ -38,7 +38,7 @@ export class SurveyService implements ISurveyService {
     var options = new RequestOptions({
       headers : headers
     })
-    return this._http.post(`${devBaseApiUrl}/survey?token=${token}`,JSON.stringify(data),options)
+    return this._http.post(`${apiUrl}/survey?token=${token}`,JSON.stringify(data),options)
           .map((res: Response) => res.json());
   }
   delete(id: number): Observable<any>{

@@ -76,7 +76,7 @@
     </button>
   </div>
   <div class="modal-body">
-      <sur-que-form 
+      <sur-que-form [isPending]="isQuestionPending"
                     (formSubmit)="addQuestion($event)"></sur-que-form>
 
   </div>

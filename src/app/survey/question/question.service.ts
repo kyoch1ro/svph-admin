@@ -6,6 +6,8 @@ import { AuthService } from 'app/core/services/auth.service';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { apiUrl, baseApiUrl, devBaseApiUrl } from 'app/core/global.const';
 
+
+
 @Injectable()
 export class QuestionService implements IQuestionService {
 
@@ -17,12 +19,19 @@ export class QuestionService implements IQuestionService {
 
   list(id: number): Observable<any>{
     const token = this._auth.getToken();
-    return this._http.get(`${devBaseApiUrl}/questionnaire?survey_id=${id}&token=${token}`)
+    return this._http.get(`${apiUrl}/surveyQuestionnaire/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
   
   add(data: any): Observable<any>{
-    return;
+    const token = this._auth.getToken();
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    var options = new RequestOptions({
+      headers : headers
+    })
+    return this._http.post(`${apiUrl}/question?token=${token}`,JSON.stringify(data),options)
+          .map((res: Response) => res.json());
   }
   delete(id: number): Observable<any>{
     return;

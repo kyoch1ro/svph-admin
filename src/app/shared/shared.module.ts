@@ -13,6 +13,7 @@ import { NAV_DROPDOWN_DIRECTIVES } from './nav-dropdown.directive';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AlertComponent } from './alert/alert.component';
+import { SaveSpinnerComponent } from './save-spinner/save-spinner.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { AlertComponent } from './alert/alert.component';
     SideBarComponent,
     LoginFormComponent,
     AlertComponent,
+    SaveSpinnerComponent,
     
   ],
   exports: [
@@ -45,7 +47,8 @@ import { AlertComponent } from './alert/alert.component';
     SideBarComponent,
     LoginFormComponent,
     AlertComponent,
-    NgbModule
+    NgbModule,
+    SaveSpinnerComponent
   ]
 })
 export class SharedModule { }

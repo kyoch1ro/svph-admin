@@ -1,4 +1,3 @@
-
 <form action=""  [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
     <input type="hidden" [formGroup]="form" formControlName="survey_id">
     <input type="hidden" [formGroup]="form" formControlName="question_id">
@@ -12,6 +11,7 @@
                         form.controls['question_caption'].hasError('required')" 
                 class="form-text text-danger">This is a required field.</small>
     </div>   
+
     <div class="form-group">
         <label for="option_type">Question type</label>
         <select name="" class="form-control" id="option_type"
@@ -26,7 +26,11 @@
                     form.controls['option_type'].hasError('required')" 
             class="form-text text-danger">This is a required field.</small>
     </div>   
-    <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
+    <button type="submit" [disabled]="isPending" class="btn btn-primary">
+        <span *ngIf="isPending">Saving <shrd-save-spinner></shrd-save-spinner></span>
+        <span *ngIf="!isPending">{{btnLabel}}</span>
+
+    </button>
 </form>
 
 

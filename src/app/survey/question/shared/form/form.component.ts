@@ -27,6 +27,10 @@ export class FormComponent implements OnInit, IFormComponent {
   @Input() set isPending(val){
     this._ispending.next(val);
   }
+
+  get isPending(){
+    return this._ispending.getValue();
+  }
   form: FormGroup;
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
