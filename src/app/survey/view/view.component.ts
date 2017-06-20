@@ -1,10 +1,11 @@
 import { Component, OnInit,Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
-import { ISurveyService, IQuestionService } from 'app/core/contracts/i-http-services';
+import { ISurveyService, IQuestionService, IOptionService } from 'app/core/contracts/i-http-services';
 import { SurveyService } from './../survey.service';
 import { QuestionService } from './../question/question.service';
-import { ISurveyForList,IQuestionDTO,ISurveyDTO } from './../i-survey';
+import { OptionService } from './../question/option/option.service';
+import { ISurveyForList,IQuestionDTO,ISurveyDTO,IOptionDTO,IOptionForm } from './../i-survey';
 import { IAlert } from 'app/core/contracts/i-alert';
 import { Survey } from './../survey.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,11 +21,13 @@ export class ViewComponent implements OnInit {
   survey: Survey;
   isPending: boolean;
   isQuestionPending: boolean;
+  isAddOptionPending = [];
   alert: IAlert;
   modalReference: any;
   
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
               @Inject(QuestionService) private _questionSrvc: IQuestionService,
+              @Inject(OptionService) private _optionSrvc: IOptionService,
               private _route: ActivatedRoute,
 
               private modalService: NgbModal) { }
@@ -67,7 +70,25 @@ export class ViewComponent implements OnInit {
   }
 
   addOption(question_indx,event){
-    console.log('Option Add Event: ',event)
+    let option = 
+    this.isAddOptionPending[question_indx] = true;
+    let data = <IOptionDTO> event;
+    data.question_id = this.survey.questions[question_indx].question_id;
+    
+    let add_opt: ISubscription = 
+      this._optionSrvc.add(data).subscribe(
+        data => {
+          
+          this.survey.questions[question_indx].options.push(data.option)
+        },
+        err=> {
+          this.isAddOptionPending[question_indx] = false
+        },
+        () => {
+          this.isAddOptionPending[question_indx] = false,
+          add_opt.unsubscribe()
+        }
+      )
   }
 
   addQuestion(event){

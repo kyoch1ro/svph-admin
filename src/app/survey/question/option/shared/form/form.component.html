@@ -12,7 +12,11 @@
         <button type="button" class="dropdown-item">Remove</button>
       </div>
     </div>
-    <button *ngIf="option.option_id == 0" [disabled]="isPending" class="btn btn-success"  type="submit">{{ btnLabel }}</button>
+    <button *ngIf="option.option_id == 0" [disabled]="isPending" class="btn btn-success"  type="submit">
+      <span *ngIf="isPending">Saving&nbsp;<shrd-save-spinner></shrd-save-spinner></span>
+      <span *ngIf="!isPending">{{ btnLabel }}</span>
+      
+    </button>
   </div>
 
     <small class="form-text text-danger" 

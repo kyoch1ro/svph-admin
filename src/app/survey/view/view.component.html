@@ -59,6 +59,7 @@
                 <hr>
                 <p class="text-muted no-marg">Add Option</p>
                 <sur-que-opt-form
+                    [isPending]="isAddOptionPending[i] || false"
                     (formSubmit)="addOption(i,$event)"></sur-que-opt-form>
             </div>
         </div>

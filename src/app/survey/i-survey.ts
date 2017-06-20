@@ -38,7 +38,6 @@ export interface IOptionDTO {
     updated_at : string;
 }
 
-
 export interface ISurveyForList extends ISurveyDTO{
     category_name: string;
     respondents: number;

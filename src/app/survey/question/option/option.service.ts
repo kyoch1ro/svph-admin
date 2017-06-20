@@ -19,8 +19,16 @@ export class OptionService {
   }
   
   add(data: any): Observable<any>{
-    return;
+    const token = this._auth.getToken();
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    var options = new RequestOptions({
+      headers : headers
+    })
+    return this._http.post(`${apiUrl}/option?token=${token}`,JSON.stringify(data),options)
+          .map((res: Response) => res.json());
   }
+  
   delete(id: number): Observable<any>{
     return;
   }
