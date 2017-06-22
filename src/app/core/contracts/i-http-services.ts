@@ -6,7 +6,7 @@ export interface IHttpService{
   list(id?: number): Observable<any>;
   add(data: any): Observable<any>;
   delete(id: number): Observable<any>;
-  update(id: number): Observable<any>;
+  update(data: any): Observable<any>;
   count(): Observable<any>;
 }
 

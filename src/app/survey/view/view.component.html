@@ -45,6 +45,7 @@
             <div class="col-md-8">
                 <p class="text-muted no-marg">Survey Question #{{i+1}}</p>
                 <sur-que-form 
+                    [isPending]="isUpdateQuestionPending[i] || false"
                     [btnLabel]="'Update'"
                     [question]="question"
                     (formSubmit)="updateQuestion(i,$event)"></sur-que-form>
@@ -53,6 +54,7 @@
             <div class="col-md-4">
                 <p class="text-muted no-marg">Question Options</p>
                 <sur-que-opt-form *ngFor="let option of question.options;let j = index"
+                                [isPending]="isUpdateOptionPending[option.option_id] || false"
                                 [option]="option"
                                 [btnLabel]="'Update'"
                                 (formSubmit)="updateOption(i,j,$event)"></sur-que-opt-form>

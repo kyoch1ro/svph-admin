@@ -38,14 +38,24 @@ export class SurveyService implements ISurveyService {
     var options = new RequestOptions({
       headers : headers
     })
+
     return this._http.post(`${apiUrl}/survey?token=${token}`,JSON.stringify(data),options)
           .map((res: Response) => res.json());
   }
   delete(id: number): Observable<any>{
     return;
   }
-  update(id: number): Observable<any>{
-    return;
+  update(data: any): Observable<any>{
+    const token = this._auth.getToken();
+    let id = data['id'];
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('X-HTTP-Method-Override', 'PUT');
+    var options = new RequestOptions({
+      headers : headers
+    })
+    return this._http.post(`${apiUrl}/survey/${id}?token=${token}`,JSON.stringify(data),options)
+          .map((res: Response) => res.json());
   }
   count(): Observable<any>{
     return;

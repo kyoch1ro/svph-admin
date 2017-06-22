@@ -42,7 +42,8 @@ export class FormComponent implements OnInit, IFormComponent {
       question_id: [0,Validators.required],
       survey_id: [0,Validators.required],
       question_caption: ['',Validators.required],
-      option_type: ['',Validators.required]
+      option_type: ['',Validators.required],
+      question_isdeleted: ['', Validators.required]
     })
 
 

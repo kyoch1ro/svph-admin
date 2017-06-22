@@ -1,4 +1,8 @@
 <form action=""  [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <input type="hidden" [formGroup]="form"
+                         formControlName="id">
+    <input type="hidden" [formGroup]="form" formControlName="survey_isactive">
+    <input type="hidden" [formGroup]="form" formControlName="survey_isdeleted">
     <div class="row">
         <div class="col-md-10">
             <div class="form-group">
@@ -81,7 +85,10 @@
     </div>
 
 
-    <button type="submit" [disabled]="isPending" class="btn btn-primary">{{ btnLabel }}</button>
+    <button type="submit" [disabled]="isPending" class="btn btn-primary">
+        <span *ngIf="isPending">Saving&nbsp;<shrd-save-spinner></shrd-save-spinner></span>
+        <span *ngIf="!isPending">{{ btnLabel }}</span>
+    </button>
 
 </form>
 

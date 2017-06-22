@@ -27,6 +27,10 @@ export class FormComponent implements OnInit,IFormComponent {
   @Input() set isPending(val){
     this._ispending.next(val);
   }
+
+  get isPending(){
+    return this._ispending.getValue();
+  }
   @Output() formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _option: BehaviorSubject<Option> = new BehaviorSubject<Option>(new Option());
@@ -37,7 +41,9 @@ export class FormComponent implements OnInit,IFormComponent {
     this.form = this.fb.group({
       option_id : [0,Validators.required],
       question_id : [0,Validators.required],
-      option_caption : ['',Validators.required]
+      option_caption : ['',Validators.required],
+      option_isactive : ['',Validators.required],
+      option_isdeleted : ['',Validators.required]
     })
 
     this._option.subscribe(data => {
@@ -47,6 +53,10 @@ export class FormComponent implements OnInit,IFormComponent {
 
     this._ispending.subscribe(data => {
       this.toggleControls(data);
+      if(data){
+        this.form.get('option_caption').reset();
+      }
+      
     })
   }
 

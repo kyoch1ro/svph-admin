@@ -1,6 +1,7 @@
 <form action=""  [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
     <input type="hidden" [formGroup]="form" formControlName="survey_id">
     <input type="hidden" [formGroup]="form" formControlName="question_id">
+    <input type="hidden" [formGroup]="form" formControlName="question_isdeleted">
 
     <div class="form-group">
         <label for="question_caption">Caption</label>
@@ -29,7 +30,6 @@
     <button type="submit" [disabled]="isPending" class="btn btn-primary">
         <span *ngIf="isPending">Saving&nbsp;<shrd-save-spinner></shrd-save-spinner></span>
         <span *ngIf="!isPending">{{btnLabel}}</span>
-
     </button>
 </form>
 

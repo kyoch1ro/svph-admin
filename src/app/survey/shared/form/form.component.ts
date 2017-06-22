@@ -58,12 +58,15 @@ export class FormComponent implements OnInit, IFormComponent  {
 
   ngOnInit() {
     this.form = this.fb.group({
+      id: ['', Validators.required ],
       survey_type_id: ['', Validators.required ],
       survey_category_id: ['', Validators.required ],
       survey_title: ['', Validators.required ],
       survey_isfeatured: [ 0, Validators.required ],
       start_date: ['', Validators.required ],
-      end_date: ['', Validators.required ]
+      end_date: ['', Validators.required ],
+      survey_isactive: ['',Validators.required],
+      survey_isdeleted: ['',Validators.required]
     })
 
 
@@ -81,12 +84,13 @@ export class FormComponent implements OnInit, IFormComponent  {
       err => {},
       () => typ_sub.unsubscribe()
     );
-    this._ispending.subscribe(data=> this.toggleControls(data));
+    this._ispending.subscribe(data=> {
+      this.toggleControls(data);
+    });
 
     this._survey
     .subscribe(data => {
       if(!data) return;
-      // console.log(data);
       this.form.patchValue(data)
     });
 

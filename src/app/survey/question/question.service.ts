@@ -36,8 +36,17 @@ export class QuestionService implements IQuestionService {
   delete(id: number): Observable<any>{
     return;
   }
-  update(id: number): Observable<any>{
-    return;
+  update(data: any): Observable<any>{
+    const token = this._auth.getToken();
+    var headers = new Headers();
+    let id = data['question_id'] 
+    headers.append('Content-Type', 'application/json');
+    headers.append('X-HTTP-Method-Override', 'PUT');
+    var options = new RequestOptions({
+      headers : headers
+    })
+    return this._http.post(`${apiUrl}/question/${id}?token=${token}`,JSON.stringify(data),options)
+          .map((res: Response) => res.json());
   }
   count(): Observable<any>{
     return;
