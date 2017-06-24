@@ -40,6 +40,7 @@ export class FormComponent implements OnInit, IFormComponent {
   ngOnInit() {
     this.form = this.fb.group({
       question_id: [0,Validators.required],
+      question_parent: [0,Validators.required],
       survey_id: [0,Validators.required],
       question_caption: ['',Validators.required],
       option_type: ['',Validators.required],

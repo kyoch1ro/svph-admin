@@ -5,7 +5,7 @@ import { apiUrl } from './../global.const';
 import 'rxjs/add/operator/map'
 import { iAuth } from 'app/core/contracts/iAuth';
 import { Router } from '@angular/router';
-
+import { ISubscription } from 'rxjs/Subscription';
 @Injectable()
 export class AuthService implements iAuth{
   private _url : string =  apiUrl;
@@ -40,6 +40,24 @@ export class AuthService implements iAuth{
   isAdmin(): boolean{
     return;
   }
+
+  IsValidToken():boolean{
+    const token = this.getToken();
+    if(!this.isLoggedIn) return false;
+    var isValid = false;
+    let token_sub: ISubscription = this._http.get(`${apiUrl}/checkAdminToken/${token}`)
+    .subscribe(
+      data=> {},
+      err=> { isValid = false; },
+      () => {
+        isValid = true;
+        token_sub.unsubscribe();
+      }
+    )
+
+    return isValid;
+  }
+
 }
 
 

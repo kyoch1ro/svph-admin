@@ -45,13 +45,32 @@ export class ViewComponent implements OnInit {
         this._questionSrvc.list(params['id'])
       ])).map((data: any) => {
         let survey : ISurveyDTO = data[0].survey;
-        let questions: IQuestionDTO[] = data[1].questionnaire;
-        questions.map(data =>{ 
-          data.survey_id = survey.id; 
-          data.options.map(opt => {
-            opt.question_id = data.question_id;
-          })
-        })
+        let questions: IQuestionDTO[] = [];
+
+        var items = data[1].questionnaire;
+        items.filter(parent => parent.question_parent == 0).map(
+          question => {
+            question.survey_id = survey.id;
+            question.options.map(opt => {
+              opt.question_id = question.question_id;
+            })
+            question.childrens = [];
+            questions.push(question)
+          }
+        )
+
+
+
+        items.filter(children => children.question_parent > 0).map(
+          children => {
+            var parent_indx = questions.findIndex(questions => questions.question_id == children.question_parent);
+            children.survey_id = survey.id;
+            children.options.map(opt => {
+              opt.question_id = children.question_id;
+            })
+            questions[parent_indx].childrens.push(children);
+          }
+        )
         survey.questions = questions;
         return survey;
       })

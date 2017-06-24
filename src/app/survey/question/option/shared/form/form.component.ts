@@ -52,11 +52,7 @@ export class FormComponent implements OnInit,IFormComponent {
     })
 
     this._ispending.subscribe(data => {
-      this.toggleControls(data);
-      if(data){
-        this.form.get('option_caption').reset();
-      }
-      
+      this.toggleControls(data);      
     })
   }
 
@@ -65,6 +61,9 @@ export class FormComponent implements OnInit,IFormComponent {
   }
   onSubmit(data){
     if(this.form.invalid) return;
+    if(!this.option.option_id){
+        this.form.get('option_caption').reset();
+    }
     this.formSubmit.emit(data);
   }
   toggleControls(data: boolean){
