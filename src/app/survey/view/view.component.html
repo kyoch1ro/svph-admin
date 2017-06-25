@@ -54,18 +54,18 @@
             <div class="col-md-4">
                 <p class="text-muted no-marg">Question Options</p>
                 <sur-que-opt-form *ngFor="let option of question.options;let j = index"
-                                [isPending]="isUpdateOptionPending[option.option_id] || false"
+                                [isPending]="isOptionPending[option.option_id] || false"
                                 [option]="option"
                                 [btnLabel]="'Update'"
-                                (formSubmit)="updateOption(i,j,$event)"></sur-que-opt-form>
+                                (formSubmit)="updateOption($event)"></sur-que-opt-form>
                 <hr>
                 <p class="text-muted no-marg">Add Option</p>
                 <sur-que-opt-form
-                    [isPending]="isAddOptionPending[i] || false"
-                    (formSubmit)="addOption(i,$event)"></sur-que-opt-form>
+                    [isPending]="isOptionPending[question.question_id] || false"
+                    (formSubmit)="addOption([i],question.question_id,$event)"></sur-que-opt-form>
             </div>
 
-
+            <!--SUBQUESTIONS-->
             <div *ngIf="question.childrens.length" class="sub-question col-md-12">
                 <div *ngFor="let subquestion of question.childrens; let k = index" class="row q-holder">
                     <div class="col-md-8">
@@ -79,16 +79,16 @@
                     </div>  
                     <div class="col-md-4">
                         <p class="text-muted no-marg">Question Options</p>
-                        <sur-que-opt-form *ngFor="let option of subquestion.options;let g = index"
-                                        [isPending]="isUpdateOptionPending[option.option_id] || false"
+                        <sur-que-opt-form *ngFor="let option of subquestion.options;let l = index"
+                                        [isPending]="isOptionPending[option.option_id] || false"
                                         [option]="option"
                                         [btnLabel]="'Update'"
-                                        (formSubmit)="updateOption(k,g,$event)"></sur-que-opt-form>
+                                        (formSubmit)="updateOption($event)"></sur-que-opt-form>
                         <hr>
                         <p class="text-muted no-marg">Add Option</p>
                         <sur-que-opt-form
-                            [isPending]="isAddOptionPending[i] || false"
-                            (formSubmit)="addOption(i,$event)"></sur-que-opt-form>
+                            [isPending]="isOptionPending[subquestion.question_id] || false"
+                            (formSubmit)="addOption([i,k],subquestion.question_id,$event)"></sur-que-opt-form>
                     </div>
                 </div>
             </div>

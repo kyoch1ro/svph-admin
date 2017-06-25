@@ -111,40 +111,37 @@ export class ViewComponent implements OnInit {
       )
   }
 
-  updateOption(question_indx,option_indx,event){
-    
-    this.isUpdateOptionPending[event.option_id] = true;
+  updateOption(index: any, event: IOptionDTO){
+    this.isOptionPending[event.option_id] = true;
     let update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
       data => {},
       err=> {
-        console.log(err)
-        this.isUpdateOptionPending[event.option_id] = false;
+        this.isOptionPending[event.option_id] = false;
       },
       () => {
         update_opt.unsubscribe();
-        this.isUpdateOptionPending[event.option_id] = false;
+        this.isOptionPending[event.option_id] = false;
       })
     // console.log('Option Update Event: ',question_indx,option_indx,event)
   }
 
-  addOption(question_indx,event){
-    let option = 
-    this.isAddOptionPending[question_indx] = true;
-    let data = <IOptionDTO> event;
-    data.question_id = this.survey.questions[question_indx].question_id;
-    
+  addOption(indexes: any[],question_id,event: IOptionDTO){
+    this.isOptionPending[question_id] = true;
+    event.question_id = question_id;
     let add_opt: ISubscription = 
-      this._optionSrvc.add(data).subscribe(
+      this._optionSrvc.add(event).subscribe(
         data => {
-          
-          this.survey.questions[question_indx].options.push(data.option)
+          if(indexes.length > 1){
+            this.survey.questions[indexes[0]].childrens[indexes[1]].options.push(data.option);  
+          }
+          this.survey.questions[indexes[0]].options.push(data.option);
         },
         err=> {
-          this.isAddOptionPending[question_indx] = false
+          this.isOptionPending[question_id] = false;
         },
         () => {
-          this.isAddOptionPending[question_indx] = false,
-          add_opt.unsubscribe()
+          this.isOptionPending[question_id] = false;
+          add_opt.unsubscribe();
         }
       )
   }
@@ -193,4 +190,5 @@ export class ViewComponent implements OnInit {
   //         sur_sub.unsubscribe();
   //       })
   // }
+
 }
