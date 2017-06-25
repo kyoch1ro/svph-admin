@@ -38,7 +38,7 @@ export class FormComponent implements OnInit, IFormComponent {
   form: FormGroup;
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
-
+  public isoptionpending = [];
   constructor(private fb: FormBuilder,
              @Inject(OptionService) private _optionSrvc: IOptionService) { }
   
@@ -85,21 +85,32 @@ export class FormComponent implements OnInit, IFormComponent {
 
 
   addOption(event: IOptionDTO){
+    this.isoptionpending[0] = true;
     event.question_id = this.question.question_id;
     let add_opt: ISubscription = 
       this._optionSrvc.add(event).subscribe(
         data => { this.question.options.push(data['option']); },
-        err=> { },
-        () => { add_opt.unsubscribe(); }
+        err=> {
+          this.isoptionpending[0] = false;
+         },
+        () => { 
+          this.isoptionpending[0] = false;
+          add_opt.unsubscribe(); 
+        }
       )
   }
 
   updateOption(event: IOptionDTO){
-    
+    this.isoptionpending[event.option_id] = true;
     let update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
       data => {},
-      err=> { },
-      () => { update_opt.unsubscribe();}
+      err=> { 
+        this.isoptionpending[event.option_id] = false;
+      },
+      () => { 
+        this.isoptionpending[event.option_id] = false;
+        update_opt.unsubscribe();
+      }
     )
   }
 }
