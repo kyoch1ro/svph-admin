@@ -14,11 +14,10 @@
     padding: 0.10rem 0.5rem;
 }
 
-.question .q-holder{
+.q-holder{
  border-bottom: 1px solid #dbdbdb;
  padding-bottom: 1em;
- margin-bottom: 1em;
- 
+ margin-bottom: 1em; 
 }
 
 
@@ -29,15 +28,6 @@
 
 
 .sub-question{
-    border-left: 3px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
     padding-left: 1em;
-    margin-left: 1em;
-}
-
-
-
-.sub-question .q-holder{
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
 }

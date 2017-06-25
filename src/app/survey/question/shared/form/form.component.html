@@ -1,5 +1,5 @@
 <div class="row q-holder">
-    <div class="col-md-8">
+    <div [ngClass]="{'col-md-8': question.question_id, 'col-md-12': !question.question_id}">
         <form action=""  [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
             <input type="hidden" [formGroup]="form" formControlName="survey_id">
             <input type="hidden" [formGroup]="form" formControlName="question_id">
@@ -36,7 +36,7 @@
             </button>
         </form>
     </div>
-    <div class="col-md-4">
+    <div *ngIf="question.question_id" class="col-md-4">
         <p class="text-muted no-marg">Question Options</p>
         <sur-que-opt-form *ngFor="let option of question.options"
                         [isPending]="isoptionpending[option.option_id] || false"

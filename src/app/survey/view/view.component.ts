@@ -110,18 +110,19 @@ export class ViewComponent implements OnInit {
   }
 
   addQuestion(event){
-    this.isAddQuestionPending = true;
+    this.isQuestionPending[0] = true;
     event['survey_id'] = this.survey.id;
     let add_que: ISubscription = this._questionSrvc.add(event).subscribe(
       data => {
+        data.childrens = [];
         this.survey.questions.push(data.question);
       },
       err => {
-        this.isAddQuestionPending = false;
+        this.isQuestionPending[0] = false;
       },
       () => {
         this.modalReference.close();
-        this.isAddQuestionPending = false;
+        this.isQuestionPending[0] = false;
         add_que.unsubscribe();
       }
 
