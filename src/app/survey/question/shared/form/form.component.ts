@@ -12,6 +12,7 @@ import { ISurveyService, IQuestionService, IOptionService } from 'app/core/contr
 import { OptionService } from 'app/survey/question/option/option.service';
 import { IOptionDTO } from 'app/survey/i-survey';
 import { ISubscription } from 'rxjs/Subscription';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'sur-que-form',
   templateUrl: './form.component.html',
@@ -28,6 +29,7 @@ export class FormComponent implements OnInit, IFormComponent {
   }
   
   @Output() formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+  @Output() newSubQuestion : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
   @Input() set isPending(val){
     this._ispending.next(val);
   }
@@ -38,9 +40,12 @@ export class FormComponent implements OnInit, IFormComponent {
   form: FormGroup;
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
+  question_with_parent_id: IQuestionDTO;
+  modalReference: any;
   public isoptionpending = [];
   constructor(private fb: FormBuilder,
-             @Inject(OptionService) private _optionSrvc: IOptionService) { }
+             @Inject(OptionService) private _optionSrvc: IOptionService,
+              private modalService: NgbModal) { }
   
   ngOnInit() {
     this.form = this.fb.group({
@@ -54,13 +59,12 @@ export class FormComponent implements OnInit, IFormComponent {
 
 
 
-    this._question.subscribe(data => {
+    this._question.subscribe((data : IQuestionDTO )=> {
       if(!data) return;
       this.form.patchValue(data);
     })
 
     this._ispending.subscribe(data => {
-      console.log(data);
       this.toggleControls(data)
     });
   }
@@ -84,6 +88,12 @@ export class FormComponent implements OnInit, IFormComponent {
   onSubmit(form: any){
     if(this.form.invalid) return;
     this.formSubmit.emit(form);
+  }
+
+  open(content) {
+    this.modalReference = this.modalService.open(content,{
+      size: 'lg'
+    });
   }
 
 
@@ -115,5 +125,12 @@ export class FormComponent implements OnInit, IFormComponent {
         update_opt.unsubscribe();
       }
     )
+  }
+
+
+  addSubQuestion(event: IQuestionDTO){
+    event.question_parent = this.question.question_id;
+    event.survey_id = this.question.survey_id;
+    this.newSubQuestion.emit(event);
   }
 }

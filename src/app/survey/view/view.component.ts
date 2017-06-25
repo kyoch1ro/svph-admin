@@ -142,17 +142,22 @@ export class ViewComponent implements OnInit {
         upd_sur.unsubscribe();
       }
       );
-    // console.log('Survey Update Event: ', event);
   }
-  // setSurvey(id: number){
-  //   let sur_sub: ISubscription = 
-  //     this._surveySrvc.getById(id)
-  //     .subscribe(
-  //       data => this.survey = new Survey(data),
-  //       err => {},
-  //       () => {
-  //         sur_sub.unsubscribe();
-  //       })
-  // }
+
+
+
+  addSubQuestion(index,event){
+    let add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
+      data => {
+        this.survey.questions[index].childrens.push(data)
+      },
+      err => {
+
+      },
+      () => {
+        add_sub.unsubscribe()
+      }
+    )
+  }
 
 }

@@ -45,12 +45,13 @@
             <div *ngFor="let question of survey.questions; let i = index">
                     <p class="text-muted no-marg">Survey Question #{{i+1}}</p>
                     <sur-que-form 
+                        
                         [isPending]="isQuestionPending[question.question_id] || false"
                         [btnLabel]="'Update'"
                         [question]="question"
-                        (formSubmit)="updateQuestion($event)"></sur-que-form>
+                        (formSubmit)="updateQuestion($event)"
+                        (newSubQuestion)="addSubQuestion(i,$event)"></sur-que-form>
                         <br>
-
                     <div *ngIf="question.childrens && question.childrens.length" class="q-holder">
                         <div class="sub-question">
                             <div *ngFor="let sub of question.childrens; let j = index">

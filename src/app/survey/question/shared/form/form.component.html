@@ -34,6 +34,10 @@
                 <span *ngIf="isPending">Saving&nbsp;<shrd-save-spinner></shrd-save-spinner></span>
                 <span *ngIf="!isPending">{{btnLabel}}</span>
             </button>
+
+            <button (click)="open(subAdd)"  *ngIf="question.question_parent == 0 && question.question_id" type="button" class="btn btn-default">
+                Add Sub Question
+            </button>
         </form>
     </div>
     <div *ngIf="question.question_id" class="col-md-4">
@@ -50,3 +54,23 @@
             (formSubmit)="addOption($event)"></sur-que-opt-form>
     </div>
 </div>
+
+
+
+<ng-template #subAdd let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Sub Question</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <sur-que-form 
+                    [question]="question_with_parent_id"
+                    [isPending]="false"
+                    (formSubmit)="addSubQuestion($event)"></sur-que-form>
+
+  </div>
+</ng-template>
+
+
