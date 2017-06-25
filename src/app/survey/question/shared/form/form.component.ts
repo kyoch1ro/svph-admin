@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, Inject } from '@angular/core';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { EventEmitter } from '@angular/core';
 import { FormGroup, 
@@ -8,6 +8,10 @@ import { FormGroup,
 import { IQuestionDTO } from 'app/survey/i-survey';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Question } from './../../question.model';
+import { ISurveyService, IQuestionService, IOptionService } from 'app/core/contracts/i-http-services';
+import { OptionService } from 'app/survey/question/option/option.service';
+import { IOptionDTO } from 'app/survey/i-survey';
+import { ISubscription } from 'rxjs/Subscription';
 @Component({
   selector: 'sur-que-form',
   templateUrl: './form.component.html',
@@ -35,7 +39,8 @@ export class FormComponent implements OnInit, IFormComponent {
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+             @Inject(OptionService) private _optionSrvc: IOptionService) { }
   
   ngOnInit() {
     this.form = this.fb.group({
@@ -76,6 +81,16 @@ export class FormComponent implements OnInit, IFormComponent {
   onSubmit(form: any){
     if(this.form.invalid) return;
     this.formSubmit.emit(form);
+  }
 
+
+  addOption(event: IOptionDTO){
+    event.question_id = this.question.question_id;
+    let add_opt: ISubscription = 
+      this._optionSrvc.add(event).subscribe(
+        data => { this.question.options.push(data['option']); },
+        err=> { },
+        () => { add_opt.unsubscribe(); }
+      )
   }
 }
