@@ -22,6 +22,8 @@ export class ViewComponent implements OnInit {
   isPending: boolean;
 
 
+  isOptionPending = []; //id and value only ex 1: false
+  isQuestionPending = [];
   
 
   isAddQuestionPending: boolean;
@@ -59,8 +61,6 @@ export class ViewComponent implements OnInit {
           }
         )
 
-
-
         items.filter(children => children.question_parent > 0).map(
           children => {
             var parent_indx = questions.findIndex(questions => questions.question_id == children.question_parent);
@@ -95,17 +95,17 @@ export class ViewComponent implements OnInit {
   }
 
 
-  updateQuestion(index, event){
-    this.isUpdateQuestionPending[index] = true;
+  updateQuestion(event : IQuestionDTO){
+    this.isQuestionPending[event.question_id] = true;
     let update_que_sub : ISubscription = 
       this._questionSrvc.update(event).subscribe(
         data => {},
         err => {
-          this.isUpdateQuestionPending[index] = false;
+          this.isQuestionPending[event.question_id] = false;
           console.log(err);
         },
         () => {
-          this.isUpdateQuestionPending[index] = false;
+          this.isQuestionPending[event.question_id] = false;
           update_que_sub.unsubscribe();
         }
       )

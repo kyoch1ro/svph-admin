@@ -25,3 +25,19 @@
 .m-bottom-sm{
     margin-bottom: .5em;
 }
+
+
+
+.sub-question{
+    border-left: 3px solid #dbdbdb;
+    padding-left: 1em;
+    margin-left: 1em;
+}
+
+
+
+.sub-question .q-holder{
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
