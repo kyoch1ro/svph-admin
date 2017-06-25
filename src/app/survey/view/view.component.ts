@@ -109,41 +109,6 @@ export class ViewComponent implements OnInit {
       )
   }
 
-  // updateOption(index: any, event: IOptionDTO){
-  //   this.isOptionPending[event.option_id] = true;
-  //   let update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
-  //     data => {},
-  //     err=> {
-  //       this.isOptionPending[event.option_id] = false;
-  //     },
-  //     () => {
-  //       update_opt.unsubscribe();
-  //       this.isOptionPending[event.option_id] = false;
-  //     })
-  //   // console.log('Option Update Event: ',question_indx,option_indx,event)
-  // }
-
-  // addOption(indexes: any[],question_id,event: IOptionDTO){
-  //   this.isOptionPending[question_id] = true;
-  //   event.question_id = question_id;
-  //   let add_opt: ISubscription = 
-  //     this._optionSrvc.add(event).subscribe(
-  //       data => {
-  //         if(indexes.length > 1){
-  //           this.survey.questions[indexes[0]].childrens[indexes[1]].options.push(data.option);  
-  //         }
-  //         this.survey.questions[indexes[0]].options.push(data.option);
-  //       },
-  //       err=> {
-  //         this.isOptionPending[question_id] = false;
-  //       },
-  //       () => {
-  //         this.isOptionPending[question_id] = false;
-  //         add_opt.unsubscribe();
-  //       }
-  //     )
-  // }
-
   addQuestion(event){
     this.isAddQuestionPending = true;
     event['survey_id'] = this.survey.id;

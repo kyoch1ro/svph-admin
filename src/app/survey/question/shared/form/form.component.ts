@@ -93,4 +93,13 @@ export class FormComponent implements OnInit, IFormComponent {
         () => { add_opt.unsubscribe(); }
       )
   }
+
+  updateOption(event: IOptionDTO){
+    
+    let update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
+      data => {},
+      err=> { },
+      () => { update_opt.unsubscribe();}
+    )
+  }
 }
