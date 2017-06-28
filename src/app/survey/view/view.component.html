@@ -33,8 +33,7 @@
         </div>
     </div>
 </div>
- 
- 
+  
 <div class="card">
     <div class="card-header">
         <button (click)="open(questionAdd)" class="float-right btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Question</button>
@@ -45,10 +44,10 @@
             <div *ngFor="let question of survey.questions; let i = index">
                     <p class="text-muted no-marg">Survey Question #{{i+1}}</p>
                     <sur-que-form 
-                        
                         [isPending]="isQuestionPending[question.question_id] || false"
                         [btnLabel]="'Update'"
                         [question]="question"
+                        [isPending]="isQuestionPending[0] || false"
                         (formSubmit)="updateQuestion($event)"
                         (newSubQuestion)="addSubQuestion(i,$event)"></sur-que-form>
                         <br>
@@ -67,7 +66,6 @@
             </div>
     </div>
 </div>
-
 
 <ng-template #questionAdd let-c="close" let-d="dismiss">
   <div class="modal-header">

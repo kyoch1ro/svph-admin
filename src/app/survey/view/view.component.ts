@@ -92,7 +92,6 @@ export class ViewComponent implements OnInit {
     });
   }
 
-
   updateQuestion(event : IQuestionDTO){
     this.isQuestionPending[event.question_id] = true;
     let update_que_sub : ISubscription = 
@@ -125,7 +124,6 @@ export class ViewComponent implements OnInit {
         this.isQuestionPending[0] = false;
         add_que.unsubscribe();
       }
-
     );
   }
 
@@ -144,17 +142,17 @@ export class ViewComponent implements OnInit {
       );
   }
 
-
-
   addSubQuestion(index,event){
+    this.isQuestionPending[0] = true;
     let add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
       data => {
         this.survey.questions[index].childrens.push(data)
       },
       err => {
-
+        this.isQuestionPending[0] = false;
       },
       () => {
+        this.isQuestionPending[0] = false;
         add_sub.unsubscribe()
       }
     )

@@ -41,6 +41,7 @@ export class FormComponent implements OnInit, IFormComponent {
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
   question_with_parent_id: IQuestionDTO;
+  
   modalReference: any;
   public isoptionpending = [];
   constructor(private fb: FormBuilder,
