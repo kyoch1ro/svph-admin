@@ -1,16 +1,22 @@
-import { Component, OnInit,Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ISubscription } from 'rxjs/Subscription';
-import { ISurveyService, IQuestionService } from 'app/core/contracts/i-http-services';
-import { SurveyService } from './../survey.service';
-import { QuestionService } from './../question/question.service';
-import { ISurveyForList,IQuestionDTO,ISurveyDTO,IOptionDTO } from './../i-survey';
-import { IAlert } from 'app/core/contracts/i-alert';
-import { Survey } from './../survey.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Rx';
+import { ISubscription } from 'rxjs/Subscription';
+
+import { IAlert } from '../../core/contracts/i-alert';
+import { IOptionService, IQuestionService, ISurveyService } from '../../core/contracts/i-http-services';
+import { IOptionDTO, IQuestionDTO, ISurveyDTO } from '../i-survey';
+import { OptionService } from '../question/option/option.service';
+import { QuestionService } from '../question/question.service';
+import { Survey } from '../survey.model';
+import { SurveyService } from '../survey.service';
+
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/operator/switchMap';
+
+
+
 @Component({
   selector: 'sur-view',
   templateUrl: './view.component.html',
@@ -34,6 +40,7 @@ export class ViewComponent implements OnInit {
   
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
               @Inject(QuestionService) private _questionSrvc: IQuestionService,
+              @Inject(OptionService) private _optionSrvc: IOptionService,
               private _route: ActivatedRoute,
 
               private modalService: NgbModal) { }
@@ -113,6 +120,7 @@ export class ViewComponent implements OnInit {
     event['survey_id'] = this.survey.id;
     let add_que: ISubscription = this._questionSrvc.add(event).subscribe(
       data => {
+        if(data['question'].option_type == 'enums' || data['question'].option_type == 'text') this._addDefaultOption(data['question'].question_id);
         data.childrens = [];
         this.survey.questions.push(data.question);
       },
@@ -127,6 +135,25 @@ export class ViewComponent implements OnInit {
     );
   }
 
+
+  private _addDefaultOption(question_id: number){
+    let defaultOption: IOptionDTO = {
+      created_at: '',
+      option_caption: 'N/A',
+      option_id: 0,
+      option_isactive: 0,
+      option_isdeleted: 0,
+      question_id: question_id,
+      updated_at : ''
+    }
+    this._optionSrvc.add(defaultOption).take(1).subscribe(
+      data => { },
+      err=> {
+        },
+      () => {
+      }
+    )
+  }
   updateSurvey(event){
     this.isPending = true;
     let upd_sur: ISubscription = this._surveySrvc.update(event).subscribe(
@@ -146,6 +173,7 @@ export class ViewComponent implements OnInit {
     this.isQuestionPending[0] = true;
     let add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
       data => {
+        
         this.survey.questions[index].childrens.push(data)
       },
       err => {

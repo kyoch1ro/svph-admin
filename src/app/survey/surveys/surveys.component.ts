@@ -55,7 +55,7 @@ export class SurveysComponent implements OnInit {
     this.isPending = true;
     let add_sub: ISubscription = this._surveySrvc.add(event).subscribe(
                     data => {
-                      this._route.navigate([`/surveys/${data['question'].id}`])
+                      this._route.navigate([`/surveys/${data['survey'].id}`])
                     },
                     err => {
                       this.alert = { msg: "Please try again later", status: "danger" }

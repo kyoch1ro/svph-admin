@@ -1,10 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
-import { IOptionService } from 'app/core/contracts/i-http-services';
-import { Observable } from 'rxjs/Observable';
+import { IOptionDTO } from '../../i-survey';
+
+import { Inject, Injectable } from '@angular/core';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { iAuth } from 'app/core/contracts/iAuth';
+import { apiUrl } from 'app/core/global.const';
 import { AuthService } from 'app/core/services/auth.service';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { apiUrl, baseApiUrl, devBaseApiUrl } from 'app/core/global.const';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OptionService {
@@ -18,7 +19,7 @@ export class OptionService {
     return;
   }
   
-  add(data: any): Observable<any>{
+  add(data: IOptionDTO): Observable<any>{
     const token = this._auth.getToken();
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
