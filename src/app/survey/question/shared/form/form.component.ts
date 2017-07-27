@@ -1,18 +1,17 @@
-import { Component, OnInit, Input, Output, Inject } from '@angular/core';
-import { IFormComponent } from 'app/core/contracts/i-form-component';
+import { IOptionDTO, IQuestionDTO } from '../../../shared/survey.interface';
+import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { FormGroup, 
-         FormBuilder, 
-         Validators, 
-         FormControl} from '@angular/forms';
-import { IQuestionDTO } from 'app/survey/i-survey';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Question } from './../../question.model';
-import { ISurveyService, IQuestionService, IOptionService } from 'app/core/contracts/i-http-services';
-import { OptionService } from 'app/survey/question/option/option.service';
-import { IOptionDTO } from 'app/survey/i-survey';
-import { ISubscription } from 'rxjs/Subscription';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { IFormComponent } from 'app/core/contracts/i-form-component';
+import { IOptionService } from 'app/core/contracts/i-http-services';
+import { OptionService } from 'app/survey/question/option/option.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ISubscription } from 'rxjs/Subscription';
+
+import { Question } from './../../question.model';
+
+
 @Component({
   selector: 'sur-que-form',
   templateUrl: './form.component.html',
@@ -60,7 +59,7 @@ export class FormComponent implements OnInit, IFormComponent {
 
 
 
-    this._question.subscribe((data : IQuestionDTO )=> {
+    this._question.subscribe((data : IQuestionDTO ) => {
       if(!data) return;
       this.form.patchValue(data);
     })

@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Output, HostBinding } from '@angular/core';
-import { IFormComponent } from 'app/core/contracts/i-form-component';
+import { IOptionDTO } from '../../../../shared/survey.interface';
+import { Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { FormGroup, 
-         FormBuilder, 
-         Validators, 
-         FormControl} from '@angular/forms';
-import { IOptionDTO } from 'app/survey/i-survey';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { Option } from './../../option.model';
+
+
 @Component({
   selector: 'sur-que-opt-form',
   templateUrl: './form.component.html',

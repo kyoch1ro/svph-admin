@@ -1,19 +1,17 @@
 export interface ISurveyDTO {
     id: number;
     survey_type_id: number;
-    survey_category_id : number;
-    survey_title : string;
+    survey_category_id: number;
+    survey_title: string;
     survey_isactive: number;
-    survey_isfeatured : number;
-    survey_isdeleted : number;
-    created_at : string;
-    updated_at : string;
-    start_date : string;
-    end_date : string;
+    survey_isfeatured: number;
+    survey_isdeleted: number;
+    created_at: string;
+    updated_at: string;
+    start_date: string;
+    end_date: string;
     questions: IQuestionDTO[];
 }
-
-
 
 
 export interface IQuestionDTO {

@@ -4,9 +4,9 @@ import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { EventEmitter } from '@angular/core';
 import { Survey } from './../../survey.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FormGroup, 
-         FormBuilder, 
-         Validators, 
+import { FormGroup,
+         FormBuilder,
+         Validators,
          FormControl} from '@angular/forms';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -93,10 +93,6 @@ export class FormComponent implements OnInit, IFormComponent  {
       if(!data) return;
       this.form.patchValue(data)
     });
-
-    // Object.keys(this.form.controls).forEach(key => {
-    //     console.log(key)
-    // });
   }
 
 

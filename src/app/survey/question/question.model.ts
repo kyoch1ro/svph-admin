@@ -1,4 +1,6 @@
-import { IQuestionDTO, IOptionDTO } from 'app/survey/i-survey';
+import { IOptionDTO, IQuestionDTO } from '../shared/survey.interface';
+
+
 export class Question implements IQuestionDTO{
     question_id: number;
     survey_id: number;

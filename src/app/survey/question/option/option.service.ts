@@ -1,4 +1,6 @@
-import { IOptionDTO } from '../../i-survey';
+import { IOptionDTO } from '../../shared/survey.interface';
+
+
 
 import { Inject, Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';

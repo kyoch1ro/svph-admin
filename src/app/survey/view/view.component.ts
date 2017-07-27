@@ -1,3 +1,4 @@
+import { IOptionDTO, IQuestionDTO, ISurveyDTO } from '../shared/survey.interface';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -6,7 +7,7 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
 import { IOptionService, IQuestionService, ISurveyService } from '../../core/contracts/i-http-services';
-import { IOptionDTO, IQuestionDTO, ISurveyDTO } from '../i-survey';
+
 import { OptionService } from '../question/option/option.service';
 import { QuestionService } from '../question/question.service';
 import { Survey } from '../survey.model';

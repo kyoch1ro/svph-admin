@@ -1,13 +1,15 @@
-import { Component, OnInit, Inject,OnDestroy } from '@angular/core';
-import { ISurveyService } from 'app/core/contracts/i-http-services';
-import { SurveyService } from './../survey.service';
-import { ISurveyForList } from './../i-survey';
+import { ISurveyForList } from '../shared/survey.interface';
+import 'rxjs/add/operator/mergeMap';
+
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ISubscription } from 'rxjs/Subscription';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import "rxjs/add/operator/mergeMap";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IAlert } from 'app/core/contracts/i-alert';
+import { ISurveyService } from 'app/core/contracts/i-http-services';
+import { ISubscription } from 'rxjs/Subscription';
+
+import { SurveyService } from './../survey.service';
+
 
 @Component({
   selector: 'sur-surveys',
