@@ -1,17 +1,17 @@
-import { IOptionDTO, IQuestionDTO } from '../shared/survey.interface';
+import { IOption, IQuestionOption } from '../shared/survey.interface';
 
 
-export class Question implements IQuestionDTO{
+export class Question implements IQuestionOption{
     question_id: number;
     survey_id: number;
     question_parent: number;
     question_caption: string;
     option_type: string;
     question_isdeleted: number;
-    created_at : string;
-    updated_at : string;
-    options : IOptionDTO[];
-    childrens : IQuestionDTO[];
+    created_at: string;
+    updated_at: string;
+    options: IOption[];
+    childrens: IQuestionOption[];
 
     constructor(obj?: any){
         this.question_id = obj && obj.question_id || 0;

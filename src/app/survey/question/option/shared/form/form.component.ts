@@ -1,4 +1,4 @@
-import { IOptionDTO } from '../../../../shared/survey.interface';
+import { IOption, IQuestion } from '../../../../shared/survey.interface';
 import { Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +17,7 @@ export class FormComponent implements OnInit,IFormComponent {
   @HostBinding('class') cssClass = 'm-bottom-sm d-block';
   @Input() btnLabel : string = "Add";
   @Input() 
-  set option(val: IOptionDTO){
+  set option(val: IOption){
     this._option.next(new Option(val));
   }
   get option(){

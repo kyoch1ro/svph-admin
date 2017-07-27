@@ -1,4 +1,4 @@
-import { IOptionDTO } from '../../shared/survey.interface';
+import { IQuestion } from '../../shared/survey.interface';
 
 
 
@@ -21,7 +21,7 @@ export class OptionService {
     return;
   }
   
-  add(data: IOptionDTO): Observable<any>{
+  add(data: IQuestion): Observable<any>{
     const token = this._auth.getToken();
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');

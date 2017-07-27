@@ -1,4 +1,6 @@
-import { IOptionDTO, IQuestionDTO, ISurveyDTO } from '../shared/survey.interface';
+import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/operator/switchMap';
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,14 +9,11 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
 import { IOptionService, IQuestionService, ISurveyService } from '../../core/contracts/i-http-services';
-
 import { OptionService } from '../question/option/option.service';
 import { QuestionService } from '../question/question.service';
+import { IOption, IQuestion, IQuestionOption, ISurveyQuestion } from '../shared/survey.interface';
 import { Survey } from '../survey.model';
 import { SurveyService } from '../survey.service';
-
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/switchMap';
 
 
 
@@ -52,8 +51,8 @@ export class ViewComponent implements OnInit {
         this._surveySrvc.getById(params['id']),
         this._questionSrvc.list(params['id'])
       ])).map((data: any) => {
-        let survey : ISurveyDTO = data[0].survey;
-        let questions: IQuestionDTO[] = [];
+        let survey : ISurveyQuestion = data[0].survey;
+        let questions: IQuestionOption[] = [];
 
         var items = data[1].questionnaire;
         items.filter(parent => parent.question_parent == 0).map(
@@ -100,7 +99,7 @@ export class ViewComponent implements OnInit {
     });
   }
 
-  updateQuestion(event : IQuestionDTO){
+  updateQuestion(event : IQuestion){
     this.isQuestionPending[event.question_id] = true;
     let update_que_sub : ISubscription = 
       this._questionSrvc.update(event).subscribe(
@@ -138,7 +137,7 @@ export class ViewComponent implements OnInit {
 
 
   private _addDefaultOption(question_id: number){
-    let defaultOption: IOptionDTO = {
+    let defaultOption: IOption = {
       created_at: '',
       option_caption: 'N/A',
       option_id: 0,
@@ -174,7 +173,6 @@ export class ViewComponent implements OnInit {
     this.isQuestionPending[0] = true;
     let add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
       data => {
-        
         this.survey.questions[index].childrens.push(data)
       },
       err => {

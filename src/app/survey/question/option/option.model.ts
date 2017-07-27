@@ -1,7 +1,7 @@
-import { IOptionDTO } from '../../shared/survey.interface';
+import { IOption } from '../../shared/survey.interface';
 
 
-export class Option implements IOptionDTO{
+export class Option implements IOption{
     option_id : number;
     question_id : number;
     option_caption : string;

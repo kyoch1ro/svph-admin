@@ -1,20 +1,23 @@
-import { IOptionDTO, IQuestionDTO, ISurveyDTO } from './shared/survey.interface';
+import { IOption, IQuestion, IQuestionOption, ISurvey, ISurveyDuration, ISurveyQuestion } from './shared/survey.interface';
 
 
 
-export class Survey implements ISurveyDTO{
+export class Survey implements ISurveyQuestion{
     id: number;
     survey_type_id: number;
-    survey_category_id : number;
-    survey_title : string;
+    survey_category_id: number;
+    survey_title: string;
     survey_isactive: number;
-    survey_isfeatured : number;
-    survey_isdeleted : number;
-    created_at : string;
-    updated_at : string;
-    start_date : string;
-    end_date : string;
-    questions: IQuestionDTO[];
+    survey_isfeatured: number;
+    survey_isdeleted: number;
+    created_at: string;
+    updated_at: string;
+    start_date: string;
+    end_date: string;
+    respondents: number;
+    img: any;
+    durations: ISurveyDuration[];
+    questions: IQuestionOption[];
 
     constructor(obj?: any){
         this.id                 = obj && obj.id || 0;
@@ -33,16 +36,16 @@ export class Survey implements ISurveyDTO{
     }
 
 
-    setQuestions(val: IQuestionDTO[]){
+    setQuestions(val: IQuestionOption[]){
         this.questions = val;
     }
 
-    addQuestion(val:IQuestionDTO){
+    addQuestion(val:IQuestionOption){
         this.questions.push(val);
     }
 
 
-    addQuestionOption(indx: number,val : IOptionDTO){
+    addQuestionOption(indx: number, val : IOption){
         this.questions[indx].options.push(val);
     }
 }

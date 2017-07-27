@@ -1,4 +1,4 @@
-import { IOptionDTO, IQuestionDTO } from '../../../shared/survey.interface';
+import { IOption, IQuestion, IQuestionOption } from '../../../shared/survey.interface';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ import { Question } from './../../question.model';
 export class FormComponent implements OnInit, IFormComponent {
   @Input() btnLabel : string = "Add";
   @Input() 
-  set question(val: IQuestionDTO){
+  set question(val: IQuestionOption){
     this._question.next(new Question(val));
   }
   get question(){
@@ -39,7 +39,7 @@ export class FormComponent implements OnInit, IFormComponent {
   form: FormGroup;
   private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
-  question_with_parent_id: IQuestionDTO;
+  question_with_parent_id: IQuestion;
   
   modalReference: any;
   public isoptionpending = [];
@@ -59,7 +59,7 @@ export class FormComponent implements OnInit, IFormComponent {
 
 
 
-    this._question.subscribe((data : IQuestionDTO ) => {
+    this._question.subscribe((data : IQuestion ) => {
       if(!data) return;
       this.form.patchValue(data);
     })
@@ -97,7 +97,7 @@ export class FormComponent implements OnInit, IFormComponent {
   }
 
 
-  addOption(event: IOptionDTO){
+  addOption(event: IOption){
     this.isoptionpending[0] = true;
     event.question_id = this.question.question_id;
     let add_opt: ISubscription = 
@@ -113,7 +113,7 @@ export class FormComponent implements OnInit, IFormComponent {
       )
   }
 
-  updateOption(event: IOptionDTO){
+  updateOption(event: IOption){
     this.isoptionpending[event.option_id] = true;
     let update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
       data => {},
@@ -128,7 +128,7 @@ export class FormComponent implements OnInit, IFormComponent {
   }
 
 
-  addSubQuestion(event: IQuestionDTO){
+  addSubQuestion(event: IQuestion){
     event.question_parent = this.question.question_id;
     event.survey_id = this.question.survey_id;
     this.newSubQuestion.emit(event);
