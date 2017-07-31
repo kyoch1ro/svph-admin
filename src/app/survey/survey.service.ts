@@ -14,25 +14,25 @@ export class SurveyService implements ISurveyService {
 
   
   getById(id: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
      return this._http.get(`${apiUrl}/survey/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
 
   getRespondentsCount(id: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
      return this._http.get(`${baseApiUrl}/userAnswerSurvey/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
   
   list(id?: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/survey?token=${token}`)
       .map((res: Response) => res.json());
   }
   
   add(data: any): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     var options = new RequestOptions({
@@ -46,7 +46,7 @@ export class SurveyService implements ISurveyService {
     return;
   }
   update(data: any): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     let id = data['id'];
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');

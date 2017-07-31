@@ -18,7 +18,7 @@ export class CategoryService implements ICategoryService{
 
 
   list(id?: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/category?token=${token}`)
            .map((res: Response) => res.json());
   }

@@ -11,13 +11,13 @@ export class UserService implements IUserService{
   constructor(private _http: Http,@Inject(AuthService) private _auth : iAuth ) { }
 
   getById(id: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/userDetail/${id}?token=${token}`)
     .map((res: Response) => res.json());
   };
 
   approveUser(id: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     var options = new RequestOptions({
@@ -29,13 +29,13 @@ export class UserService implements IUserService{
   }
 
   getOtherInfo(id: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/otherInfo/${id}?token=${token}`)
     .map((res: Response) => res.json());
   }
 
   list(id?: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/listUser?token=${token}`)
     .map((res: Response) => res.json());
   };

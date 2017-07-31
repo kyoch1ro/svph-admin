@@ -1,10 +1,15 @@
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/Rx';
+
+import { IUser } from './i-user';
+
+// tslint:disable-next-line:class-name
 export interface iAuth{
-    login(user: string, password: string): Observable<any>;
+    user: BehaviorSubject<IUser>;
+    isLoggedIn(): Observable<boolean>;
+    setUserInfo();
+    login(user: string, password: string);
     logout(): void;
     getUser(): string;
-    isLoggedIn(): boolean;
-    getToken(): string;
-    isAdmin(): boolean;
-    IsValidToken():boolean;
+    checkTokenValidity(): Observable<any>;
 }

@@ -22,7 +22,7 @@ export class OptionService {
   }
   
   add(data: IQuestion): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     var options = new RequestOptions({
@@ -38,7 +38,7 @@ export class OptionService {
 
   
   update(data: any): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     var headers = new Headers();
     let id = data['option_id'];
     headers.append('Content-Type', 'application/json');

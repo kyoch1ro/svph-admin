@@ -18,13 +18,13 @@ export class QuestionService implements IQuestionService {
   }
 
   list(id: number): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/surveyQuestionnaire/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
   
   add(data: any): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     var options = new RequestOptions({
@@ -37,7 +37,7 @@ export class QuestionService implements IQuestionService {
     return;
   }
   update(data: any): Observable<any>{
-    const token = this._auth.getToken();
+    const token = AuthService.getToken();
     var headers = new Headers();
     let id = data['question_id'] 
     headers.append('Content-Type', 'application/json');
