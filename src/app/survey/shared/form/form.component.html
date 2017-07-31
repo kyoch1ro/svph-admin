@@ -55,42 +55,17 @@
                           form.controls['survey_type_id'].hasError('required')" 
                 class="form-text text-danger">This is a required field.</small>
     </div>
-    <p class="text-muted no-marg">Survey Validity</p>
     
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                    <label for="start_date">From</label>
-                    <input class="form-control" type="datetime-local" value=""
-                           [formGroup]="form"
-                           formControlName="start_date">
-
-                        <small *ngIf="form.controls['start_date'].touched &&
-                                    form.controls['start_date'].hasError('required')" 
-                            class="form-text text-danger">This is a required field.</small>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                    <label for="end_date">To</label>
-                    <input class="form-control" type="datetime-local" value=""
-                           [formGroup]="form"
-                           formControlName="end_date">
-
-                        <small *ngIf="form.controls['end_date'].touched &&
-                                    form.controls['end_date'].hasError('required')" 
-                            class="form-text text-danger">This is a required field.</small>
-            </div>
-        </div>
-    </div>
-
-
     <button type="submit" [disabled]="isPending" class="btn btn-primary">
         <span *ngIf="isPending">Saving&nbsp;<shrd-save-spinner></shrd-save-spinner></span>
         <span *ngIf="!isPending">{{ btnLabel }}</span>
     </button>
-
     <button>adasdasd</button>
-
+    <hr>
+    <p class="text-muted no-marg">Survey Validity</p>
+    <app-survey-duration 
+        *ngFor="let duration of survey.durations"
+        [duration]="duration">
+    </app-survey-duration>
 </form>
 

@@ -102,8 +102,6 @@ export class FormComponent implements OnInit, IFormComponent  {
       survey_category_id: ['', Validators.required ],
       survey_title: ['', Validators.required ],
       survey_isfeatured: [ 0, Validators.required ],
-      start_date: ['', Validators.required ],
-      end_date: ['', Validators.required ],
       survey_isactive: ['', Validators.required],
       survey_isdeleted: ['', Validators.required]
     })

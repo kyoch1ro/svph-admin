@@ -10,6 +10,7 @@ import { CategoryModule } from './category/category.module';
 import { TypeModule } from './type/type.module';
 import { QuestionModule } from './question/question.module';
 import { OptionModule } from './question/option/option.module';
+import { DurationComponent } from './shared/form/duration/duration.component';
 @NgModule({
   imports: [
     PagesRoutingModule,
@@ -19,7 +20,7 @@ import { OptionModule } from './question/option/option.module';
     OptionModule,
     TypeModule
   ],
-  declarations: [SurveyComponent, SurveysComponent, ViewComponent, FormComponent],
+  declarations: [SurveyComponent, SurveysComponent, ViewComponent, FormComponent, DurationComponent],
   providers: [SURVEY_PROVIDERS]
 })
 export class SurveyModule { }
