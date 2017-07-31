@@ -26,10 +26,8 @@ export class ViewComponent implements OnInit {
   survey: Survey;
   isPending: boolean;
 
-
-  isOptionPending = []; //id and value only ex 1: false
+  isOptionPending = [];
   isQuestionPending = [];
-  
 
   isAddQuestionPending: boolean;
   isAddOptionPending = [];
@@ -37,7 +35,7 @@ export class ViewComponent implements OnInit {
   isUpdateQuestionPending = [];
   alert: IAlert;
   modalReference: any;
-  
+
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
               @Inject(QuestionService) private _questionSrvc: IQuestionService,
               @Inject(OptionService) private _optionSrvc: IOptionService,
@@ -45,17 +43,17 @@ export class ViewComponent implements OnInit {
 
               private modalService: NgbModal) { }
   ngOnInit() {
-    let id_param_subscription = 
-      this._route.params.switchMap((params: Params) => 
+    const id_param_subscription =
+      this._route.params.switchMap((params: Params) =>
       Observable.forkJoin([
         this._surveySrvc.getById(params['id']),
         this._questionSrvc.list(params['id'])
       ])).map((data: any) => {
-        let survey : ISurveyQuestion = data[0].survey;
-        let questions: IQuestionOption[] = [];
+        const survey : ISurveyQuestion = data[0].survey;
+        const questions: IQuestionOption[] = [];
 
-        var items = data[1].questionnaire;
-        items.filter(parent => parent.question_parent == 0).map(
+        const items = data[1].questionnaire;
+        items.filter(parent => parent.question_parent === 0).map(
           question => {
             question.survey_id = survey.id;
             question.options.map(opt => {
@@ -68,7 +66,7 @@ export class ViewComponent implements OnInit {
 
         items.filter(children => children.question_parent > 0).map(
           children => {
-            var parent_indx = questions.findIndex(questions => questions.question_id == children.question_parent);
+            const parent_indx = questions.findIndex(ques => ques.question_id === children.question_parent);
             children.survey_id = survey.id;
             children.options.map(opt => {
               opt.question_id = children.question_id;
@@ -101,7 +99,7 @@ export class ViewComponent implements OnInit {
 
   updateQuestion(event : IQuestion){
     this.isQuestionPending[event.question_id] = true;
-    let update_que_sub : ISubscription = 
+    const update_que_sub : ISubscription = 
       this._questionSrvc.update(event).subscribe(
         data => {},
         err => {
@@ -118,9 +116,11 @@ export class ViewComponent implements OnInit {
   addQuestion(event){
     this.isQuestionPending[0] = true;
     event['survey_id'] = this.survey.id;
-    let add_que: ISubscription = this._questionSrvc.add(event).subscribe(
+    const add_que: ISubscription = this._questionSrvc.add(event).subscribe(
       data => {
-        if(data['question'].option_type == 'enums' || data['question'].option_type == 'text') this._addDefaultOption(data['question'].question_id);
+        if (data['question'].option_type === 'enums' || data['question'].option_type === 'text') {
+          this._addDefaultOption(data['question'].question_id);
+        }
         data.childrens = [];
         this.survey.questions.push(data.question);
       },
@@ -137,7 +137,7 @@ export class ViewComponent implements OnInit {
 
 
   private _addDefaultOption(question_id: number){
-    let defaultOption: IOption = {
+    const defaultOption: IOption = {
       created_at: '',
       option_caption: 'N/A',
       option_id: 0,
@@ -148,7 +148,7 @@ export class ViewComponent implements OnInit {
     }
     this._optionSrvc.add(defaultOption).take(1).subscribe(
       data => { },
-      err=> {
+      err => {
         },
       () => {
       }
@@ -156,7 +156,7 @@ export class ViewComponent implements OnInit {
   }
   updateSurvey(event){
     this.isPending = true;
-    let upd_sur: ISubscription = this._surveySrvc.update(event).subscribe(
+    const upd_sur: ISubscription = this._surveySrvc.update(event).subscribe(
       data => {},
       err => {
         this.isPending = false;
@@ -171,7 +171,7 @@ export class ViewComponent implements OnInit {
 
   addSubQuestion(index,event){
     this.isQuestionPending[0] = true;
-    let add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
+    const add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
       data => {
         this.survey.questions[index].childrens.push(data)
       },

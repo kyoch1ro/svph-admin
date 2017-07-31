@@ -44,7 +44,7 @@ export interface IOption {
 }
 
 
-export interface ISurveyQuestion extends ISurvey{
+export interface ISurveyQuestion extends ISurvey {
     questions: IQuestionOption[];
 }
 export interface IQuestionOption extends IQuestion{

@@ -23,32 +23,21 @@ import { IAlert } from 'app/core/contracts/i-alert';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit, IFormComponent  {
-  @Input()
-  set survey(val: Survey){
+  @Input() set survey(val: Survey){
     this._survey.next(val);
-  };
-  get survey(){ 
-    return this._survey.getValue(); 
-  } 
-
-  @Input() btnLabel : string = "Submit";
-
+  }
+  @Input() btnLabel = 'Submit';
   @Input() set isPending(val){
     this._ispending.next(val);
   }
-  get isPending(){
-    return this._ispending.getValue();
-  }
-
   @Input() alert: IAlert;
-  
-  
-  @Output() formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+
+  @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   private _survey = new BehaviorSubject<Survey>(new Survey());
   private _ispending = new BehaviorSubject<boolean>(false);
 
-  categories : ICategoryDTO[];
+  categories: ICategoryDTO[];
   types: ITypeDTO[];
   form: FormGroup;
 
@@ -57,28 +46,17 @@ export class FormComponent implements OnInit, IFormComponent  {
               @Inject(TypeService) private _typeSrvc: ITypeService) { }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      id: ['', Validators.required ],
-      survey_type_id: ['', Validators.required ],
-      survey_category_id: ['', Validators.required ],
-      survey_title: ['', Validators.required ],
-      survey_isfeatured: [ 0, Validators.required ],
-      start_date: ['', Validators.required ],
-      end_date: ['', Validators.required ],
-      survey_isactive: ['',Validators.required],
-      survey_isdeleted: ['',Validators.required]
-    })
+    this._initializeForm();
 
-
-    let cat_sub : ISubscription =  this._categorySrvc.list()
+    const cat_sub: ISubscription =  this._categorySrvc.list()
     .subscribe(
       data => { this.categories = <ICategoryDTO[]> data['category'] },
-      err=> {},
+      err => {},
       () => {
         cat_sub.unsubscribe()
       });
-    
-    let typ_sub: ISubscription = this._typeSrvc.list()
+
+    const typ_sub: ISubscription = this._typeSrvc.list()
     .subscribe(
       data => { this.types = <ITypeDTO[]> data.type},
       err => {},
@@ -90,32 +68,53 @@ export class FormComponent implements OnInit, IFormComponent  {
 
     this._survey
     .subscribe(data => {
-      if(!data) return;
+      if (!data) {
+        return;
+      }
       this.form.patchValue(data)
     });
   }
 
 
- 
+  get survey() {
+    return this._survey.getValue();
+  }
 
-  isDirty(): boolean{
+  get isPending(){
+    return this._ispending.getValue();
+  }
+
+  isDirty(): boolean {
     return true;
   }
 
-  onSubmit(data: any){
-    if(this.form.invalid){
-       return; 
+  onSubmit(data: any) {
+    if (this.form.invalid) {
+       return;
     }
     this.formSubmit.emit(data);
   }
 
+  private _initializeForm() {
+    this.form = this.fb.group({
+      id: ['', Validators.required ],
+      survey_type_id: ['', Validators.required ],
+      survey_category_id: ['', Validators.required ],
+      survey_title: ['', Validators.required ],
+      survey_isfeatured: [ 0, Validators.required ],
+      start_date: ['', Validators.required ],
+      end_date: ['', Validators.required ],
+      survey_isactive: ['', Validators.required],
+      survey_isdeleted: ['', Validators.required]
+    })
+  }
 
-  toggleControls(data: boolean){
-    if(data){
+  toggleControls(data: boolean) {
+    if (data) {
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key).disable();
       });
-    }else{
+    }else {
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key).enable();
       });

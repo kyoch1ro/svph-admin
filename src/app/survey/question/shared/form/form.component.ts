@@ -18,17 +18,12 @@ import { Question } from './../../question.model';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit, IFormComponent {
-  @Input() btnLabel : string = "Add";
-  @Input() 
-  set question(val: IQuestionOption){
+  @Input() btnLabel = 'Add';
+  @Input() set question(val: IQuestionOption){
     this._question.next(new Question(val));
   }
-  get question(){
-    return this._question.getValue();
-  }
-  
-  @Output() formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
-  @Output() newSubQuestion : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+  @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() newSubQuestion: EventEmitter<any> = new EventEmitter<any>();
   @Input() set isPending(val){
     this._ispending.next(val);
   }
@@ -37,30 +32,30 @@ export class FormComponent implements OnInit, IFormComponent {
     return this._ispending.getValue();
   }
   form: FormGroup;
-  private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private _question : BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
+  private _ispending: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _question: BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
   question_with_parent_id: IQuestion;
-  
+
   modalReference: any;
   public isoptionpending = [];
   constructor(private fb: FormBuilder,
              @Inject(OptionService) private _optionSrvc: IOptionService,
               private modalService: NgbModal) { }
-  
+
   ngOnInit() {
     this.form = this.fb.group({
-      question_id: [0,Validators.required],
-      question_parent: [0,Validators.required],
-      survey_id: [0,Validators.required],
-      question_caption: ['',Validators.required],
-      option_type: ['',Validators.required],
+      question_id: [0, Validators.required],
+      question_parent: [0, Validators.required],
+      survey_id: [0, Validators.required],
+      question_caption: ['', Validators.required],
+      option_type: ['', Validators.required],
       question_isdeleted: ['', Validators.required]
     })
 
-
-
-    this._question.subscribe((data : IQuestion ) => {
-      if(!data) return;
+    this._question.subscribe((data: IQuestion ) => {
+      if (!data) {
+        return;
+      }
       this.form.patchValue(data);
     })
 
@@ -69,58 +64,64 @@ export class FormComponent implements OnInit, IFormComponent {
     });
   }
 
-  isDirty(): boolean{
+  isDirty(): boolean {
     return true;
   }
 
-  toggleControls(data: boolean){
-    if(data){
+  get question(){
+    return this._question.getValue();
+  }
+
+  toggleControls(data: boolean) {
+    if (data) {
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key).disable();
       });
-    }else{
+    }else {
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key).enable();
       });
     }
   }
 
-  onSubmit(form: any){
-    if(this.form.invalid) return;
+  onSubmit(form: any) {
+    if (this.form.invalid) {
+      return;
+    }
     this.formSubmit.emit(form);
   }
 
   open(content) {
-    this.modalReference = this.modalService.open(content,{
+    this.modalReference = this.modalService.open(content, {
       size: 'lg'
     });
   }
 
 
-  addOption(event: IOption){
+  addOption(event: IOption) {
     this.isoptionpending[0] = true;
     event.question_id = this.question.question_id;
-    let add_opt: ISubscription = 
+    const add_opt: ISubscription =
       this._optionSrvc.add(event).subscribe(
         data => { this.question.options.push(data['option']); },
-        err=> {
+        err => {
           this.isoptionpending[0] = false;
          },
-        () => { 
+        () => {
           this.isoptionpending[0] = false;
-          add_opt.unsubscribe(); 
+          add_opt.unsubscribe();
         }
       )
   }
 
-  updateOption(event: IOption){
+  updateOption(event: IOption) {
     this.isoptionpending[event.option_id] = true;
-    let update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
+    const update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
       data => {},
-      err=> { 
+      err => {
         this.isoptionpending[event.option_id] = false;
       },
-      () => { 
+      () => {
         this.isoptionpending[event.option_id] = false;
         update_opt.unsubscribe();
       }
@@ -128,7 +129,7 @@ export class FormComponent implements OnInit, IFormComponent {
   }
 
 
-  addSubQuestion(event: IQuestion){
+  addSubQuestion(event: IQuestion) {
     event.question_parent = this.question.question_id;
     event.survey_id = this.question.survey_id;
     this.newSubQuestion.emit(event);

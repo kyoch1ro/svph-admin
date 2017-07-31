@@ -39,39 +39,46 @@ export class FormComponent implements OnInit,IFormComponent {
 
   ngOnInit() {
     this.form = this.fb.group({
-      option_id : [0,Validators.required],
-      question_id : [0,Validators.required],
-      option_caption : ['',Validators.required],
-      option_isactive : ['',Validators.required],
-      option_isdeleted : ['',Validators.required]
+      option_id : [0, Validators.required],
+      question_id : [0, Validators.required],
+      option_caption : ['', Validators.required],
+      option_isactive : ['', Validators.required],
+      option_isdeleted : ['', Validators.required]
     })
 
     this._option.subscribe(data => {
-      if(!data) return;
+      if (!data) {
+        return;
+      }
+
       this.form.patchValue(data);
     })
 
     this._ispending.subscribe(data => {
-      this.toggleControls(data);      
+      this.toggleControls(data);
     })
   }
 
-  isDirty(): boolean{
+  isDirty(): boolean {
     return true;
   }
-  onSubmit(data){
-    if(this.form.invalid) return;
-    if(!this.option.option_id){
+
+  onSubmit(data) {
+    if (this.form.invalid) {
+      return;
+    }
+    if (!this.option.option_id) {
         this.form.get('option_caption').reset();
     }
     this.formSubmit.emit(data);
   }
-  toggleControls(data: boolean){
-    if(data){
+
+  toggleControls(data: boolean) {
+    if (data) {
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key).disable();
       });
-    }else{
+    }else {
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key).enable();
       });
