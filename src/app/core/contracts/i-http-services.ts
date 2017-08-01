@@ -39,3 +39,7 @@ export interface IQuestionService extends IHttpService{
 export interface IOptionService extends IHttpService{
   
 }
+
+export interface ISurveyDurationService extends IHttpService{
+
+}

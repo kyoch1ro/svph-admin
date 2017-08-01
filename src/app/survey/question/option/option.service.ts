@@ -1,13 +1,13 @@
-import { IQuestion } from '../../shared/survey.interface';
-
-
-
 import { Inject, Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { iAuth } from 'app/core/contracts/iAuth';
 import { apiUrl } from 'app/core/global.const';
 import { AuthService } from 'app/core/services/auth.service';
 import { Observable } from 'rxjs/Observable';
+
+import { IQuestion } from '../../shared/survey.interface';
+
+
 
 @Injectable()
 export class OptionService {
@@ -20,7 +20,7 @@ export class OptionService {
   list(id?: number): Observable<any>{
     return;
   }
-  
+
   add(data: IQuestion): Observable<any>{
     const token = AuthService.getToken();
     var headers = new Headers();
@@ -31,12 +31,10 @@ export class OptionService {
     return this._http.post(`${apiUrl}/option?token=${token}`,JSON.stringify(data),options)
           .map((res: Response) => res.json());
   }
-  
   delete(id: number): Observable<any>{
     return;
   }
 
-  
   update(data: any): Observable<any>{
     const token = AuthService.getToken();
     var headers = new Headers();

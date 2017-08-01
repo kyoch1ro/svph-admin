@@ -1,26 +1,24 @@
-import { Component, OnInit, Input, Inject, Output } from '@angular/core';
-import { ICategoryService, ITypeService } from 'app/core/contracts/i-http-services';
-import { IFormComponent } from 'app/core/contracts/i-form-component';
+import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { Survey } from './../../survey.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FormGroup,
-         FormBuilder,
-         Validators,
-         FormControl} from '@angular/forms';
-import { ISubscription } from 'rxjs/Subscription';
-
-import { ICategoryDTO } from 'app/survey/category/i-category';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IAlert } from 'app/core/contracts/i-alert';
+import { IFormComponent } from 'app/core/contracts/i-form-component';
+import { ICategoryService, ITypeService } from 'app/core/contracts/i-http-services';
 import { CategoryService } from 'app/survey/category/category.service';
-
+import { ICategoryDTO } from 'app/survey/category/i-category';
 import { ITypeDTO } from 'app/survey/type/i-type';
 import { TypeService } from 'app/survey/type/type.service';
-import { IAlert } from 'app/core/contracts/i-alert';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ISubscription } from 'rxjs/Subscription';
+
+import { Survey } from './../../survey.model';
+import { SURVEY_FORM_PROVIDER } from './form.service';
 
 @Component({
   selector: 'sur-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.scss'],
+  // providers: [  ]
 })
 export class FormComponent implements OnInit, IFormComponent  {
   @Input() set survey(val: Survey){

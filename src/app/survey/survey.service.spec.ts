@@ -1,6 +1,6 @@
+import { SurveyService } from './shared/services/survey.service';
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SurveyService } from './survey.service';
 
 describe('SurveyService', () => {
   beforeEach(() => {

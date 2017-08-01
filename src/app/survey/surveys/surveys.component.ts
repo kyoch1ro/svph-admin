@@ -1,3 +1,4 @@
+import { SurveyService } from '../shared/services/survey.service';
 import { ISurveyForList } from '../shared/survey.interface';
 import 'rxjs/add/operator/mergeMap';
 
@@ -8,7 +9,7 @@ import { IAlert } from 'app/core/contracts/i-alert';
 import { ISurveyService } from 'app/core/contracts/i-http-services';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { SurveyService } from './../survey.service';
+
 
 
 @Component({

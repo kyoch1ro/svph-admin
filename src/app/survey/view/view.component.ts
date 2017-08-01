@@ -1,3 +1,7 @@
+import { DurationService } from '../shared/services/duration.service';
+import { SurveyService } from '../shared/services/survey.service';
+import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/form.service';
+
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 
@@ -8,19 +12,25 @@ import { Observable } from 'rxjs/Rx';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
-import { IOptionService, IQuestionService, ISurveyService } from '../../core/contracts/i-http-services';
+import {
+    IOptionService,
+    IQuestionService,
+    ISurveyDurationService,
+    ISurveyService,
+} from '../../core/contracts/i-http-services';
 import { OptionService } from '../question/option/option.service';
 import { QuestionService } from '../question/question.service';
 import { IOption, IQuestion, IQuestionOption, ISurveyQuestion } from '../shared/survey.interface';
 import { Survey } from '../survey.model';
-import { SurveyService } from '../survey.service';
+
 
 
 
 @Component({
   selector: 'sur-view',
   templateUrl: './view.component.html',
-  styleUrls: ['./view.component.scss']
+  styleUrls: ['./view.component.scss'],
+  providers: [ SURVEY_FORM_PROVIDER ]
 })
 export class ViewComponent implements OnInit {
   survey: Survey;
@@ -39,6 +49,8 @@ export class ViewComponent implements OnInit {
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
               @Inject(QuestionService) private _questionSrvc: IQuestionService,
               @Inject(OptionService) private _optionSrvc: IOptionService,
+              @Inject(DurationService) private _durSrvc: ISurveyDurationService,
+              private surveyFormSrvc: SurveyFormService,
               private _route: ActivatedRoute,
 
               private modalService: NgbModal) { }
@@ -49,31 +61,26 @@ export class ViewComponent implements OnInit {
         this._surveySrvc.getById(params['id']),
         this._questionSrvc.list(params['id'])
       ])).map((data: any) => {
-        const survey : ISurveyQuestion = data[0].survey;
-        const questions: IQuestionOption[] = [];
+        const survey: ISurveyQuestion = data[0].survey;
+        let questions: IQuestionOption[] = [];
+        const items: IQuestionOption[] = data[1].questionnaire;
 
-        const items = data[1].questionnaire;
-        items.filter(parent => parent.question_parent === 0).map(
-          question => {
-            question.survey_id = survey.id;
-            question.options.map(opt => {
-              opt.question_id = question.question_id;
-            })
-            question.childrens = [];
-            questions.push(question)
-          }
-        )
-
-        items.filter(children => children.question_parent > 0).map(
-          children => {
-            const parent_indx = questions.findIndex(ques => ques.question_id === children.question_parent);
-            children.survey_id = survey.id;
-            children.options.map(opt => {
-              opt.question_id = children.question_id;
-            })
-            questions[parent_indx].childrens.push(children);
-          }
-        )
+        questions = items.filter(item => +item.question_parent === 0)
+                    .reduce((prev: IQuestionOption[], curr: IQuestionOption) => {
+                      curr.survey_id = survey.id;
+                      curr.options = curr.options.map(opt => Object.assign({}, opt, { question_id: curr.question_id}))
+                      curr.childrens = [];
+                      return [...prev, curr];
+                    }, []);
+        items.filter(item => +item.question_parent > 0)
+        .map(child => {
+          const parent_indx = questions.findIndex(parent => parent.question_id === +child.question_parent);
+          child = Object.assign({}, child, {
+            survey_id: survey.id,
+            options: child.options.map(opt => Object.assign({}, opt, { question_id: child.question_id}))
+          })
+          questions[parent_indx].childrens.push(child);
+        })
         survey.questions = questions;
         return survey;
       })
@@ -97,9 +104,9 @@ export class ViewComponent implements OnInit {
     });
   }
 
-  updateQuestion(event : IQuestion){
+  updateQuestion(event: IQuestion) {
     this.isQuestionPending[event.question_id] = true;
-    const update_que_sub : ISubscription = 
+    const update_que_sub: ISubscription =
       this._questionSrvc.update(event).subscribe(
         data => {},
         err => {
