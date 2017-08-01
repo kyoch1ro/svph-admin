@@ -100,7 +100,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
       this.duration$ = this._surveyFormSrvc.duration$.subscribe(data => {
         if (+data.id === 0) {
-          this._durSrvc.add(data);
+          this._addDuration(data);
         }else {
           this._updateDuration(data);
         }
@@ -109,8 +109,14 @@ export class ViewComponent implements OnInit, OnDestroy {
 
 
 
-  private _updateDuration(data) {
-    this._durSrvc.update(data).take(1).subscribe(res => console.log(res));
+  private _updateDuration(data: ISurveyDuration) {
+    const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
+    this._durSrvc.update(updatedItem).take(1).subscribe(res => console.log(res));
+  }
+
+  private _addDuration(data: ISurveyDuration){
+    const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
+    this._durSrvc.add(updatedItem).take(1).subscribe(res => console.log(res))
   }
 
   open(content) {

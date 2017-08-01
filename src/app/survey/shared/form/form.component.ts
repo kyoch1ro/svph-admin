@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -40,7 +41,8 @@ export class FormComponent implements OnInit, IFormComponent  {
 
   constructor(private fb: FormBuilder,
               @Inject(CategoryService) private _categorySrvc: ICategoryService,
-              @Inject(TypeService) private _typeSrvc: ITypeService) { }
+              @Inject(TypeService) private _typeSrvc: ITypeService,
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this._initializeForm();
@@ -101,6 +103,10 @@ export class FormComponent implements OnInit, IFormComponent  {
       survey_isactive: ['', Validators.required],
       survey_isdeleted: ['', Validators.required]
     })
+  }
+
+  open(content) {
+    this.modalService.open(content);
   }
 
   toggleControls(data: boolean) {

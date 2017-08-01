@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
     this.alert = { msg: "", status: ""};
     let subs : ISubscription = this._auth.login(event.email, event.password).subscribe(
       data => { 
-        localStorage.setItem('token',data.token);
-         
+        localStorage.setItem('token', data.token);
       },
       err => { 
         switch (err['status']) {

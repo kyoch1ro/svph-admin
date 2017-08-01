@@ -20,8 +20,7 @@ export class DurationService implements ISurveyDurationService<ISurveyDuration> 
     }
     add(item: ISurveyDuration): Observable<ISurveyDuration> {
       const token = AuthService.getToken();
-      
-      return this._http.post(`${apiUrl}/duration`, item, HttpHelper.RequestOptions).map(data => data.json());
+      return this._http.post(`${apiUrl}/duration?token=${token}`, item, HttpHelper.RequestOptions).map(data => data.json());
     }
     delete(id: number): Observable<ISurveyDuration>{
       return
@@ -35,11 +34,12 @@ export class DurationService implements ISurveyDurationService<ISurveyDuration> 
         headers: headers
       })
       return this._http.post(`${apiUrl}/duration/${item.id}?token=${token}`,
-        JSON.stringify(item) , options).map(data => data.json());
+        JSON.stringify(item), options).map(data => data.json());
     }
     count(): Observable<ISurveyDuration>{
       return
     }
+    
 }
 
 
