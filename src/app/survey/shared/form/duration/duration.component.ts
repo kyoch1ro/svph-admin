@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISurveyDuration } from './../../survey.interface';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { SurveyFormService } from 'app/survey/shared/form/form.service';
 @Component({
   selector: 'app-survey-duration',
   templateUrl: './duration.component.html',
@@ -20,8 +21,6 @@ export class DurationComponent implements OnInit, IFormComponent {
 
   form: FormGroup;
 
-
-
   private initialValue: ISurveyDuration = {
     id: 0,
     survey_id: 0,
@@ -35,13 +34,18 @@ export class DurationComponent implements OnInit, IFormComponent {
   private _duration: BehaviorSubject<ISurveyDuration> = new BehaviorSubject<ISurveyDuration>(this.initialValue);
   private _ispending = new BehaviorSubject<boolean>(false);
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private _surveyFormSrvc: SurveyFormService) { }
 
   ngOnInit() {
     this._initializeForm();
     this._duration.subscribe((newDuration: ISurveyDuration) => {
       this.form.patchValue(newDuration);
     })
+  }
+
+  onSubmit(data: ISurveyDuration) {
+    this._surveyFormSrvc.submitDuration(data);
   }
 
 

@@ -9,7 +9,7 @@ import { apiUrl, baseApiUrl, devBaseApiUrl } from 'app/core/global.const';
 @Injectable()
 export class SurveyService implements ISurveyService {
 
-  constructor(private _http: Http,@Inject(AuthService) private _auth : iAuth ) { }
+  constructor(private _http: Http, @Inject(AuthService) private _auth : iAuth ) { }
 
 
   
@@ -47,11 +47,11 @@ export class SurveyService implements ISurveyService {
   }
   update(data: any): Observable<any>{
     const token = AuthService.getToken();
-    let id = data['id'];
-    var headers = new Headers();
+    const id = data['id'];
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('X-HTTP-Method-Override', 'PUT');
-    var options = new RequestOptions({
+    const options = new RequestOptions({
       headers : headers
     })
     return this._http.post(`${apiUrl}/survey/${id}?token=${token}`,JSON.stringify(data),options)

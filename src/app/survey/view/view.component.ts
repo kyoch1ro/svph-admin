@@ -5,7 +5,7 @@ import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/form.ser
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Rx';
@@ -20,7 +20,7 @@ import {
 } from '../../core/contracts/i-http-services';
 import { OptionService } from '../question/option/option.service';
 import { QuestionService } from '../question/question.service';
-import { IOption, IQuestion, IQuestionOption, ISurveyQuestion } from '../shared/survey.interface';
+import { IOption, IQuestion, IQuestionOption, ISurveyDuration, ISurveyQuestion } from '../shared/survey.interface';
 import { Survey } from '../survey.model';
 
 
@@ -32,7 +32,7 @@ import { Survey } from '../survey.model';
   styleUrls: ['./view.component.scss'],
   providers: [ SURVEY_FORM_PROVIDER ]
 })
-export class ViewComponent implements OnInit {
+export class ViewComponent implements OnInit, OnDestroy {
   survey: Survey;
   isPending: boolean;
 
@@ -46,11 +46,13 @@ export class ViewComponent implements OnInit {
   alert: IAlert;
   modalReference: any;
 
+  duration$: ISubscription;
+
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
               @Inject(QuestionService) private _questionSrvc: IQuestionService,
               @Inject(OptionService) private _optionSrvc: IOptionService,
-              @Inject(DurationService) private _durSrvc: ISurveyDurationService,
-              private surveyFormSrvc: SurveyFormService,
+              @Inject(DurationService) private _durSrvc: ISurveyDurationService<ISurveyDuration>,
+              private _surveyFormSrvc: SurveyFormService,
               private _route: ActivatedRoute,
 
               private modalService: NgbModal) { }
@@ -87,7 +89,6 @@ export class ViewComponent implements OnInit {
       .subscribe(
         data => {
           this.survey = new Survey(data);
-          console.log(this.survey);
         },
         err => {},
         () => {
@@ -96,6 +97,20 @@ export class ViewComponent implements OnInit {
       );
 
 
+
+      this.duration$ = this._surveyFormSrvc.duration$.subscribe(data => {
+        if (+data.id === 0) {
+          this._durSrvc.add(data);
+        }else {
+          this._updateDuration(data);
+        }
+      });
+  }
+
+
+
+  private _updateDuration(data) {
+    this._durSrvc.update(data).take(1).subscribe(res => console.log(res));
   }
 
   open(content) {
@@ -190,6 +205,11 @@ export class ViewComponent implements OnInit {
         add_sub.unsubscribe()
       }
     )
+  }
+
+
+  ngOnDestroy() {
+    this.duration$.unsubscribe();
   }
 
 }

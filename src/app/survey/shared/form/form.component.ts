@@ -12,13 +12,12 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { Survey } from './../../survey.model';
-import { SURVEY_FORM_PROVIDER } from './form.service';
+import { SURVEY_FORM_PROVIDER, SurveyFormService } from './form.service';
 
 @Component({
   selector: 'sur-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
-  // providers: [  ]
+  styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit, IFormComponent  {
   @Input() set survey(val: Survey){
@@ -45,7 +44,6 @@ export class FormComponent implements OnInit, IFormComponent  {
 
   ngOnInit() {
     this._initializeForm();
-
     const cat_sub: ISubscription =  this._categorySrvc.list()
     .subscribe(
       data => { this.categories = <ICategoryDTO[]> data['category'] },

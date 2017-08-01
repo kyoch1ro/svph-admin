@@ -1,28 +1,36 @@
 <form action="" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
   <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="start_date">From</label>
-          <input class="form-control" type="datetime-local" value=""
-                  formControlName="start_date">
-          <small *ngIf="form.controls['start_date'].touched &&
-                        form.controls['start_date'].hasError('required')" 
-              class="form-text text-danger">This is a required field.</small>
-      </div>
-    </div>
-    <div class="col-md-6">
+      <div class="col-md-5">
         <div class="form-group">
-          <label for="end_date">To</label>
-          <input class="form-control" type="datetime-local" value=""
-                  formControlName="end_date">
-          <small *ngIf="form.controls['end_date'].touched &&
-                        form.controls['end_date'].hasError('required')" 
+          <label for="start_date">From</label>
+            <input class="form-control" type="datetime-local" value=""
+                    formControlName="start_date">
+            <small *ngIf="form.controls['start_date'].touched &&
+                          form.controls['start_date'].hasError('required')" 
+                class="form-text text-danger">This is a required field.</small>
+        </div>
+      </div>
+      <div class="col-md-5">
+          <div class="form-group">
+            <label for="end_date">To</label>
+            <input class="form-control" type="datetime-local" value=""
+                    formControlName="end_date">
+            <small *ngIf="form.controls['end_date'].touched &&
+                          form.controls['end_date'].hasError('required')" 
+                class="form-text text-danger">This is a required field.</small>
+          </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="reward_point">Reward</label>
+          <input class="form-control" type="number" value=""
+                  formControlName="reward_point">
+          <small *ngIf="form.controls['reward_point'].touched &&
+                        form.controls['reward_point'].hasError('required')" 
               class="form-text text-danger">This is a required field.</small>
         </div>
     </div>
   </div>
+  <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
 </form>
-
-<p>
-  {{duration | json}}
-</p>
+<br>
