@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
 
 import { PagesRoutingModule } from './pages-routing.module';
-import { OptionModule } from './question/option/option.module';
-import { QuestionModule } from './question/question.module';
 import { CATEGORY_PROVIDERS } from './services/category.service';
 import { SURVEY_DURATION_PROVIDERS } from './services/duration.service';
 import { OPTION_PROVIDERS } from './services/option.service';
