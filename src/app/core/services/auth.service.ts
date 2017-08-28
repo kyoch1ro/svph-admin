@@ -1,14 +1,17 @@
-import { HttpHelper } from '../helpers/http-helper';
-import { IUser } from '../contracts/i-user';
-import { BehaviorSubject } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { apiUrl } from './../global.const';
 import 'rxjs/add/operator/map';
-import { iAuth } from 'app/core/contracts/iAuth';
+
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
+import { iAuth } from 'app/core/contracts/iAuth';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/Rx';
 import { ISubscription } from 'rxjs/Subscription';
+
+import { IUser } from '../contracts/i-user';
+import { HttpHelper } from '../helpers/http-helper';
+import { apiUrl } from './../global.const';
+
 @Injectable()
 export class AuthService implements iAuth {
   private _initialData: IUser = {
@@ -61,9 +64,9 @@ export class AuthService implements iAuth {
   getUser(): string {
     return;
   }
-  isLoggedIn(): Observable<boolean>{
+  isLoggedIn(): Observable<boolean> {
     if (AuthService.getToken()) {
-      return this.checkTokenValidity().map(() =>{
+      return this.checkTokenValidity().map(() => {
         this.setUserInfo();
         return true;
       })
@@ -102,6 +105,6 @@ export class AuthService implements iAuth {
 
 
 
-export const AUTH_PROVIDERS: Array<any>=[
-  { provide: AuthService ,useClass: AuthService }
+export const AUTH_PROVIDERS: Array<any> = [
+  { provide: AuthService , useClass: AuthService }
 ]

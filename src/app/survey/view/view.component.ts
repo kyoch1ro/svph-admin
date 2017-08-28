@@ -182,7 +182,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       }
     )
   }
-  updateSurvey(event){
+  updateSurvey(event) {
     this.isPending = true;
     const upd_sur: ISubscription = this._surveySrvc.update(event).subscribe(
       data => {},
@@ -197,7 +197,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       );
   }
 
-  addSubQuestion(index,event){
+  addSubQuestion(index, event) {
     this.isQuestionPending[0] = true;
     const add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
       data => {
