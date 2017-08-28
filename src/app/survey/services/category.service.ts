@@ -23,7 +23,6 @@ export class CategoryService implements ICategoryService{
            .map((res: Response) => res.json());
   }
 
-  
   add(data: any): Observable<any>{
     return;
   }
