@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { QUESTION_PROVIDERS } from './question.service';
 import { OptionModule } from './option/option.module';
 @NgModule({
   imports: [
@@ -11,6 +10,6 @@ import { OptionModule } from './option/option.module';
     
   ],
   declarations: [],
-  providers: [QUESTION_PROVIDERS]
+  providers: []
 })
 export class QuestionModule { }

@@ -1,3 +1,4 @@
+import { QUESTION_PROVIDERS } from './services/question.service';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
 
@@ -34,7 +35,8 @@ import { ViewComponent } from './view/view.component';
   providers: [
     SURVEY_PROVIDERS,
     SURVEY_DURATION_PROVIDERS,
-    CATEGORY_PROVIDERS
+    CATEGORY_PROVIDERS,
+    QUESTION_PROVIDERS
   ]
 })
 export class SurveyModule { }
