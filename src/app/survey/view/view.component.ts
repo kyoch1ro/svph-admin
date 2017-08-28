@@ -8,12 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
-import {
-    IOptionService,
-    IQuestionService,
-    ISurveyDurationService,
-    ISurveyService,
-} from '../../core/contracts/i-http-services';
+import { ISurveyDurationService, ISurveyService } from '../../core/contracts/i-http-services';
 import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
@@ -50,7 +45,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   duration$: ISubscription;
 
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
-              @Inject(QuestionService) private _questionSrvc: IQuestionService,
+              private _questionSrvc: QuestionService,
               private _optionSrvc: OptionService,
               @Inject(DurationService) private _durSrvc: ISurveyDurationService<ISurveyDuration>,
               private _surveyFormSrvc: SurveyFormService,
@@ -62,7 +57,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       this._route.params.switchMap((params: Params) =>
       Observable.forkJoin([
         this._surveySrvc.getById(params['id']),
-        this._questionSrvc.list(params['id'])
+        this._questionSrvc.listBySurveyId(params['id'])
       ])).map((data: any) => {
         const survey: ISurveyQuestion = data[0].survey;
         let questions: IQuestionOption[] = [];
@@ -145,7 +140,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   addQuestion(event) {
     this.isQuestionPending[0] = true;
     event['survey_id'] = this.survey.id;
-    const add_que: ISubscription = this._questionSrvc.add(event).subscribe(
+    const add_que: ISubscription = this._questionSrvc.create(event).subscribe(
       data => {
         if (data['question'].option_type === 'enums' || data['question'].option_type === 'text') {
           this._addDefaultOption(data['question'].question_id);
@@ -200,7 +195,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   addSubQuestion(index, event) {
     this.isQuestionPending[0] = true;
-    const add_sub: ISubscription =  this._questionSrvc.add(event).subscribe(
+    const add_sub: ISubscription =  this._questionSrvc.create(event).subscribe(
       data => {
         this.survey.questions[index].childrens.push(data)
       },
