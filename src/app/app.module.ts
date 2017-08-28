@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CoreModule }  from 'app/core/core.module';
+import { CoreModule } from 'app/core/core.module';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 

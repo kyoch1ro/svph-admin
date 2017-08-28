@@ -1,4 +1,4 @@
-import { SURVEY_TYPE_PROVIDERS } from './services/type.service';
+import { SURVEY_TYPE_PROVIDERS } from './services/survey-type.service';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
 
