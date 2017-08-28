@@ -1,19 +1,18 @@
-import { SurveyTypeService } from '../../../services/type.service';
-import { ITypeDTO } from '../../interfaces/i-type';
-import { Survey } from '../../../survey.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SurveyTypeService } from '../../../services/survey-type.service';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IAlert } from 'app/core/contracts/i-alert';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
-import { ICategoryService, ITypeService } from 'app/core/contracts/i-http-services';
+import { ICategoryService } from 'app/core/contracts/i-http-services';
 import { CategoryService } from 'app/survey/services/category.service';
 import { ICategoryDTO } from 'app/survey/shared/interfaces/i-category';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { SURVEY_FORM_PROVIDER, SurveyFormService } from './form.service';
+import { Survey } from '../../../survey.model';
+import { ITypeDTO } from '../../interfaces/i-type';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -42,7 +41,7 @@ export class FormComponent implements OnInit, IFormComponent  {
 
   constructor(private fb: FormBuilder,
               @Inject(CategoryService) private _categorySrvc: ICategoryService,
-              @Inject(SurveyTypeService) private _typeSrvc: ITypeService,
+              private _typeSrvc: SurveyTypeService,
               private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -55,7 +54,7 @@ export class FormComponent implements OnInit, IFormComponent  {
         cat_sub.unsubscribe()
       });
 
-    const typ_sub: ISubscription = this._typeSrvc.list()
+    const typ_sub: ISubscription = this._typeSrvc.getAll()
     .subscribe(
       data => { this.types = <ITypeDTO[]> data.type},
       err => {},
