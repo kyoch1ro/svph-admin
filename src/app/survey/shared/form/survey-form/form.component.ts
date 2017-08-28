@@ -1,3 +1,4 @@
+import { Survey } from '../../../survey.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
@@ -12,10 +13,10 @@ import { TypeService } from 'app/survey/type/type.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { Survey } from './../../survey.model';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from './form.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'sur-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']

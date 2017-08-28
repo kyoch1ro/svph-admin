@@ -11,23 +11,23 @@ import { apiUrl, baseApiUrl, devBaseApiUrl } from 'app/core/global.const';
 @Injectable()
 export class QuestionService implements IQuestionService {
 
-  constructor(private _http: Http,@Inject(AuthService) private _auth : iAuth ) { }
+  constructor(private _http: Http, @Inject(AuthService) private _auth : iAuth ) { }
 
   getById(id: number): Observable<any>{
     return;
   }
 
-  list(id: number): Observable<any>{
+  list(id: number): Observable<any> {
     const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/surveyQuestionnaire/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
-  
+
   add(data: any): Observable<any>{
     const token = AuthService.getToken();
-    var headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    var options = new RequestOptions({
+    const options = new RequestOptions({
       headers : headers
     })
     return this._http.post(`${apiUrl}/question?token=${token}`,JSON.stringify(data),options)
@@ -38,21 +38,21 @@ export class QuestionService implements IQuestionService {
   }
   update(data: any): Observable<any>{
     const token = AuthService.getToken();
-    var headers = new Headers();
-    let id = data['question_id'] 
+    const headers = new Headers();
+    const id = data['question_id'];
     headers.append('Content-Type', 'application/json');
     headers.append('X-HTTP-Method-Override', 'PUT');
-    var options = new RequestOptions({
+    const options = new RequestOptions({
       headers : headers
     })
     return this._http.post(`${apiUrl}/question/${id}?token=${token}`,JSON.stringify(data),options)
           .map((res: Response) => res.json());
   }
-  count(): Observable<any>{
+  count(): Observable<any> {
     return;
   }
 
 }
-export const QUESTION_PROVIDERS: Array<any>=[
-  { provide: QuestionService ,useClass: QuestionService }
+export const QUESTION_PROVIDERS: Array<any> = [
+  { provide: QuestionService , useClass: QuestionService }
 ]

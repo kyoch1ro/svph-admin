@@ -1,7 +1,3 @@
-import { DurationService } from '../services/duration.service';
-import { SurveyService } from '../services/survey.service';
-import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/form.service';
-
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 
@@ -20,8 +16,12 @@ import {
 } from '../../core/contracts/i-http-services';
 import { OptionService } from '../question/option/option.service';
 import { QuestionService } from '../question/question.service';
+import { DurationService } from '../services/duration.service';
+import { SurveyService } from '../services/survey.service';
+import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
 import { IOption, IQuestion, IQuestionOption, ISurveyDuration, ISurveyQuestion } from '../shared/survey.interface';
 import { Survey } from '../survey.model';
+
 
 
 

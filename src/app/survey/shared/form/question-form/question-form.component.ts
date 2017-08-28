@@ -1,4 +1,3 @@
-import { IOption, IQuestion, IQuestionOption } from '../../../shared/survey.interface';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,15 +8,19 @@ import { OptionService } from 'app/survey/question/option/option.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { Question } from './../../question.model';
+import { IOption, IQuestion, IQuestionOption } from '../../../shared/survey.interface';
+import { Question } from './question.model';
+
+
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'sur-que-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  templateUrl: './question-form.component.html',
+  styleUrls: ['./question-form.component.scss']
 })
-export class FormComponent implements OnInit, IFormComponent {
+export class QuestionFormComponent implements OnInit, IFormComponent {
   @Input() btnLabel = 'Add';
   @Input() set question(val: IQuestionOption){
     this._question.next(new Question(val));

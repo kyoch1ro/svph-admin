@@ -7,8 +7,9 @@ import { QuestionModule } from './question/question.module';
 import { CATEGORY_PROVIDERS } from './services/category.service';
 import { SURVEY_DURATION_PROVIDERS } from './services/duration.service';
 import { SURVEY_PROVIDERS } from './services/survey.service';
-import { DurationComponent } from './shared/form/duration/duration.component';
-import { FormComponent } from './shared/form/form.component';
+import { QuestionFormComponent } from './shared/form/question-form/question-form.component';
+import { DurationComponent } from './shared/form/survey-form/duration/duration.component';
+import { FormComponent as SurveyForm } from './shared/form/survey-form/form.component';
 import { SurveyComponent } from './survey.component';
 import { SurveysComponent } from './surveys/surveys.component';
 import { TypeModule } from './type/type.module';
@@ -26,8 +27,9 @@ import { ViewComponent } from './view/view.component';
     SurveyComponent,
     SurveysComponent,
     ViewComponent,
-    FormComponent,
-    DurationComponent
+    SurveyForm,
+    DurationComponent,
+    QuestionFormComponent
   ],
   providers: [
     SURVEY_PROVIDERS,

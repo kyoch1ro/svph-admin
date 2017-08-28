@@ -1,7 +1,7 @@
-import { IOption, IQuestionOption } from '../shared/survey.interface';
+import { IOption, IQuestionOption } from '../../survey.interface';
 
 
-export class Question implements IQuestionOption{
+export class Question implements IQuestionOption {
     question_id: number;
     survey_id: number;
     question_parent: number;
@@ -13,7 +13,7 @@ export class Question implements IQuestionOption{
     options: IOption[];
     childrens: IQuestionOption[];
 
-    constructor(obj?: any){
+    constructor(obj?: any) {
         this.question_id = obj && obj.question_id || 0;
         this.survey_id = obj && obj.survey_id || 0;
         this.question_parent = obj && obj.question_parent || 0;

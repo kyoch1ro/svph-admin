@@ -1,10 +1,13 @@
+import { SurveyFormService } from '../form.service';
+import { ISurveyDuration } from '../../../survey.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ISurveyDuration } from './../../survey.interface';
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { SurveyFormService } from 'app/survey/shared/form/form.service';
+// MAKE THIS DUMB COMPONENT REMOVED THE SURVEYFORM SERVICE
+
 @Component({
   selector: 'app-survey-duration',
   templateUrl: './duration.component.html',
