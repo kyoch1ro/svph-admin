@@ -8,7 +8,7 @@ import { OptionModule } from './option/option.module';
     SharedModule,
     OptionModule
   ],
-  exports:[
+  exports: [
     FormComponent
   ],
   declarations: [FormComponent],

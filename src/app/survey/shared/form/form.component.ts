@@ -6,7 +6,7 @@ import { IAlert } from 'app/core/contracts/i-alert';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { ICategoryService, ITypeService } from 'app/core/contracts/i-http-services';
 import { CategoryService } from 'app/survey/category/category.service';
-import { ICategoryDTO } from 'app/survey/category/i-category';
+import { ICategoryDTO } from 'app/survey/shared/interfaces/i-category';
 import { ITypeDTO } from 'app/survey/type/i-type';
 import { TypeService } from 'app/survey/type/type.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
