@@ -31,8 +31,8 @@ export class AuthService implements iAuth {
   constructor(private _http: Http,
               private _route: Router) { }
 
-  login(user: string, password: string): Observable<any>{
-    return this._http.post(`${apiUrl}/signin`,{
+  login(user: string, password: string): Observable<any> {
+    return this._http.post(`${apiUrl}/signin`, {
       'email': user,
       'password': password
     }, HttpHelper.RequestOptions).map(data => data.json());

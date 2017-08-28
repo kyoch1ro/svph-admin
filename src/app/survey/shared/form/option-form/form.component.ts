@@ -33,7 +33,7 @@ export class OptionFormComponent implements OnInit, IFormComponent {
   get isPending(){
     return this._ispending.getValue();
   }
-  @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+  @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
   private _ispending: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _option: BehaviorSubject<Option> = new BehaviorSubject<Option>(new Option());
   form: FormGroup;
