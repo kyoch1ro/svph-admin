@@ -51,7 +51,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
               @Inject(QuestionService) private _questionSrvc: IQuestionService,
-              @Inject(OptionService) private _optionSrvc: IOptionService,
+              private _optionSrvc: OptionService,
               @Inject(DurationService) private _durSrvc: ISurveyDurationService<ISurveyDuration>,
               private _surveyFormSrvc: SurveyFormService,
               private _route: ActivatedRoute,
@@ -175,7 +175,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       question_id: question_id,
       updated_at : ''
     }
-    this._optionSrvc.add(defaultOption).take(1).subscribe(
+    this._optionSrvc.create(defaultOption).take(1).subscribe(
       data => { },
       err => {
         },

@@ -1,5 +1,6 @@
+
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppError } from '../error-handlers/app-error';
@@ -28,11 +29,24 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  create(resource): Observable<any> {
+  create(resource, custom_url?: string): Observable<any> {
     // return Observable.throw(new AppError());
-    return this.http.post(this.url, resource)
-      .map(response => response.json())
-      .catch(this.handleError);
+    const url = (custom_url) ? custom_url : this.url;
+    const token = AuthService.getToken();
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const options = new RequestOptions({
+      headers : headers
+    })
+    return this.http.post(
+      `${url}?token=${token}`,
+      JSON.stringify(resource), options)
+        .map((res: Response) => res.json());
+
+
+    // return this.http.post(this.url, resource)
+    //   .map(response => response.json())
+    //   .catch(this.handleError);
   }
 
   update(resource): Observable<any> {

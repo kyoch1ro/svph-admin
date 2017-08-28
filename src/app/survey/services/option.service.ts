@@ -1,3 +1,4 @@
+import { DataService } from '../../core/services/data.service';
 import { IQuestion } from '../shared/survey.interface';
 import { Inject, Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
@@ -10,44 +11,42 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
-export class OptionService {
+export class OptionService extends DataService {
 
-  constructor(private _http: Http, @Inject(AuthService) private _auth: iAuth ) { }
-  getById(id: number): Observable<any> {
-    return;
+  constructor(http: Http) {
+    const url = `${apiUrl}/option`;
+    super(http, url);
   }
 
-  list(id?: number): Observable<any>{
-    return;
-  }
 
-  add(data: IQuestion): Observable<any>{
+  // add(data: IQuestion): Observable<any>{
+  //   const token = AuthService.getToken();
+  //   const headers = new Headers();
+  //   headers.append('Content-Type', 'application/json');
+  //   const options = new RequestOptions({
+  //     headers : headers
+  //   })
+  //   return this._http.post(`${apiUrl}/option?token=${token}`,JSON.stringify(data),options)
+  //         .map((res: Response) => res.json());
+  // }
+
+  // delete(id: number): Observable<any>{
+  //   return;
+  // }
+
+  update(data: any): Observable<any> {
     const token = AuthService.getToken();
     const headers = new Headers();
+    const id = data['option_id'];
     headers.append('Content-Type', 'application/json');
+    headers.append('X-HTTP-Method-Override', 'PUT');
     const options = new RequestOptions({
       headers : headers
     })
-    return this._http.post(`${apiUrl}/option?token=${token}`,JSON.stringify(data),options)
+    return this.http.post(`${apiUrl}/option/${id}?token=${token}`,JSON.stringify(data),options)
           .map((res: Response) => res.json());
   }
-  delete(id: number): Observable<any>{
-    return;
-  }
-
-  update(data: any): Observable<any>{
-    const token = AuthService.getToken();
-    var headers = new Headers();
-    let id = data['option_id'];
-    headers.append('Content-Type', 'application/json');
-    headers.append('X-HTTP-Method-Override', 'PUT');
-    var options = new RequestOptions({
-      headers : headers
-    })
-    return this._http.post(`${apiUrl}/option/${id}?token=${token}`,JSON.stringify(data),options)
-          .map((res: Response) => res.json());
-  }
-  count(): Observable<any>{
+  count(): Observable<any> {
     return;
   }
 

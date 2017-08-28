@@ -42,7 +42,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
   modalReference: any;
   public isoptionpending = [];
   constructor(private fb: FormBuilder,
-             @Inject(OptionService) private _optionSrvc: IOptionService,
+              private _optionSrvc: OptionService,
               private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -105,7 +105,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
     this.isoptionpending[0] = true;
     event.question_id = this.question.question_id;
     const add_opt: ISubscription =
-      this._optionSrvc.add(event).subscribe(
+      this._optionSrvc.create(event).subscribe(
         data => { this.question.options.push(data['option']); },
         err => {
           this.isoptionpending[0] = false;
