@@ -2,7 +2,7 @@ import { SurveyService } from '../services/survey.service';
 import { ISurveyForList } from '../shared/survey.interface';
 import 'rxjs/add/operator/mergeMap';
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IAlert } from 'app/core/contracts/i-alert';
@@ -18,7 +18,7 @@ import { ISubscription } from 'rxjs/Subscription';
   templateUrl: './surveys.component.html',
   styleUrls: ['./surveys.component.scss']
 })
-export class SurveysComponent implements OnInit {
+export class SurveysComponent implements OnInit, OnDestroy {
 
   alert: IAlert;
   isPending: boolean;
@@ -51,30 +51,30 @@ export class SurveysComponent implements OnInit {
   }
 
   open(content) {
-    this.modalReference = this.modalService.open(content,{
+    this.modalReference = this.modalService.open(content, {
       size: 'lg'
     });
   }
-  addSurvey(event){
+  addSurvey(event) {
     this.isPending = true;
-    let add_sub: ISubscription = this._surveySrvc.add(event).subscribe(
+    const add_sub: ISubscription = this._surveySrvc.add(event).subscribe(
                     data => {
                       this._route.navigate([`/surveys/${data['survey'].id}`])
                     },
                     err => {
-                      this.alert = { msg: "Please try again later", status: "danger" }
+                      this.alert = { msg: 'Please try again later', status: 'danger' }
                       this.isPending = false;
                     },
-                    () => { 
+                    () => {
                       add_sub.unsubscribe();
                     }
                   );
   }
-  view(id: number){
-    this._route.navigate(['surveys',id]);
+  view(id: number) {
+    this._route.navigate(['surveys', id]);
   }
 
-  ngOnDestroy(){
-    if(this.modalReference) { this.modalReference.close();} 
+  ngOnDestroy() {
+    if (this.modalReference) { this.modalReference.close(); }
   }
 }
