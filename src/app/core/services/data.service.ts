@@ -54,7 +54,6 @@ export class DataService {
     return Observable.throw('Not implemented');
   }
 
-  
   handleError(error: Response) {
     switch (error.status) {
       case 400:

@@ -1,4 +1,4 @@
-import { SurveyService } from './shared/services/survey.service';
+import { SurveyService } from './services/survey.service';
 import { TestBed, inject } from '@angular/core/testing';
 
 

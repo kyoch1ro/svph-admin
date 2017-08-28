@@ -1,5 +1,5 @@
-import { DurationService } from '../shared/services/duration.service';
-import { SurveyService } from '../shared/services/survey.service';
+import { DurationService } from '../services/duration.service';
+import { SurveyService } from '../services/survey.service';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/form.service';
 
 import 'rxjs/add/observable/forkJoin';
@@ -27,6 +27,7 @@ import { Survey } from '../survey.model';
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'sur-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss'],
@@ -114,13 +115,13 @@ export class ViewComponent implements OnInit, OnDestroy {
     this._durSrvc.update(updatedItem).take(1).subscribe(res => console.log(res));
   }
 
-  private _addDuration(data: ISurveyDuration){
+  private _addDuration(data: ISurveyDuration) {
     const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
     this._durSrvc.add(updatedItem).take(1).subscribe(res => console.log(res))
   }
 
   open(content) {
-    this.modalReference = this.modalService.open(content,{
+    this.modalReference = this.modalService.open(content, {
       size: 'lg'
     });
   }
@@ -141,7 +142,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       )
   }
 
-  addQuestion(event){
+  addQuestion(event) {
     this.isQuestionPending[0] = true;
     event['survey_id'] = this.survey.id;
     const add_que: ISubscription = this._questionSrvc.add(event).subscribe(
@@ -164,7 +165,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
 
-  private _addDefaultOption(question_id: number){
+  private _addDefaultOption(question_id: number) {
     const defaultOption: IOption = {
       created_at: '',
       option_caption: 'N/A',

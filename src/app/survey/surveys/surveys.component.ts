@@ -1,4 +1,4 @@
-import { SurveyService } from '../shared/services/survey.service';
+import { SurveyService } from '../services/survey.service';
 import { ISurveyForList } from '../shared/survey.interface';
 import 'rxjs/add/operator/mergeMap';
 
@@ -13,6 +13,7 @@ import { ISubscription } from 'rxjs/Subscription';
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'sur-surveys',
   templateUrl: './surveys.component.html',
   styleUrls: ['./surveys.component.scss']
@@ -28,9 +29,9 @@ export class SurveysComponent implements OnInit {
                private _route: Router,
                private modalService: NgbModal) { }
 
-  
+
   ngOnInit() {
-    let subs: ISubscription = this._surveySrvc.list().subscribe(
+    const subs: ISubscription = this._surveySrvc.list().subscribe(
       data => {
         this.surveys = <ISurveyForList[]>data.survey
       },

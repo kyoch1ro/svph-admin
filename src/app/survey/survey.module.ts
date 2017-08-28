@@ -1,5 +1,5 @@
-import { SURVEY_DURATION_PROVIDERS } from './shared/services/duration.service';
-import { SURVEY_PROVIDERS } from './shared/services/survey.service';
+import { SURVEY_DURATION_PROVIDERS } from './services/duration.service';
+import { SURVEY_PROVIDERS } from './services/survey.service';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { PagesRoutingModule } from './pages-routing.module';

@@ -9,43 +9,41 @@ import { apiUrl, baseApiUrl, devBaseApiUrl } from 'app/core/global.const';
 @Injectable()
 export class SurveyService implements ISurveyService {
 
-  constructor(private _http: Http, @Inject(AuthService) private _auth : iAuth ) { }
+  constructor(private _http: Http, @Inject(AuthService) private _auth: iAuth ) { }
 
-
-  
-  getById(id: number): Observable<any>{
+  getById(id: number): Observable<any> {
     const token = AuthService.getToken();
      return this._http.get(`${apiUrl}/survey/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
 
-  getRespondentsCount(id: number): Observable<any>{
+  getRespondentsCount(id: number): Observable<any> {
     const token = AuthService.getToken();
      return this._http.get(`${baseApiUrl}/userAnswerSurvey/${id}?token=${token}`)
       .map((res: Response) => res.json());
   }
-  
-  list(id?: number): Observable<any>{
+
+  list(id?: number): Observable<any> {
     const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/survey?token=${token}`)
       .map((res: Response) => res.json());
   }
-  
-  add(data: any): Observable<any>{
+
+  add(data: any): Observable<any> {
     const token = AuthService.getToken();
-    var headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    var options = new RequestOptions({
+    const options = new RequestOptions({
       headers : headers
     })
 
-    return this._http.post(`${apiUrl}/survey?token=${token}`,JSON.stringify(data),options)
+    return this._http.post(`${apiUrl}/survey?token=${token}`, JSON.stringify(data), options)
           .map((res: Response) => res.json());
   }
-  delete(id: number): Observable<any>{
+  delete(id: number): Observable<any> {
     return;
   }
-  update(data: any): Observable<any>{
+  update(data: any): Observable<any> {
     const token = AuthService.getToken();
     const id = data['id'];
     const headers = new Headers();
@@ -54,10 +52,10 @@ export class SurveyService implements ISurveyService {
     const options = new RequestOptions({
       headers : headers
     })
-    return this._http.post(`${apiUrl}/survey/${id}?token=${token}`,JSON.stringify(data),options)
+    return this._http.post(`${apiUrl}/survey/${id}?token=${token}`, JSON.stringify(data), options)
           .map((res: Response) => res.json());
   }
-  count(): Observable<any>{
+  count(): Observable<any> {
     return;
   }
 }
@@ -65,6 +63,6 @@ export class SurveyService implements ISurveyService {
 
 
 
-export const SURVEY_PROVIDERS: Array<any>=[
-  { provide: SurveyService ,useClass: SurveyService }
+export const SURVEY_PROVIDERS: Array<any> = [
+  { provide: SurveyService , useClass: SurveyService }
 ]
