@@ -7,7 +7,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { apiUrl, baseApiUrl } from 'app/core/global.const';
 
 @Injectable()
-export class TypeService implements ITypeService{
+export class SurveyTypeService implements ITypeService{
 
   constructor(private _http: Http,
               @Inject(AuthService) private _auth : iAuth ) { }
@@ -38,6 +38,6 @@ export class TypeService implements ITypeService{
     return;
   }
 }
-export const TYPE_PROVIDERS: Array<any>=[
-  { provide: TypeService ,useClass: TypeService }
+export const SURVEY_TYPE_PROVIDERS: Array<any> = [
+  { provide: SurveyTypeService , useClass: SurveyTypeService }
 ]

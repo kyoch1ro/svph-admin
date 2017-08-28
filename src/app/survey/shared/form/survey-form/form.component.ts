@@ -1,3 +1,5 @@
+import { SurveyTypeService } from '../../../services/type.service';
+import { ITypeDTO } from '../../interfaces/i-type';
 import { Survey } from '../../../survey.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
@@ -8,8 +10,6 @@ import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { ICategoryService, ITypeService } from 'app/core/contracts/i-http-services';
 import { CategoryService } from 'app/survey/services/category.service';
 import { ICategoryDTO } from 'app/survey/shared/interfaces/i-category';
-import { ITypeDTO } from 'app/survey/type/i-type';
-import { TypeService } from 'app/survey/type/type.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -42,7 +42,7 @@ export class FormComponent implements OnInit, IFormComponent  {
 
   constructor(private fb: FormBuilder,
               @Inject(CategoryService) private _categorySrvc: ICategoryService,
-              @Inject(TypeService) private _typeSrvc: ITypeService,
+              @Inject(SurveyTypeService) private _typeSrvc: ITypeService,
               private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class FormComponent implements OnInit, IFormComponent  {
       err => {},
       () => typ_sub.unsubscribe()
     );
-    this._ispending.subscribe(data=> {
+    this._ispending.subscribe(data => {
       this.toggleControls(data);
     });
 

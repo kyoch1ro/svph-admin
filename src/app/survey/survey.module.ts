@@ -1,3 +1,4 @@
+import { SURVEY_TYPE_PROVIDERS } from './services/type.service';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
 
@@ -13,14 +14,12 @@ import { DurationComponent } from './shared/form/survey-form/duration/duration.c
 import { FormComponent as SurveyForm } from './shared/form/survey-form/form.component';
 import { SurveyComponent } from './survey.component';
 import { SurveysComponent } from './surveys/surveys.component';
-import { TypeModule } from './type/type.module';
 import { ViewComponent } from './view/view.component';
 
 @NgModule({
   imports: [
     PagesRoutingModule,
-    SharedModule,
-    TypeModule
+    SharedModule
   ],
   declarations: [
     SurveyComponent,
@@ -36,7 +35,8 @@ import { ViewComponent } from './view/view.component';
     SURVEY_DURATION_PROVIDERS,
     CATEGORY_PROVIDERS,
     QUESTION_PROVIDERS,
-    OPTION_PROVIDERS
+    OPTION_PROVIDERS,
+    SURVEY_TYPE_PROVIDERS
   ]
 })
 export class SurveyModule { }

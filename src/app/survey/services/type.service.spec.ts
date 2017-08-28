@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { TypeService } from './type.service';
+import { SurveyTypeService } from './type.service';
 
 describe('TypeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TypeService]
+      providers: [SurveyTypeService]
     });
   });
 
-  it('should be created', inject([TypeService], (service: TypeService) => {
+  it('should be created', inject([SurveyTypeService], (service: SurveyTypeService) => {
     expect(service).toBeTruthy();
   }));
 });
