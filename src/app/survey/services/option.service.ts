@@ -1,3 +1,4 @@
+import { IQuestion } from '../shared/survey.interface';
 import { Inject, Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { iAuth } from 'app/core/contracts/iAuth';
@@ -5,15 +6,14 @@ import { apiUrl } from 'app/core/global.const';
 import { AuthService } from 'app/core/services/auth.service';
 import { Observable } from 'rxjs/Observable';
 
-import { IQuestion } from '../../shared/survey.interface';
 
 
 
 @Injectable()
 export class OptionService {
 
-  constructor(private _http: Http,@Inject(AuthService) private _auth : iAuth ) { }
-  getById(id: number): Observable<any>{
+  constructor(private _http: Http, @Inject(AuthService) private _auth: iAuth ) { }
+  getById(id: number): Observable<any> {
     return;
   }
 
@@ -23,9 +23,9 @@ export class OptionService {
 
   add(data: IQuestion): Observable<any>{
     const token = AuthService.getToken();
-    var headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    var options = new RequestOptions({
+    const options = new RequestOptions({
       headers : headers
     })
     return this._http.post(`${apiUrl}/option?token=${token}`,JSON.stringify(data),options)

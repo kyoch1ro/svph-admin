@@ -1,14 +1,15 @@
-import { IOption } from '../../shared/survey.interface';
+import { IOption } from '../../survey.interface';
 
 
-export class Option implements IOption{
-    option_id : number;
-    question_id : number;
-    option_caption : string;
-    option_isactive : number;
-    option_isdeleted : number;
-    created_at : string;
-    updated_at : string;
+
+export class Option implements IOption {
+    option_id: number;
+    question_id: number;
+    option_caption: string;
+    option_isactive: number;
+    option_isdeleted: number;
+    created_at: string;
+    updated_at: string;
 
     constructor(obj? : any){
         this.option_id          = obj && obj.option_id  || 0;

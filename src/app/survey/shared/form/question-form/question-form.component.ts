@@ -1,10 +1,10 @@
+import { OptionService } from '../../../services/option.service';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { IOptionService } from 'app/core/contracts/i-http-services';
-import { OptionService } from 'app/survey/question/option/option.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 

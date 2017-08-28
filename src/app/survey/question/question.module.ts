@@ -7,7 +7,6 @@ import { OptionModule } from './option/option.module';
     OptionModule
   ],
   exports: [
-    
   ],
   declarations: [],
   providers: []

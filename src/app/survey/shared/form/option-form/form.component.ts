@@ -1,22 +1,24 @@
-import { IOption, IQuestion } from '../../../../shared/survey.interface';
+import { IOption } from '../../survey.interface';
+import { Option } from './option.model';
 import { Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Option } from './../../option.model';
+
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'sur-que-opt-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit,IFormComponent {
+export class OptionFormComponent implements OnInit, IFormComponent {
   @HostBinding('class') cssClass = 'm-bottom-sm d-block';
-  @Input() btnLabel : string = "Add";
-  @Input() 
+  @Input() btnLabel= 'Add';
+  @Input()
   set option(val: IOption){
     this._option.next(new Option(val));
   }
@@ -31,8 +33,8 @@ export class FormComponent implements OnInit,IFormComponent {
   get isPending(){
     return this._ispending.getValue();
   }
-  @Output() formSubmit : EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
-  private _ispending : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>(); //OUTPUT
+  private _ispending: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _option: BehaviorSubject<Option> = new BehaviorSubject<Option>(new Option());
   form: FormGroup;
   constructor(private fb: FormBuilder) { }
