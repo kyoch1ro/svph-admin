@@ -1,3 +1,4 @@
+import { BadInputError } from '../../core/error-handlers/bad-input-error';
 import { DataService } from '../../core/services/data.service';
 import { IQuestion } from '../shared/survey.interface';
 import { Inject, Injectable } from '@angular/core';
@@ -18,39 +19,18 @@ export class OptionService extends DataService {
     super(http, url);
   }
 
-
-  // add(data: IQuestion): Observable<any>{
-  //   const token = AuthService.getToken();
-  //   const headers = new Headers();
-  //   headers.append('Content-Type', 'application/json');
-  //   const options = new RequestOptions({
-  //     headers : headers
-  //   })
-  //   return this._http.post(`${apiUrl}/option?token=${token}`,JSON.stringify(data),options)
-  //         .map((res: Response) => res.json());
-  // }
-
-  // delete(id: number): Observable<any>{
-  //   return;
-  // }
-
   update(data: any): Observable<any> {
-    const token = AuthService.getToken();
-    const headers = new Headers();
     const id = data['option_id'];
-    headers.append('Content-Type', 'application/json');
-    headers.append('X-HTTP-Method-Override', 'PUT');
-    const options = new RequestOptions({
-      headers : headers
-    })
-    return this.http.post(`${apiUrl}/option/${id}?token=${token}`,JSON.stringify(data),options)
-          .map((res: Response) => res.json());
+    if (!id) { return Observable.throw(new BadInputError('Id is not defined'))}
+    const url = `${this.url}/${id}`;
+    return super.update(data, url);
   }
+
   count(): Observable<any> {
     return;
   }
 
 }
 export const OPTION_PROVIDERS: Array<any>=[
-  { provide: OptionService ,useClass: OptionService }
+  { provide: OptionService , useClass: OptionService }
 ]

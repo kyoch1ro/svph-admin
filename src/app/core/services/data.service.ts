@@ -49,8 +49,19 @@ export class DataService {
     //   .catch(this.handleError);
   }
 
-  update(resource): Observable<any> {
-    return Observable.throw('Not implemented');
+  update(resource, custom_url?: string): Observable<any> {
+    const url = (custom_url) ? custom_url : this.url;
+    const token = AuthService.getToken();
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('X-HTTP-Method-Override', 'PUT');
+    const options = new RequestOptions({
+      headers : headers
+    })
+    return this.http.post(
+      `${url}?token=${token}`,
+      JSON.stringify(resource), options)
+        .map((res: Response) => res.json());
   }
 
   delete(id) {

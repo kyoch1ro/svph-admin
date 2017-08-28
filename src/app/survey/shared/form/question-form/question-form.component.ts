@@ -119,16 +119,17 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
 
   updateOption(event: IOption) {
     this.isoptionpending[event.option_id] = true;
-    const update_opt: ISubscription =  this._optionSrvc.update(event).subscribe(
-      data => {},
-      err => {
-        this.isoptionpending[event.option_id] = false;
-      },
-      () => {
-        this.isoptionpending[event.option_id] = false;
-        update_opt.unsubscribe();
-      }
-    )
+    const update_opt: ISubscription =
+      this._optionSrvc.update(event).subscribe(
+        data => { },
+        err => {
+          this.isoptionpending[event.option_id] = false;
+        },
+        () => {
+          this.isoptionpending[event.option_id] = false;
+          update_opt.unsubscribe();
+        }
+      )
   }
 
 
