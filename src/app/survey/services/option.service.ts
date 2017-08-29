@@ -31,6 +31,6 @@ export class OptionService extends DataService {
   }
 
 }
-export const OPTION_PROVIDERS: Array<any>=[
+export const OPTION_PROVIDERS: Array<any> = [
   { provide: OptionService , useClass: OptionService }
 ]

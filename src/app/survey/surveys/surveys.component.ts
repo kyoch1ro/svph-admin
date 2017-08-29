@@ -25,29 +25,19 @@ export class SurveysComponent implements OnInit, OnDestroy {
   surveys: ISurveyForList[] = [];
 
   modalReference: any;
-  constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
+  constructor(private _surveySrvc: SurveyService,
                private _route: Router,
                private modalService: NgbModal) { }
 
 
   ngOnInit() {
-    const subs: ISubscription = this._surveySrvc.list().subscribe(
+    const subs: ISubscription = this._surveySrvc.getAll().subscribe(
       data => {
         this.surveys = <ISurveyForList[]>data.survey
       },
       err => {},
       () => subs.unsubscribe()
     )
-
-
-    //     this._surveySrvc.list().flatMap((survey: any) => {
-    //   return this._surveySrvc.getRespondentsCount(survey.id)
-    //   .map((res: any) => res.json())
-    // }).subscribe(
-    //   data=> console.log(data)
-    // );
-
-
   }
 
   open(content) {
@@ -57,7 +47,7 @@ export class SurveysComponent implements OnInit, OnDestroy {
   }
   addSurvey(event) {
     this.isPending = true;
-    const add_sub: ISubscription = this._surveySrvc.add(event).subscribe(
+    const add_sub: ISubscription = this._surveySrvc.create(event).subscribe(
                     data => {
                       this._route.navigate([`/surveys/${data['survey'].id}`])
                     },

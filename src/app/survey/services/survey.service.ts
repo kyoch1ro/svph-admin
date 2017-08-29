@@ -1,63 +1,34 @@
-import { Injectable, Inject } from '@angular/core';
+import { BadInputError } from '../../core/error-handlers/bad-input-error';
+import { DataService } from '../../core/services/data.service';
+import { Injectable } from '@angular/core';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { ISurveyService } from 'app/core/contracts/i-http-services';
-import { Observable } from 'rxjs/Observable';
-import { iAuth } from 'app/core/contracts/iAuth';
+import { apiUrl, baseApiUrl } from 'app/core/global.const';
 import { AuthService } from 'app/core/services/auth.service';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { apiUrl, baseApiUrl, devBaseApiUrl } from 'app/core/global.const';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class SurveyService implements ISurveyService {
+export class SurveyService extends DataService {
 
-  constructor(private _http: Http, @Inject(AuthService) private _auth: iAuth ) { }
-
-  getById(id: number): Observable<any> {
-    const token = AuthService.getToken();
-     return this._http.get(`${apiUrl}/survey/${id}?token=${token}`)
-      .map((res: Response) => res.json());
+  constructor(http: Http) {
+    const url = `${apiUrl}/survey`;
+    super(http, url);
   }
 
   getRespondentsCount(id: number): Observable<any> {
     const token = AuthService.getToken();
-     return this._http.get(`${baseApiUrl}/userAnswerSurvey/${id}?token=${token}`)
-      .map((res: Response) => res.json());
+     return this.http.get(`${baseApiUrl}/userAnswerSurvey/${id}?token=${token}`)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
   }
 
-  list(id?: number): Observable<any> {
-    const token = AuthService.getToken();
-    return this._http.get(`${apiUrl}/survey?token=${token}`)
-      .map((res: Response) => res.json());
-  }
-
-  add(data: any): Observable<any> {
-    const token = AuthService.getToken();
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({
-      headers : headers
-    })
-
-    return this._http.post(`${apiUrl}/survey?token=${token}`, JSON.stringify(data), options)
-          .map((res: Response) => res.json());
-  }
-  delete(id: number): Observable<any> {
-    return;
-  }
   update(data: any): Observable<any> {
-    const token = AuthService.getToken();
     const id = data['id'];
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('X-HTTP-Method-Override', 'PUT');
-    const options = new RequestOptions({
-      headers : headers
-    })
-    return this._http.post(`${apiUrl}/survey/${id}?token=${token}`, JSON.stringify(data), options)
-          .map((res: Response) => res.json());
+    if (!id) { return Observable.throw(new BadInputError('Id is not defined.'))};
+    const custom_url = `${this.url}/${id}`;
+    return super.update(data, custom_url);
   }
-  count(): Observable<any> {
-    return;
-  }
+
 }
 
 

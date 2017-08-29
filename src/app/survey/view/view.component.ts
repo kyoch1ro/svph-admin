@@ -43,8 +43,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   modalReference: any;
 
   duration$: ISubscription;
-
-  constructor(@Inject(SurveyService) private _surveySrvc: ISurveyService,
+// update the DurationService DI
+  constructor(private _surveySrvc: SurveyService,
               private _questionSrvc: QuestionService,
               private _optionSrvc: OptionService,
               @Inject(DurationService) private _durSrvc: ISurveyDurationService<ISurveyDuration>,
