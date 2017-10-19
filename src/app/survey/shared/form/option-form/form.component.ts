@@ -1,10 +1,10 @@
-import { IOption } from '../../survey.interface';
-import { Option } from './option.model';
 import { Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { Option } from './option.model';
 
 
 
@@ -19,7 +19,7 @@ export class OptionFormComponent implements OnInit, IFormComponent {
   @HostBinding('class') cssClass = 'm-bottom-sm d-block';
   @Input() btnLabel= 'Add';
   @Input()
-  set option(val: IOption){
+  set option(val: Option){
     this._option.next(new Option(val));
   }
   get option(){

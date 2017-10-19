@@ -1,5 +1,5 @@
 import { SurveyService } from '../services/survey.service';
-import { ISurveyForList } from '../shared/survey.interface';
+import { SurveyList } from '../shared/survey.interface';
 import 'rxjs/add/operator/mergeMap';
 
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
@@ -22,7 +22,7 @@ export class SurveysComponent implements OnInit, OnDestroy {
 
   alert: IAlert;
   isPending: boolean;
-  surveys: ISurveyForList[] = [];
+  surveys: SurveyList[] = [];
 
   modalReference: any;
   constructor(private _surveySrvc: SurveyService,
@@ -33,7 +33,7 @@ export class SurveysComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const subs: ISubscription = this._surveySrvc.getAll().subscribe(
       data => {
-        this.surveys = <ISurveyForList[]>data.survey
+        this.surveys = <SurveyList[]>data.survey
       },
       err => {},
       () => subs.unsubscribe()

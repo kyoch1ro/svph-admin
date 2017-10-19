@@ -1,5 +1,5 @@
+import { Duration } from '../../../../duration.model';
 import { SurveyFormService } from '../form.service';
-import { ISurveyDuration } from '../../../survey.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./duration.component.scss']
 })
 export class DurationComponent implements OnInit, IFormComponent {
-  @Input() set duration(val: ISurveyDuration){
+  @Input() set duration(val: Duration){
     this._duration.next(val);
   }
   @Input() btnLabel = 'Submit';
@@ -24,7 +24,7 @@ export class DurationComponent implements OnInit, IFormComponent {
 
   form: FormGroup;
 
-  private initialValue: ISurveyDuration = {
+  private initialValue: Duration = {
     id: 0,
     survey_id: 0,
     start_date: '',
@@ -34,7 +34,7 @@ export class DurationComponent implements OnInit, IFormComponent {
 
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  private _duration: BehaviorSubject<ISurveyDuration> = new BehaviorSubject<ISurveyDuration>(this.initialValue);
+  private _duration: BehaviorSubject<Duration> = new BehaviorSubject<Duration>(this.initialValue);
   private _ispending = new BehaviorSubject<boolean>(false);
 
   constructor(private fb: FormBuilder,
@@ -42,17 +42,17 @@ export class DurationComponent implements OnInit, IFormComponent {
 
   ngOnInit() {
     this._initializeForm();
-    this._duration.subscribe((newDuration: ISurveyDuration) => {
+    this._duration.subscribe((newDuration: Duration) => {
       this.form.patchValue(newDuration);
     })
   }
 
-  onSubmit(data: ISurveyDuration) {
+  onSubmit(data: Duration) {
     this._surveyFormSrvc.submitDuration(data);
   }
 
 
-  get duration(): ISurveyDuration{
+  get duration(): Duration{
     return this._duration.getValue();
   }
 

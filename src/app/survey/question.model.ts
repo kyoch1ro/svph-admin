@@ -10,4 +10,16 @@ export class Question {
     updated_at: string;
     childrens: Question[];
     options: Option[];
+    constructor(obj?: any) {
+        this.question_id = obj && obj.question_id || 0;
+        this.survey_id = obj && obj.survey_id || 0;
+        this.question_parent = obj && obj.question_parent || 0;
+        this.question_caption = obj && obj.question_caption || '';
+        this.option_type = obj && obj.option_type || '';
+        this.question_isdeleted = obj && obj.question_isdeleted || 0;
+        this.created_at = obj && obj.created_at || '';
+        this.updated_at = obj && obj.updated_at || '';
+        this.childrens = obj && obj.childrens || [];
+        this.options = obj && obj.options || [];
+    }
 }

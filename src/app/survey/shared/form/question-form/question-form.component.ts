@@ -1,15 +1,15 @@
-import { OptionService } from '../../../services/option.service';
-import { Component, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
-import { IOptionService } from 'app/core/contracts/i-http-services';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { IOption, IQuestion, IQuestionOption } from '../../../shared/survey.interface';
-import { Question } from './question.model';
+import { Question } from '../../../question.model';
+import { OptionService } from '../../../services/option.service';
+import { IOption, IQuestion } from '../../../shared/survey.interface';
+
 
 
 
@@ -22,7 +22,7 @@ import { Question } from './question.model';
 })
 export class QuestionFormComponent implements OnInit, IFormComponent {
   @Input() btnLabel = 'Add';
-  @Input() set question(val: IQuestionOption){
+  @Input() set question(val: Question){
     this._question.next(new Question(val));
   }
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();

@@ -1,15 +1,15 @@
+import { Duration } from '../../../duration.model';
 import { Injectable } from '@angular/core';
-import { ISurveyDuration } from 'app/survey/shared/survey.interface';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SurveyFormService {
-  private durationSource: Subject<ISurveyDuration> = new Subject<ISurveyDuration>();
+  private durationSource: Subject<Duration> = new Subject<Duration>();
 
 
   duration$ = this.durationSource.asObservable();
 
-  submitDuration(item: ISurveyDuration) {
+  submitDuration(item: Duration) {
     this.durationSource.next(item);
   }
 

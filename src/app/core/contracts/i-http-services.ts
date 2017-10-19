@@ -1,5 +1,5 @@
-import { ISurveyDuration } from '../../survey/shared/survey.interface';
 import { Observable } from 'rxjs/Observable';
+
 
 
 export interface IHttpService{

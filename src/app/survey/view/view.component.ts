@@ -8,14 +8,17 @@ import { Observable } from 'rxjs/Rx';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
-import { ISurveyDurationService, ISurveyService } from '../../core/contracts/i-http-services';
+import { ISurveyDurationService } from '../../core/contracts/i-http-services';
+import { Duration } from '../duration.model';
+import { QuestionOption } from '../question.model';
 import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
 import { SurveyService } from '../services/survey.service';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
-import { IOption, IQuestion, IQuestionOption, ISurveyDuration, ISurveyQuestion } from '../shared/survey.interface';
-import { Survey } from '../survey.model';
+import { IOption, IQuestion } from '../shared/survey.interface';
+import { SurveyQuestion } from '../survey.model';
+
 
 
 
@@ -29,7 +32,7 @@ import { Survey } from '../survey.model';
   providers: [ SURVEY_FORM_PROVIDER ]
 })
 export class ViewComponent implements OnInit, OnDestroy {
-  survey: Survey;
+  survey: SurveyQuestion;
   isPending: boolean;
 
   isOptionPending = [];
@@ -47,11 +50,11 @@ export class ViewComponent implements OnInit, OnDestroy {
   constructor(private _surveySrvc: SurveyService,
               private _questionSrvc: QuestionService,
               private _optionSrvc: OptionService,
-              @Inject(DurationService) private _durSrvc: ISurveyDurationService<ISurveyDuration>,
+              @Inject(DurationService) private _durSrvc: ISurveyDurationService<Duration>,
               private _surveyFormSrvc: SurveyFormService,
               private _route: ActivatedRoute,
-
               private modalService: NgbModal) { }
+
   ngOnInit() {
     const id_param_subscription =
       this._route.params.switchMap((params: Params) =>
@@ -59,12 +62,12 @@ export class ViewComponent implements OnInit, OnDestroy {
         this._surveySrvc.getById(params['id']),
         this._questionSrvc.listBySurveyId(params['id'])
       ])).map((data: any) => {
-        const survey: ISurveyQuestion = data[0].survey;
-        let questions: IQuestionOption[] = [];
-        const items: IQuestionOption[] = data[1].questionnaire;
+        const survey: SurveyQuestion = data[0].survey;
+        let questions: QuestionOption[] = [];
+        const items: QuestionOption[] = data[1].questionnaire;
 
         questions = items.filter(item => +item.question_parent === 0)
-                    .reduce((prev: IQuestionOption[], curr: IQuestionOption) => {
+                    .reduce((prev: QuestionOption[], curr: QuestionOption) => {
                       curr.survey_id = survey.id;
                       curr.options = curr.options.map(opt => Object.assign({}, opt, { question_id: curr.question_id}))
                       curr.childrens = [];
@@ -84,7 +87,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         data => {
-          this.survey = new Survey(data);
+          this.survey = new SurveyQuestion(data);
         },
         err => {},
         () => {
@@ -105,12 +108,12 @@ export class ViewComponent implements OnInit, OnDestroy {
 
 
 
-  private _updateDuration(data: ISurveyDuration) {
+  private _updateDuration(data: Duration) {
     const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
     this._durSrvc.update(updatedItem).take(1).subscribe(res => console.log(res));
   }
 
-  private _addDuration(data: ISurveyDuration) {
+  private _addDuration(data: Duration) {
     const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
     this._durSrvc.add(updatedItem).take(1).subscribe(res => console.log(res))
   }
