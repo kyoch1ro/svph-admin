@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { LoginGuard } from 'app/core/guards/login.guard';
-// Layouts
+
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
-
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -26,19 +26,19 @@ export const routes: Routes = [
         component: DashboardComponent,
         canActivate: [LoginGuard],
         data: {
-          title: "Dashboard"
+          title: 'Dashboard'
         }
       },
 
       {
         path: 'users',
         loadChildren: './user/user.module#UserModule',
-        canActivate: [LoginGuard],        
+        canActivate: [LoginGuard],
       },
       {
         path: 'surveys',
         loadChildren: './survey/survey.module#SurveyModule',
-        canActivate: [LoginGuard],        
+        canActivate: [LoginGuard],
       }
     ]
   },
@@ -48,10 +48,7 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
-
-  
-
-   {
+  {
     path: 'pages',
     component: SimpleLayoutComponent,
     data: {
@@ -63,11 +60,7 @@ export const routes: Routes = [
         loadChildren: './pages/pages.module#PagesModule',
       }
     ]
-  },
-
-
-
-
+  }
 ];
 
 @NgModule({

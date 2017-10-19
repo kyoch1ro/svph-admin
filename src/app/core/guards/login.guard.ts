@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 export class LoginGuard implements CanActivate {
 
 
-  constructor(@Inject(AuthService) private _auth : iAuth,
-              private router: Router){}
+  constructor(@Inject(AuthService) private _auth: iAuth,
+              private router: Router){ }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
