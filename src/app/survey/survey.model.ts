@@ -1,11 +1,13 @@
-import { IOption, IQuestion, IQuestionOption, ISurvey, ISurveyDuration, ISurveyQuestion } from './shared/survey.interface';
+import { Duration } from './duration.model';
+import { Option } from './option.model';
+import { Question } from './question.model';
 
 
 
-export class Survey implements ISurveyQuestion {
+export class Survey {
     id: number;
     created_at: string;
-    durations: ISurveyDuration[];
+    durations: Duration[];
     survey_category_id: number;
     survey_isactive: number;
     survey_isdeleted: number;
@@ -15,7 +17,7 @@ export class Survey implements ISurveyQuestion {
     updated_at: string;
     respondents: number;
     img: string;
-    questions: IQuestionOption[];
+    questions: Question[];
 
     constructor(obj?: any) {
         this.id                 = obj && obj.id || 0;
@@ -34,16 +36,16 @@ export class Survey implements ISurveyQuestion {
     }
 
 
-    setQuestions(val: IQuestionOption[]) {
+    setQuestions(val: Question[]) {
         this.questions = val;
     }
 
-    addQuestion(val:IQuestionOption) {
+    addQuestion(val: Question) {
         this.questions.push(val);
     }
 
 
-    addQuestionOption(indx: number, val: IOption) {
+    addQuestionOption(indx: number, val: Option) {
         this.questions[indx].options.push(val);
     }
 }
