@@ -15,6 +15,8 @@ import { SurveyFormComponent as SurveyForm } from './shared/form/survey-form/for
 import { SurveyComponent } from './survey.component';
 import { SurveysComponent } from './surveys/surveys.component';
 import { ViewComponent } from './view/view.component';
+import { QuestionFormComponent as NewQuestionForm } from './shared/q-form/q-form.component';
+import { QuestionCarouselComponent } from './shared/question-carousel/question-carousel.component';
 
 @NgModule({
   imports: [
@@ -28,7 +30,9 @@ import { ViewComponent } from './view/view.component';
     SurveyForm,
     DurationComponent,
     QuestionFormComponent,
-    OptionFormComponent
+    OptionFormComponent,
+    NewQuestionForm,
+    QuestionCarouselComponent
   ],
   providers: [
     SURVEY_PROVIDERS,

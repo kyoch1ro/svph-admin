@@ -1,4 +1,4 @@
-import { Question } from '../shared/models/question.model';
+import { QuestionOptionChildren } from '../shared/models/question.model';
 import { QuestionService } from './question.service';
 import { SurveyQuestion } from '../shared/models/survey.model';
 import { BadInputError } from '../../core/error-handlers/bad-input-error';
@@ -23,11 +23,11 @@ export class SurveyService extends DataService {
       this._questionSrvc.listBySurveyId(id)
     ]).map(data => {
       const survey: SurveyQuestion = data[0].survey;
-      let questions: Question[] = [];
-      const items: Question[] = data[1].questionnaire;
+      let questions: QuestionOptionChildren[] = [];
+      const items: QuestionOptionChildren[] = data[1].questionnaire;
 
       questions = items.filter(item => +item.question_parent === 0)
-                  .reduce((prev: Question[], curr: Question) => {
+                  .reduce((prev: QuestionOptionChildren[], curr: QuestionOptionChildren) => {
                     curr.survey_id = survey.id;
                     curr.options = curr.options.map(opt => Object.assign({}, opt, { question_id: curr.question_id}))
                     curr.childrens = [];

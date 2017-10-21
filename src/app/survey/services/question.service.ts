@@ -1,3 +1,4 @@
+import { Question } from '../shared/models/question.model';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { apiUrl } from 'app/core/global.const';
@@ -21,14 +22,14 @@ export class QuestionService extends DataService {
     return;
   }
 
-  listBySurveyId(survey_id: number): Observable<any> {
+  listBySurveyId(survey_id: number): Observable<Question> {
     const token = AuthService.getToken();
     return this.http.get(`${apiUrl}/surveyQuestionnaire/${survey_id}?token=${token}`)
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }
 
-  update(data: any): Observable<any> {
+  update(data: any): Observable<Question> {
     const id = data['question_id'];
     if (!id) { return Observable.throw(new BadInputError('Id is not defined.'))} ;
     const url = `${this.url}/${id}`;

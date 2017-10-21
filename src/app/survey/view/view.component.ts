@@ -1,16 +1,10 @@
-import { SurveyFormComponent } from '../shared/form/survey-form/form.component';
-import { Question } from '../shared/models/question.model';
-import { Duration } from '../shared/models/duration.model';
-import { SurveyQuestion } from '../shared/models/survey.model';
-
-import { Option } from '../shared/form/option-form/option.model';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
 
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Rx';
 import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
@@ -19,16 +13,14 @@ import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
 import { SurveyService } from '../services/survey.service';
+import { Option } from '../shared/form/option-form/option.model';
+import { SurveyFormComponent } from '../shared/form/survey-form/form.component';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
-
-
-
-
-
-
+import { Duration } from '../shared/models/duration.model';
+import { Question } from '../shared/models/question.model';
+import { SurveyQuestion } from '../shared/models/survey.model';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'sur-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss'],
@@ -38,11 +30,10 @@ export class ViewComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyFormComponent) surveyForm: SurveyFormComponent;
   survey: SurveyQuestion;
   id_param_subscription: ISubscription;
+  activeTab = 'questions';
 
 
 
-
-  
   isOptionPending = [];
   isQuestionPending = [];
 
@@ -52,7 +43,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   isUpdateQuestionPending = [];
   alert: IAlert;
   modalReference: any;
-
   duration$: ISubscription;
 // update the DurationService DI
   constructor(private _surveySrvc: SurveyService,
@@ -64,6 +54,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               private modalService: NgbModal) { }
 
   ngOnInit() {
+    // this.questionsHolder.select('2');
       this.setSurvey();
       this.duration$ = this._surveyFormSrvc.duration$.subscribe(data => {
         if (+data.id === 0) {
@@ -100,43 +91,66 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateQuestion(event: Question) {
-    this.isQuestionPending[event.question_id] = true;
-    const update_que_sub: ISubscription =
-      this._questionSrvc.update(event).subscribe(
-        data => {},
-        err => {
-          this.isQuestionPending[event.question_id] = false;
-          console.log(err);
-        },
-        () => {
-          this.isQuestionPending[event.question_id] = false;
-          update_que_sub.unsubscribe();
-        }
-      )
+
+  saveQuestion(data: Question) {
+    if (data.question_id > 0) {
+      this._questionSrvc
+          .update(data)
+          .take(1)
+          .subscribe(x => this.updateLocalData(data))
+    }
   }
 
-  addQuestion(event) {
-    this.isQuestionPending[0] = true;
-    event['survey_id'] = this.survey.id;
-    const add_que: ISubscription = this._questionSrvc.create(event).subscribe(
-      data => {
-        if (data['question'].option_type === 'enums' || data['question'].option_type === 'text') {
-          this._addDefaultOption(data['question'].question_id);
-        }
-        data.childrens = [];
-        this.survey.questions.push(data.question);
-      },
-      err => {
-        this.isQuestionPending[0] = false;
-      },
-      () => {
-        this.modalReference.close();
-        this.isQuestionPending[0] = false;
-        add_que.unsubscribe();
-      }
-    );
+
+  updateLocalData(question: Question) {
+    if (question.question_parent > 0) {
+      const parent_indx = this.survey.questions.findIndex(x => x.question_id === question.question_parent);
+      const children_indx = this.survey.questions[parent_indx].childrens.findIndex(x => x.question_id === question.question_id);
+      this.survey.questions[parent_indx].childrens[children_indx] =
+        Object.assign({}, this.survey.questions[parent_indx].childrens[children_indx],  question);
+    }else {
+      const indx = this.survey.questions.findIndex(x => x.question_id === question.question_id);
+      this.survey.questions[indx] = Object.assign({}, this.survey.questions[indx], question);
+    }
   }
+
+  // updateQuestion(event: Question) {
+  //   this.isQuestionPending[event.question_id] = true;
+  //   const update_que_sub: ISubscription =
+  //     this._questionSrvc.update(event).subscribe(
+  //       data => {},
+  //       err => {
+  //         this.isQuestionPending[event.question_id] = false;
+  //         console.log(err);
+  //       },
+  //       () => {
+  //         this.isQuestionPending[event.question_id] = false;
+  //         update_que_sub.unsubscribe();
+  //       }
+  //     )
+  // }
+
+  // addQuestion(event) {
+  //   this.isQuestionPending[0] = true;
+  //   event['survey_id'] = this.survey.id;
+  //   const add_que: ISubscription = this._questionSrvc.create(event).subscribe(
+  //     data => {
+  //       if (data['question'].option_type === 'enums' || data['question'].option_type === 'text') {
+  //         this._addDefaultOption(data['question'].question_id);
+  //       }
+  //       data.childrens = [];
+  //       this.survey.questions.push(data.question);
+  //     },
+  //     err => {
+  //       this.isQuestionPending[0] = false;
+  //     },
+  //     () => {
+  //       this.modalReference.close();
+  //       this.isQuestionPending[0] = false;
+  //       add_que.unsubscribe();
+  //     }
+  //   );
+  // }
 
 
   private _addDefaultOption(question_id: number) {

@@ -1,4 +1,4 @@
-import { Question } from '../../models/question.model';
+import { QuestionOptionChildren } from '../../models/question.model';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,8 +23,8 @@ import { Option } from 'app/survey/shared/form/option-form/option.model';
 })
 export class QuestionFormComponent implements OnInit, IFormComponent {
   @Input() btnLabel = 'Add';
-  @Input() set question(val: Question){
-    this._question.next(new Question(val));
+  @Input() set question(val: QuestionOptionChildren){
+    this._question.next(new QuestionOptionChildren(val));
   }
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
   @Output() newSubQuestion: EventEmitter<any> = new EventEmitter<any>();
@@ -37,8 +37,8 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
   }
   form: FormGroup;
   private _ispending: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private _question: BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
-  question_with_parent_id: Question;
+  private _question: BehaviorSubject<QuestionOptionChildren> = new BehaviorSubject<QuestionOptionChildren>(new QuestionOptionChildren());
+  question_with_parent_id: QuestionOptionChildren;
 
   modalReference: any;
   public isoptionpending = [];
@@ -56,7 +56,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
       question_isdeleted: ['', Validators.required]
     })
 
-    this._question.subscribe((data: Question ) => {
+    this._question.subscribe((data: QuestionOptionChildren ) => {
       if (!data) {
         return;
       }
@@ -134,7 +134,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
   }
 
 
-  addSubQuestion(event: Question) {
+  addSubQuestion(event: QuestionOptionChildren) {
     event.question_parent = this.question.question_id;
     event.survey_id = this.question.survey_id;
     this.newSubQuestion.emit(event);

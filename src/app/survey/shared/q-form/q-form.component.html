@@ -1,0 +1,25 @@
+<form action=""  [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="question">Question</label>
+        <input type="text" 
+               class="form-control" 
+               id="question"
+               formControlName="question_caption">
+    </div>
+    <div class="form-group">
+        <label for="option_type">Question type</label>
+        <select class="form-control" 
+                id="option_type"
+                formControlName="option_type">
+            <option value="">Please Select</option>
+            <option value="check">Checkbox</option>
+            <option value="radio">Radio</option>
+            <option value="enums">Enumeration</option>
+            <option value="text">Text</option>
+        </select>
+    </div>
+
+    <button type="submit" [disabled]="form.pending" class="btn btn-primary">
+        Save
+    </button>
+</form>

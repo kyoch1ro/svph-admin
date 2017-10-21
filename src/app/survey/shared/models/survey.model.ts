@@ -1,6 +1,6 @@
 import { Duration } from './duration.model';
 import { Option } from './option.model';
-import { Question } from './question.model';
+import { QuestionOptionChildren } from './question.model';
 
 
 
@@ -37,17 +37,17 @@ export class Survey {
 
 
 export class SurveyQuestion extends Survey {
-    questions: Question[];
+    questions: QuestionOptionChildren[];
     constructor(obj?: any) {
         super(obj);
         this.questions = obj && obj.questions || [];
     }
 
-    setQuestions(val: Question[]) {
+    setQuestions(val: QuestionOptionChildren[]) {
         this.questions = val;
     }
 
-    addQuestion(val: Question) {
+    addQuestion(val: QuestionOptionChildren) {
         this.questions.push(val);
     }
     addQuestionOption(indx: number, val: Option) {

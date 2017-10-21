@@ -1,5 +1,5 @@
-<ngb-tabset>
-    <ngb-tab>
+<ngb-tabset [activeId]="activeTab">
+    <ngb-tab [id]="'survey'">
         <ng-template ngbTabTitle>
             <i class="icon-note"></i>&nbsp;Survey
         </ng-template>
@@ -10,25 +10,25 @@
                 (formSubmit)="updateSurvey($event)"></sur-form> 
         </ng-template>
     </ngb-tab>
-
-    <ngb-tab>
+    <ngb-tab [id]="'questions'">
         <ng-template ngbTabTitle>
             <i class="icon-layers"></i>&nbsp;Questions
         </ng-template>
         <ng-template ngbTabContent>
-            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
-        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
-        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
-        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
-        sint qui sapiente accusamus tattooed echo park.</p>
+            <survey-question-carousel
+                *ngIf="survey"
+                [questions]="survey.questions"
+                (questionFormSubmitted)="saveQuestion($event)"></survey-question-carousel>
         </ng-template>
     </ngb-tab>
 
+    
+
+    
 
 
-    <ngb-tab>
+
+    <ngb-tab [id]="3">
         <ng-template ngbTabTitle>
             <i class="icon-wrench"></i>&nbsp;Settings
         </ng-template>
