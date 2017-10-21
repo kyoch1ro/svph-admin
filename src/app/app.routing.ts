@@ -1,10 +1,10 @@
+import { SimpleLayoutComponent } from './core/layouts/simple-layout.component';
+import { FullLayoutComponent } from './core/layouts/full-layout.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginGuard } from 'app/core/guards/login.guard';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { FullLayoutComponent } from './layouts/full-layout.component';
-import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [

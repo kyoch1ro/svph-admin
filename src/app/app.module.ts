@@ -1,34 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy,PathLocationStrategy } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { AppComponent } from './app.component';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CoreModule } from 'app/core/core.module';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
-
-
-// Routing Module
+import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
-
-
-
-//FEATURE MODULES
-import { UserModule } from './user/user.module';
-import { SharedModule } from './shared/shared.module';
-
-
-import { LoginComponent } from './login/login.component';
-
-
-// Layouts
-import { FullLayoutComponent } from './layouts/full-layout.component';
-import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { LoginComponent } from './login/login.component';
+import { SharedModule } from './shared/shared.module';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   imports: [
@@ -45,8 +30,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   declarations: [
     AppComponent,
-    FullLayoutComponent,
-    SimpleLayoutComponent,
     LoginComponent,
     DashboardComponent
   ],
