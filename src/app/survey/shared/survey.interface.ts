@@ -1,5 +1,5 @@
-import { Survey } from '../survey.model';
-import { Duration } from '../duration.model';
+import { Survey } from './models/survey.model';
+
 
 export class SurveyList extends Survey  {
     category_name: string;

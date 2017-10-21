@@ -1,4 +1,4 @@
-export interface ICategoryDTO {
+export class Category {
     id: number;
     category_name: string;
     created_at: string;
@@ -6,4 +6,3 @@ export interface ICategoryDTO {
     is_deleted: number;
     updated_at: string;
 }
-

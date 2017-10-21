@@ -1,18 +1,21 @@
-import { SurveyTypeService } from '../../../services/survey-type.service';
-import { Component, Inject, Input, OnInit, Output } from '@angular/core';
+import { Type } from '../../models/type.model';
+import { Category } from '../../models/category.model';
+import { Survey } from '../../models/survey.model';
+
+
 import { EventEmitter } from '@angular/core';
+import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IAlert } from 'app/core/contracts/i-alert';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { ICategoryService } from 'app/core/contracts/i-http-services';
 import { CategoryService } from 'app/survey/services/category.service';
-import { ICategoryDTO } from 'app/survey/shared/interfaces/i-category';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { Survey } from '../../../survey.model';
-import { ITypeDTO } from '../../interfaces/i-type';
+import { SurveyTypeService } from '../../../services/survey-type.service';
+
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -35,8 +38,8 @@ export class FormComponent implements OnInit, IFormComponent  {
   private _survey = new BehaviorSubject<Survey>(new Survey());
   private _ispending = new BehaviorSubject<boolean>(false);
 
-  categories: ICategoryDTO[];
-  types: ITypeDTO[];
+  categories: Category[];
+  types: Type[];
   form: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -48,7 +51,7 @@ export class FormComponent implements OnInit, IFormComponent  {
     this._initializeForm();
     const cat_sub: ISubscription =  this._categorySrvc.list()
     .subscribe(
-      data => { this.categories = <ICategoryDTO[]> data['category'] },
+      data => { this.categories = <Category[]> data['category'] },
       err => {},
       () => {
         cat_sub.unsubscribe()
@@ -56,7 +59,7 @@ export class FormComponent implements OnInit, IFormComponent  {
 
     const typ_sub: ISubscription = this._typeSrvc.getAll()
     .subscribe(
-      data => { this.types = <ITypeDTO[]> data.type},
+      data => { this.types = <Type[]> data.type},
       err => {},
       () => typ_sub.unsubscribe()
     );

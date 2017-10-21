@@ -1,6 +1,7 @@
-import { Duration } from '../../../duration.model';
 import { Injectable } from '@angular/core';
+import { Duration } from '../../models/duration.model';
 import { Subject } from 'rxjs/Subject';
+
 
 @Injectable()
 export class SurveyFormService {

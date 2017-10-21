@@ -1,4 +1,5 @@
-import { Duration } from '../duration.model';
+import { Duration } from '../shared/models/duration.model';
+
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../core/services/auth.service';

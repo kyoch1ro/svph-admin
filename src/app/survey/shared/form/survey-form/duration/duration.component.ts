@@ -1,4 +1,5 @@
-import { Duration } from '../../../../duration.model';
+import { Duration } from '../../../models/duration.model';
+
 import { SurveyFormService } from '../form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';

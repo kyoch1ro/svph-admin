@@ -1,3 +1,4 @@
+import { Question } from '../../models/question.model';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,9 +7,8 @@ import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { Option } from '../../../option.model';
-import { Question } from '../../../question.model';
 import { OptionService } from '../../../services/option.service';
+import { Option } from 'app/survey/shared/form/option-form/option.model';
 
 
 

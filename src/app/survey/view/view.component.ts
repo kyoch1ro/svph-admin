@@ -1,4 +1,7 @@
-import { Question } from '../question.model';
+import { Question } from '../shared/models/question.model';
+import { Duration } from '../shared/models/duration.model';
+import { SurveyQuestion } from '../shared/models/survey.model';
+
 import { Option } from '../shared/form/option-form/option.model';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
@@ -11,13 +14,12 @@ import { ISubscription } from 'rxjs/Subscription';
 
 import { IAlert } from '../../core/contracts/i-alert';
 import { ISurveyDurationService } from '../../core/contracts/i-http-services';
-import { Duration } from '../duration.model';
 import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
 import { SurveyService } from '../services/survey.service';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
-import { SurveyQuestion } from '../survey.model';
+
 
 
 
