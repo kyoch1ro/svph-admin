@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 
 
 
-export interface IHttpService{
+export interface IHttpService {
   getById(id: number): Observable<any>;
   list(id?: number): Observable<any>;
   add(data: any): Observable<any>;
@@ -21,19 +21,19 @@ export interface IHttpServices<T>{
 }
 
 
-export interface IUserService extends IHttpService{
+export interface IUserService extends IHttpService {
   getOtherInfo(id: number): Observable<any>;
   approveUser(id: number): Observable<any>;
 }
 
 
 
-export interface ISurveyService extends IHttpService{
+export interface ISurveyService extends IHttpService {
   getRespondentsCount(id: number): Observable<any>;
 }
 
 
-export interface ICategoryService extends IHttpService{
+export interface ICategoryService extends IHttpService {
   
 }
 
