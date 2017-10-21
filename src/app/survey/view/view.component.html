@@ -1,4 +1,68 @@
-<div class="row">
+<ngb-tabset>
+    <ngb-tab>
+        <ng-template ngbTabTitle>
+            <i class="icon-note"></i>&nbsp;Survey
+        </ng-template>
+        <ng-template ngbTabContent>
+            <sur-form *ngIf="survey"
+                [btnLabel]="'Update'"
+                [survey]="survey"
+                (formSubmit)="updateSurvey($event)"></sur-form> 
+        </ng-template>
+    </ngb-tab>
+
+    <ngb-tab>
+        <ng-template ngbTabTitle>
+            <i class="icon-layers"></i>&nbsp;Questions
+        </ng-template>
+        <ng-template ngbTabContent>
+            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
+        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
+        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
+        sint qui sapiente accusamus tattooed echo park.</p>
+        </ng-template>
+    </ngb-tab>
+
+
+
+    <ngb-tab>
+        <ng-template ngbTabTitle>
+            <i class="icon-wrench"></i>&nbsp;Settings
+        </ng-template>
+        <ng-template ngbTabContent>
+            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
+        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
+        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
+        sint qui sapiente accusamus tattooed echo park.</p>
+        </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">
     <div class="col-md-3 push-md-9">
         <div class="card">
                 <div class="card-header">
@@ -23,12 +87,7 @@
                     </span>
                 </div>
                 <div class="card-block">
-                    <sur-form *ngIf="survey"
-                        [btnLabel]="'Update'"
-                        [survey]="survey"
-                        [isPending]="isPending" 
-                        [alert]="alert"
-                        (formSubmit)="updateSurvey($event)"></sur-form> 
+
                 </div>
         </div>
     </div>
@@ -79,4 +138,4 @@
                     (formSubmit)="addQuestion($event)"></sur-que-form>
 
   </div>
-</ng-template>
+</ng-template> -->

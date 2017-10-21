@@ -11,7 +11,7 @@ import { SURVEY_PROVIDERS } from './services/survey.service';
 import { OptionFormComponent } from './shared/form/option-form/form.component';
 import { QuestionFormComponent } from './shared/form/question-form/question-form.component';
 import { DurationComponent } from './shared/form/survey-form/duration/duration.component';
-import { FormComponent as SurveyForm } from './shared/form/survey-form/form.component';
+import { SurveyFormComponent as SurveyForm } from './shared/form/survey-form/form.component';
 import { SurveyComponent } from './survey.component';
 import { SurveysComponent } from './surveys/surveys.component';
 import { ViewComponent } from './view/view.component';

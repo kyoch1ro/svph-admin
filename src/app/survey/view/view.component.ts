@@ -1,3 +1,4 @@
+import { SurveyFormComponent } from '../shared/form/survey-form/form.component';
 import { Question } from '../shared/models/question.model';
 import { Duration } from '../shared/models/duration.model';
 import { SurveyQuestion } from '../shared/models/survey.model';
@@ -6,7 +7,7 @@ import { Option } from '../shared/form/option-form/option.model';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Rx';
@@ -34,6 +35,8 @@ import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-f
   providers: [ SURVEY_FORM_PROVIDER ]
 })
 export class ViewComponent implements OnInit, OnDestroy {
+  @ViewChild(SurveyFormComponent) surveyForm: SurveyFormComponent;
+  
   survey: SurveyQuestion;
   isPending: boolean;
 
@@ -184,18 +187,18 @@ export class ViewComponent implements OnInit, OnDestroy {
     )
   }
   updateSurvey(event) {
-    this.isPending = true;
-    const upd_sur: ISubscription = this._surveySrvc.update(event).subscribe(
-      data => {},
-      err => {
-        this.isPending = false;
-        console.log(err)
-      },
-      () => {
-        this.isPending = false;
-        upd_sur.unsubscribe();
-      }
-      );
+    this._surveySrvc
+        .update(event)
+        .take(1)
+        .subscribe(
+          data => {},
+          err => {
+            this.surveyForm.formStatusReset();
+          },
+          () => {
+            this.surveyForm.formStatusReset();
+          }
+        );
   }
 
   addSubQuestion(index, event) {

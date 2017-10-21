@@ -27,9 +27,8 @@
               <tr *ngFor="let survey of surveys" (click)="view(survey.id)" class="c-pointer">
                 <td>{{ survey.survey_title }}</td>
                 <td>{{ survey.respondents || 0}}</td>
-                <td>{{ survey.category || survey.survey_category_id}}</td>
-                <td>{{ survey.start_date | date:'short' }}&nbsp;to&nbsp;{{ survey.end_date | date:'short' }}</td>
-                
+                <td>{{ survey.category_name || survey.survey_category_id}}</td>
+                <!-- <td>{{ survey.durations.start_date | date:'short' }}&nbsp;to&nbsp;{{ survey.end_date | date:'short' }}</td> -->
               </tr>
             </tbody>
           </table>
@@ -56,9 +55,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <sur-form [isPending]="isPending" 
-              [alert]="alert"
-              (formSubmit)="addSurvey($event)"></sur-form>    
+    <sur-form (formSubmit)="addSurvey($event)"></sur-form>    
   </div>
 </ng-template>
 

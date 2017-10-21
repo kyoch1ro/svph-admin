@@ -32,7 +32,6 @@ export class Survey {
         this.updated_at         = obj && obj.updated_at || '';
         this.respondents        = obj && obj.respondents || 0;
         this.img                = obj && obj.img || '';
-
     }
 }
 
