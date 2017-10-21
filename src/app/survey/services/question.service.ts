@@ -31,7 +31,7 @@ export class QuestionService extends DataService {
   update(data: any): Observable<any> {
     const id = data['question_id'];
     if (!id) { return Observable.throw(new BadInputError('Id is not defined.'))} ;
-    const url = `${apiUrl}/question/${id}`;
+    const url = `${this.url}/${id}`;
     return super.update(data, url);
   }
 

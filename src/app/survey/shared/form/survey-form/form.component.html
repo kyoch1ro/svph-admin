@@ -59,17 +59,17 @@
     <button type="submit" [disabled]="form.pending" class="btn btn-primary">
         {{ btnLabel }}
     </button>
-    <button class="btn btn-success" (click)="open(content)">Publish</button>
+    <!-- <button class="btn btn-success" (click)="open(content)">Publish</button>
     <hr>
     <p class="text-muted no-marg">Survey Validity</p>
     <app-survey-duration 
         *ngFor="let duration of survey.durations"
         [duration]="duration">
-    </app-survey-duration>
+    </app-survey-duration> -->
 </form>
 
 
-
+<!-- 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Publish Survey</h4>
@@ -81,4 +81,4 @@
     <app-survey-duration >
         </app-survey-duration >
   </div>
-</ng-template>
+</ng-template> -->

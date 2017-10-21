@@ -36,10 +36,13 @@ import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-f
 })
 export class ViewComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyFormComponent) surveyForm: SurveyFormComponent;
-  
   survey: SurveyQuestion;
-  isPending: boolean;
+  id_param_subscription: ISubscription;
 
+
+
+
+  
   isOptionPending = [];
   isQuestionPending = [];
 
@@ -61,47 +64,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               private modalService: NgbModal) { }
 
   ngOnInit() {
-    const id_param_subscription =
-      this._route.params.switchMap((params: Params) =>
-      Observable.forkJoin([
-        this._surveySrvc.getById(params['id']),
-        this._questionSrvc.listBySurveyId(params['id'])
-      ])).map((data: any) => {
-        const survey: SurveyQuestion = data[0].survey;
-        let questions: Question[] = [];
-        const items: Question[] = data[1].questionnaire;
-
-        questions = items.filter(item => +item.question_parent === 0)
-                    .reduce((prev: Question[], curr: Question) => {
-                      curr.survey_id = survey.id;
-                      curr.options = curr.options.map(opt => Object.assign({}, opt, { question_id: curr.question_id}))
-                      curr.childrens = [];
-                      return [...prev, curr];
-                    }, []);
-        items.filter(item => +item.question_parent > 0)
-        .map(child => {
-          const parent_indx = questions.findIndex(parent => parent.question_id === +child.question_parent);
-          child = Object.assign({}, child, {
-            survey_id: survey.id,
-            options: child.options.map(opt => Object.assign({}, opt, { question_id: child.question_id}))
-          })
-          questions[parent_indx].childrens.push(child);
-        })
-        survey.questions = questions;
-        return survey;
-      })
-      .subscribe(
-        data => {
-          this.survey = new SurveyQuestion(data);
-        },
-        err => {},
-        () => {
-          id_param_subscription.unsubscribe();
-        }
-      );
-
-
-
+      this.setSurvey();
       this.duration$ = this._surveyFormSrvc.duration$.subscribe(data => {
         if (+data.id === 0) {
           this._addDuration(data);
@@ -112,6 +75,14 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
 
+  //#region SETTERS
+  private setSurvey() {
+    this.id_param_subscription =
+      this._route.params.switchMap((params: Params) => this._surveySrvc.getSurveyWithQuestions(+params['id'])).subscribe(
+        data => this.survey = new SurveyQuestion(data)
+    );
+  }
+  //#endregion
 
   private _updateDuration(data: Duration) {
     const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
@@ -220,6 +191,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.duration$.unsubscribe();
+    this.id_param_subscription.unsubscribe();
   }
 
 }
