@@ -1,3 +1,5 @@
+import { Question } from '../question.model';
+import { Option } from '../shared/form/option-form/option.model';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 
@@ -10,13 +12,11 @@ import { ISubscription } from 'rxjs/Subscription';
 import { IAlert } from '../../core/contracts/i-alert';
 import { ISurveyDurationService } from '../../core/contracts/i-http-services';
 import { Duration } from '../duration.model';
-import { QuestionOption } from '../question.model';
 import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
 import { SurveyService } from '../services/survey.service';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
-import { IOption, IQuestion } from '../shared/survey.interface';
 import { SurveyQuestion } from '../survey.model';
 
 
@@ -63,11 +63,11 @@ export class ViewComponent implements OnInit, OnDestroy {
         this._questionSrvc.listBySurveyId(params['id'])
       ])).map((data: any) => {
         const survey: SurveyQuestion = data[0].survey;
-        let questions: QuestionOption[] = [];
-        const items: QuestionOption[] = data[1].questionnaire;
+        let questions: Question[] = [];
+        const items: Question[] = data[1].questionnaire;
 
         questions = items.filter(item => +item.question_parent === 0)
-                    .reduce((prev: QuestionOption[], curr: QuestionOption) => {
+                    .reduce((prev: Question[], curr: Question) => {
                       curr.survey_id = survey.id;
                       curr.options = curr.options.map(opt => Object.assign({}, opt, { question_id: curr.question_id}))
                       curr.childrens = [];
@@ -124,7 +124,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateQuestion(event: IQuestion) {
+  updateQuestion(event: Question) {
     this.isQuestionPending[event.question_id] = true;
     const update_que_sub: ISubscription =
       this._questionSrvc.update(event).subscribe(
@@ -164,7 +164,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
 
   private _addDefaultOption(question_id: number) {
-    const defaultOption: IOption = {
+    const defaultOption: Option = {
       created_at: '',
       option_caption: 'N/A',
       option_id: 0,

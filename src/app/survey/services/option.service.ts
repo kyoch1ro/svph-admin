@@ -1,12 +1,10 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { apiUrl } from 'app/core/global.const';
+import { Observable } from 'rxjs/Observable';
+
 import { BadInputError } from '../../core/error-handlers/bad-input-error';
 import { DataService } from '../../core/services/data.service';
-import { IQuestion } from '../shared/survey.interface';
-import { Inject, Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { iAuth } from 'app/core/contracts/iAuth';
-import { apiUrl } from 'app/core/global.const';
-import { AuthService } from 'app/core/services/auth.service';
-import { Observable } from 'rxjs/Observable';
 
 
 

@@ -6,9 +6,10 @@ import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from 'rxjs/Subscription';
 
+import { Option } from '../../../option.model';
 import { Question } from '../../../question.model';
 import { OptionService } from '../../../services/option.service';
-import { IOption, IQuestion } from '../../../shared/survey.interface';
+
 
 
 
@@ -37,7 +38,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
   form: FormGroup;
   private _ispending: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _question: BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
-  question_with_parent_id: IQuestion;
+  question_with_parent_id: Question;
 
   modalReference: any;
   public isoptionpending = [];
@@ -55,7 +56,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
       question_isdeleted: ['', Validators.required]
     })
 
-    this._question.subscribe((data: IQuestion ) => {
+    this._question.subscribe((data: Question ) => {
       if (!data) {
         return;
       }
@@ -101,7 +102,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
   }
 
 
-  addOption(event: IOption) {
+  addOption(event: Option) {
     this.isoptionpending[0] = true;
     event.question_id = this.question.question_id;
     const add_opt: ISubscription =
@@ -117,7 +118,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
       )
   }
 
-  updateOption(event: IOption) {
+  updateOption(event: Option) {
     this.isoptionpending[event.option_id] = true;
     const update_opt: ISubscription =
       this._optionSrvc.update(event).subscribe(
@@ -133,7 +134,7 @@ export class QuestionFormComponent implements OnInit, IFormComponent {
   }
 
 
-  addSubQuestion(event: IQuestion) {
+  addSubQuestion(event: Question) {
     event.question_parent = this.question.question_id;
     event.survey_id = this.question.survey_id;
     this.newSubQuestion.emit(event);
