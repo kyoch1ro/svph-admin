@@ -1,16 +1,15 @@
+import { Option } from '../../models/option.model';
 import { Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Option } from './option.model';
 
 
 
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'sur-que-opt-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']

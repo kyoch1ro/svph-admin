@@ -1,3 +1,4 @@
+import { Option } from '../shared/models/option.model';
 import {
     MainNotificationService,
     NotificationType,
@@ -18,7 +19,6 @@ import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
 import { SurveyService } from '../services/survey.service';
-import { Option } from '../shared/form/option-form/option.model';
 import { SurveyFormComponent } from '../shared/form/survey-form/form.component';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
 import { Duration } from '../shared/models/duration.model';
@@ -180,11 +180,15 @@ export class ViewComponent implements OnInit, OnDestroy {
     )
   }
   updateSurvey(event) {
+    this.notification.create(SavingNotification);
     this._surveySrvc
         .update(event)
         .take(1)
         .subscribe(
-          data => this.survey = new SurveyQuestion(Object.assign({}, this.survey, event))
+          data => {
+            this.notification.create();
+            this.survey = new SurveyQuestion(Object.assign({}, this.survey, event))
+          }
         );
   }
 
