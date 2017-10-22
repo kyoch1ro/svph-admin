@@ -1,4 +1,4 @@
-<header class="app-header navbar">
+<header class="app-header navbar p-relative">
   <button class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
   <a class="navbar-brand" href="#"></a>
   <ul class="nav navbar-nav d-md-down-none">
@@ -25,10 +25,12 @@
         <button class="dropdown-item c-pointer" (click)="logout()"><i class="fa fa-lock"></i>&nbsp;Logout</button>
       </div>
     </li>
-
-
-
-
     <li class="nav-item">&nbsp;</li>
   </ul>
+
+  <div  *ngIf="notifMessage" 
+        class="main-notification"
+        [ngClass]="NotifClass">
+        {{notifMessage.message}}   
+  </div>
 </header>

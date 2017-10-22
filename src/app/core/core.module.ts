@@ -1,3 +1,4 @@
+import { MainNotificationService } from './services/main-notification.service';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './directives/sidebar.directive';
 import { AsideToggleDirective } from './directives/aside.directive';
 import { NAV_DROPDOWN_DIRECTIVES } from './directives/nav-dropdown.directive';
@@ -32,7 +33,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   providers: [
     AUTH_PROVIDERS,
     LoginGuard,
-    { provide: ErrorHandler, useClass: AppErrorHandler }
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    MainNotificationService
   ],
   exports: [
     SimpleLayoutComponent,

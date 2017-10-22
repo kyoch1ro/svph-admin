@@ -1,3 +1,8 @@
+import {
+    MainNotificationService,
+    NotificationType,
+    SavingNotification,
+} from '../../core/services/main-notification.service';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
@@ -51,7 +56,8 @@ export class ViewComponent implements OnInit, OnDestroy {
               @Inject(DurationService) private _durSrvc: ISurveyDurationService<Duration>,
               private _surveyFormSrvc: SurveyFormService,
               private _route: ActivatedRoute,
-              private modalService: NgbModal) {  }
+              private modalService: NgbModal,
+              private notification: MainNotificationService) {  }
 
   ngOnInit() {
     // this.questionsHolder.select('2');
@@ -90,19 +96,24 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   //#region HELPERS
   private updateQuestion(resource: Question) {
+    this.notification.create(SavingNotification);
     this._questionSrvc
       .update(resource)
       .take(1)
       .subscribe(data => {
-        this.survey.updateQuestion(resource) }
+        this.notification.create();
+        this.survey.updateQuestion(resource);
+      }
       )
   }
 
   private addQuestion(resource: Question) {
+    this.notification.create(SavingNotification);
     this._questionSrvc
         .create(resource)
         .take(1)
         .subscribe(data => {
+          this.notification.create();
           resource.question_id = data['question']['question_id'];
           this.survey.addQuestion(resource);
         })
