@@ -1,25 +1,26 @@
 <form action=""  [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group">
+    <div class="form-group"
+        [ngClass]="{'has-danger' : form.get('question_caption').invalid && form.get('question_caption').touched }">
         <label for="question">Question</label>
         <input type="text" 
                class="form-control" 
                id="question"
                formControlName="question_caption">
+        <div class="form-control-feedback"> This is a required field.</div>
     </div>
-    <div class="form-group">
+    <div class="form-group"
+         [ngClass]="{'has-danger' : form.get('option_type').invalid && form.get('option_type').touched }">
         <label for="option_type">Question type</label>
         <select class="form-control" 
                 id="option_type"
                 formControlName="option_type">
             <option value="">Please Select</option>
-            <option value="check">Checkbox</option>
-            <option value="radio">Radio</option>
-            <option value="enums">Enumeration</option>
-            <option value="text">Text</option>
+            <option *ngFor="let item of questionTypes" value="{{item.value}}">{{item.title}}</option>
         </select>
+        <div class="form-control-feedback"> This is a required field.</div>
     </div>
 
-    <button type="submit" [disabled]="form.pending" class="btn btn-primary">
-        Save
-    </button>
+    <button type="submit" [disabled]="form.pending" class="btn btn-primary">Save</button>
 </form>
+
+{{form.pending}}

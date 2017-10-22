@@ -10,3 +10,11 @@ export function formToggleControls(form: FormGroup, condition = true) {
     });
     }
 }
+
+
+
+export function markControlsAsTouched(form: FormGroup) {
+    Object.keys(form.controls).forEach(key => {
+        form.get(key).markAsTouched();
+    });
+}

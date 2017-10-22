@@ -4,7 +4,7 @@ import { Category } from '../../models/category.model';
 import { Survey } from '../../models/survey.model';
 import 'rxjs/add/operator/filter';
 
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, OnDestroy } from '@angular/core';
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,9 @@ import { SurveyTypeService } from '../../../services/survey-type.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class SurveyFormComponent implements OnInit, IFormComponent  {
+export class SurveyFormComponent implements OnInit, IFormComponent, OnDestroy  {
   @Input() set survey(val: Survey){
+    console.log(val);
     this._survey.next(val);
   }
   @Input() btnLabel = 'Submit';
@@ -33,7 +34,7 @@ export class SurveyFormComponent implements OnInit, IFormComponent  {
 
   private _survey: BehaviorSubject<Survey> = new BehaviorSubject<Survey>(new Survey());
   private _ispending = new BehaviorSubject<boolean>(false);
-
+  private formValueSubscription: ISubscription;
   categories: Category[];
   types: Type[];
   form: FormGroup;
@@ -47,7 +48,7 @@ export class SurveyFormComponent implements OnInit, IFormComponent  {
     this.setForm();
     this.setCategories();
     this.setTypes();
-    this._survey.filter(x => x.id > 0).take(1).subscribe(data => this.form.patchValue(data));
+    this.formValueSubscription = this._survey.filter(x => x.id > 0).subscribe(data => this.form.patchValue(data));
   }
 
   isDirty(): boolean {
@@ -88,12 +89,11 @@ export class SurveyFormComponent implements OnInit, IFormComponent  {
 
   onSubmit(data: any) {
     this.form.markAsPending();
-    setTimeout(function() {
-      if (this.form.invalid) {
-        return;
-     }
-     this.formSubmit.emit(data);
-    }.bind(this), 3000);
+    this.formSubmit.emit(data);
+  }
+
+  ngOnDestroy() {
+    this.formValueSubscription.unsubscribe();
   }
 
 

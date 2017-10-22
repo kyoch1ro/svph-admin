@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/Rx';
 
@@ -13,12 +14,25 @@ export class QuestionCarouselComponent implements OnInit {
   @Input() questions: QuestionOptionChildren[];
   @Output() questionFormSubmitted = new EventEmitter<Question>();
   private _activeIndx = new BehaviorSubject<number>(0);
-  constructor() { }
+  modalForm: AvailableForms;
+  formTemplate: any;
+
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
   }
 
+  addParentQuestion(content) {
+    this.modalForm = AvailableForms.questionForm;
+    this.formTemplate = { survey_id: this.activeQuestion.survey_id };
+    this.openModal(content);
+  }
 
+
+
+  private openModal(content) {
+    this.modalService.open(content);
+  }
 
 
   updateActiveIndex(indx: number) {
@@ -40,3 +54,11 @@ export class QuestionCarouselComponent implements OnInit {
   }
 
 }
+
+
+export enum AvailableForms {
+  questionForm,
+  optionForm
+}
+
+

@@ -18,7 +18,7 @@ import { SurveyFormComponent } from '../shared/form/survey-form/form.component';
 import { SURVEY_FORM_PROVIDER, SurveyFormService } from '../shared/form/survey-form/form.service';
 import { Duration } from '../shared/models/duration.model';
 import { Question } from '../shared/models/question.model';
-import { SurveyQuestion } from '../shared/models/survey.model';
+import { Survey, SurveyQuestion } from '../shared/models/survey.model';
 
 @Component({
   selector: 'sur-view',
@@ -51,7 +51,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               @Inject(DurationService) private _durSrvc: ISurveyDurationService<Duration>,
               private _surveyFormSrvc: SurveyFormService,
               private _route: ActivatedRoute,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal) {  }
 
   ngOnInit() {
     // this.questionsHolder.select('2');
@@ -76,7 +76,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   //#endregion
 
   private _updateDuration(data: Duration) {
-    const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
+    const updatedItem = Object.assign({}, data, { survey_id: this.survey.id });
     this._durSrvc.update(updatedItem).take(1).subscribe(res => console.log(res));
   }
 
@@ -84,35 +84,36 @@ export class ViewComponent implements OnInit, OnDestroy {
     const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
     this._durSrvc.add(updatedItem).take(1).subscribe(res => console.log(res))
   }
-
-  open(content) {
-    this.modalReference = this.modalService.open(content, {
-      size: 'lg'
-    });
-  }
-
-
   saveQuestion(data: Question) {
     if (data.question_id > 0) {
-      this._questionSrvc
-          .update(data)
-          .take(1)
-          .subscribe(x => this.updateLocalData(data))
-    }
-  }
-
-
-  updateLocalData(question: Question) {
-    if (question.question_parent > 0) {
-      const parent_indx = this.survey.questions.findIndex(x => x.question_id === question.question_parent);
-      const children_indx = this.survey.questions[parent_indx].childrens.findIndex(x => x.question_id === question.question_id);
-      this.survey.questions[parent_indx].childrens[children_indx] =
-        Object.assign({}, this.survey.questions[parent_indx].childrens[children_indx],  question);
+      this.updateQuestion(data);
     }else {
-      const indx = this.survey.questions.findIndex(x => x.question_id === question.question_id);
-      this.survey.questions[indx] = Object.assign({}, this.survey.questions[indx], question);
+      this.addQuestion(data);
     }
   }
+
+  //#region HELPERS
+  private updateQuestion(resource: Question) {
+    this._questionSrvc
+      .update(resource)
+      .take(1)
+      .subscribe(data => {
+        this.survey.updateQuestion(resource) }
+      )
+  }
+
+  private addQuestion(resource: Question) {
+    this._questionSrvc
+        .create(resource)
+        .take(1)
+        .subscribe(data => {
+          resource.question_id = data['question']['question_id'];
+          this.survey.addQuestion(resource);
+        })
+  }
+  //#endregion
+
+
 
   // updateQuestion(event: Question) {
   //   this.isQuestionPending[event.question_id] = true;
@@ -176,13 +177,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         .update(event)
         .take(1)
         .subscribe(
-          data => {},
-          err => {
-            this.surveyForm.formStatusReset();
-          },
-          () => {
-            this.surveyForm.formStatusReset();
-          }
+          data => this.survey = new SurveyQuestion(Object.assign({}, this.survey, event))
         );
   }
 

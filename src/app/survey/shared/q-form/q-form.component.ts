@@ -1,6 +1,9 @@
+import { markControlsAsTouched } from '../../../core/helpers/form-helper';
+import { ISubscription } from 'rxjs/Subscription';
+import { Question } from '../models/question.model';
+import { QuestionTypes } from '../../../core/consts/question-type.const';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { QuestionOptionChildren } from '../models/question.model';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
@@ -8,29 +11,35 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   templateUrl: './q-form.component.html',
   styleUrls: ['./q-form.component.scss']
 })
-export class QuestionFormComponent implements OnInit {
-  @Input() set formValue(val: QuestionOptionChildren) {
-    this._question.next(new QuestionOptionChildren(val));
+export class QuestionFormComponent implements OnInit, OnDestroy {
+  @Input() set formValue(val: any) {
+    this._question.next(new Question(val));
   }
   @Output() formSubmit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
+  questionTypes = QuestionTypes;
+  formValueSubscription: ISubscription;
 
-
-  private _question: BehaviorSubject<QuestionOptionChildren> = new BehaviorSubject<QuestionOptionChildren>(new QuestionOptionChildren());
+  private _question: BehaviorSubject<Question> = new BehaviorSubject<Question>(new Question());
   constructor(private fb: FormBuilder) { }
 
 
   ngOnInit() {
     this.setForm();
-    this._question.filter(x => x.question_id > 0 ).subscribe(data => this.form.patchValue(data));
+    this.formValueSubscription = this._question.subscribe(data => {
+      this.form.patchValue(data);
+    });
   }
 
 
   formStatusReset() {
+    console.log('yeah');
     this.form.reset(this.form.value);
   }
 
   onSubmit() {
+    markControlsAsTouched(this.form);
+    if (this.form.invalid) return;
     this.form.markAsPending();
     this.formSubmit.emit(this.form.value);
   }
@@ -46,4 +55,8 @@ export class QuestionFormComponent implements OnInit {
     })
   }
   //#endregion
+
+  ngOnDestroy() {
+    this.formValueSubscription.unsubscribe();
+  }
 }

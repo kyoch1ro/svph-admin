@@ -10,10 +10,34 @@
             [ngClass]="{'active' : i == activeIndx }"
             (click)="updateActiveIndex(i)"
             class="list-group-item c-pointer">{{ques.question_caption}}</li>
+        <li class="list-group-item c-pointer add-item"
+            (click)="addParentQuestion(content)">
+            <i class="icon-plus"></i>&nbsp;Add Question
+        </li>
       </ul>
   </div>
 </div>
 
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <span *ngIf="modalForm === 0">
+        Add&nbsp;<span *ngIf="formTemplate.question_parent">Sub&nbsp;</span>Question
+      </span>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <survey-question-form
+        *ngIf="modalForm === 0"
+        [formValue]="formTemplate"
+        (formSubmit)="saveQuestion($event)"></survey-question-form>
+  </div>
+</ng-template>
+  
 
 <pre>
   {{questions | json}}

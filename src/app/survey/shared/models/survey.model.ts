@@ -1,6 +1,6 @@
 import { Duration } from './duration.model';
 import { Option } from './option.model';
-import { QuestionOptionChildren } from './question.model';
+import { Question, QuestionOptionChildren } from './question.model';
 
 
 
@@ -47,8 +47,28 @@ export class SurveyQuestion extends Survey {
         this.questions = val;
     }
 
-    addQuestion(val: QuestionOptionChildren) {
-        this.questions.push(val);
+    updateQuestion(question: Question) {
+        const quest = new QuestionOptionChildren(question);
+        if (question.question_parent > 0) {
+            const parent_indx = this.questions.findIndex(x => x.question_id === question.question_parent);
+            const children_indx = this.questions[parent_indx].childrens.findIndex(x => x.question_id === question.question_id);
+            this.questions[parent_indx].childrens[children_indx] =
+            Object.assign({}, this.questions[parent_indx].childrens[children_indx],  question);
+        }else {
+            const indx = this.questions.findIndex(x => x.question_id === question.question_id);
+            this.questions[indx] = Object.assign({}, this.questions[indx], question);
+        }
+    }
+
+
+    addQuestion(question: Question) {
+        const quest = new QuestionOptionChildren(question);
+        if (quest.question_parent === 0) {
+            this.questions.push(quest);
+        }else {
+            const parent_indx = this.questions.findIndex(x => x.question_id === quest.question_parent);
+            this.questions[parent_indx].childrens.push(quest);
+        }
     }
     addQuestionOption(indx: number, val: Option) {
         this.questions[indx].options.push(val);
