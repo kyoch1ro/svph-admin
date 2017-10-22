@@ -42,11 +42,11 @@ export class SurveyQuestion extends Survey {
         super(obj);
         this.questions = obj && obj.questions || [];
     }
-
     setQuestions(val: QuestionOptionChildren[]) {
         this.questions = val;
     }
 
+    // refactor, see addOption
     updateQuestion(question: Question) {
         const quest = new QuestionOptionChildren(question);
         if (question.question_parent > 0) {
@@ -61,7 +61,7 @@ export class SurveyQuestion extends Survey {
         }
     }
 
-
+    // refactor, see addOption
     addQuestion(question: Question) {
         const quest = new QuestionOptionChildren(question);
         if (quest.question_parent === 0) {
@@ -71,7 +71,29 @@ export class SurveyQuestion extends Survey {
             this.questions[parent_indx].childrens.push(quest);
         }
     }
-    addQuestionOption(indx: number, val: Option) {
-        this.questions[indx].options.push(val);
+
+
+    addOption(val: Option) {
+        const optionQuestion = this.findParentQuestion(this.questions, val);
+        optionQuestion.options.push(val);
+    }
+
+
+    updateOption(val: Option) {
+        const parentOption = this.findParentQuestion(this.questions, val);
+        const indx = parentOption.options.findIndex(x => x.option_id === val.option_id);
+        parentOption.options[indx] = Object.assign({},parentOption.options[indx] , val);
+    }
+
+    private findParentQuestion(items: QuestionOptionChildren[], option: Option): QuestionOptionChildren {
+        if (items) {
+            for (let i = 0; i < this.questions.length; i++) {
+                if (items[i].question_id === option.question_id) {
+                    return items[i]
+                };
+                const found = this.findParentQuestion(items[i].childrens, option);
+                if (found) return found;
+            }
+        }
     }
 }

@@ -94,6 +94,19 @@ export class ViewComponent implements OnInit, OnDestroy {
     return (data.question_id > 0) ? this.updateQuestion(data) : this.addQuestion(data)
   }
 
+  saveOption(data: Option) {
+    console.log(data);
+    return this.updateOption(data);
+    // if (data.option_id === 0) {
+    //   this.survey.addOption(data);
+    // }else {
+    //   this.survey.updateOption(data);
+    // }
+    // console.log(data);
+    
+    // return (data.question_id > 0) ? this.updateQuestion(data) : this.addQuestion(data)
+  }
+
   //#region HELPERS
   private updateQuestion(resource: Question) {
     this.notification.create(SavingNotification);
@@ -118,6 +131,16 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.survey.addQuestion(resource);
         })
   }
+
+  private updateOption(resource: Option) {
+    this._optionSrvc
+        .update(resource)
+        .take(1)
+        .subscribe(data => console.log(data));
+
+  }
+
+
   //#endregion
 
 

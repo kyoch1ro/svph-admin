@@ -37,7 +37,7 @@ export class OptionFormComponent implements OnInit, IFormComponent, OnDestroy {
   onSubmit() {
     markControlsAsTouched(this.form);
     if (this.form.invalid) return;
-    this.form.markAsPending();
+    // this.form.markAsPending();
     this.formSubmit.emit(this.form.value);
   }
 

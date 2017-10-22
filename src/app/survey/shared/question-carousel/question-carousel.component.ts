@@ -1,3 +1,4 @@
+import { Option } from '../models/option.model';
 import { QuestionTypes } from '../../../core/consts/question-type.const';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +16,7 @@ import { Question, QuestionOptionChildren } from '../models/question.model';
 export class QuestionCarouselComponent implements OnInit, OnDestroy {
   @Input() questions: QuestionOptionChildren[];
   @Output() questionFormSubmitted = new EventEmitter<Question>();
+  @Output() optionFormSubmitted = new EventEmitter<Option>();
   private _activeIndx = new BehaviorSubject<number>(0);
   modalForm: AvailableForms;
   formTemplate: any;
@@ -59,6 +61,11 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
   saveQuestion(data: Question) {
     if (this.modalInstance) this.modalInstance.close();
     this.questionFormSubmitted.emit(data);
+  }
+
+  saveOption(data: Option) {
+    if (this.modalInstance) this.modalInstance.close();
+    this.optionFormSubmitted.emit(data);
   }
 
   ngOnDestroy() {

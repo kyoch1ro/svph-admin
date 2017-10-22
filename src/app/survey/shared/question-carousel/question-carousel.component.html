@@ -10,7 +10,8 @@
 
       <div *ngIf="hasOptions">
         <option-form *ngFor="let opt of activeQuestion.options"
-                      [formValue]="opt"></option-form>
+                      [formValue]="opt"
+                      (formSubmit)="saveOption($event)"></option-form>
       </div>
   </div>
   <div class="col-3">
