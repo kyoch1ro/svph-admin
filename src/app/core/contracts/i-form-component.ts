@@ -4,5 +4,4 @@ export interface IFormComponent {
     btnLabel: string;
     formSubmit: EventEmitter<any>;
     isDirty(): boolean;
-    toggleControls(data: boolean): void;
 }

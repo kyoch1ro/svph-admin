@@ -1,3 +1,4 @@
+import { QuestionTypes } from '../../../core/consts/question-type.const';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
@@ -31,6 +32,10 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
   }
 
 
+
+  get hasOptions() {
+    return !(this.activeQuestion.option_type === 'enums' || this.activeQuestion.option_type === 'text');
+  }
 
   private openModal(content) {
     this.modalInstance = this.modalService.open(content);

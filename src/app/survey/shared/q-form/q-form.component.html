@@ -1,7 +1,7 @@
 <form action=""  [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group"
         [ngClass]="{'has-danger' : form.get('question_caption').invalid && form.get('question_caption').touched }">
-        <label for="question">Question</label>
+        <label for="question">Caption</label>
         <input type="text" 
                class="form-control" 
                id="question"

@@ -44,16 +44,16 @@
     </div>
     <div *ngIf="question.question_id" class="col-md-4">
         <p class="text-muted no-marg">Question Options</p>
-        <sur-que-opt-form *ngFor="let option of question.options"
+        <!-- <sur-que-opt-form *ngFor="let option of question.options"
                         [isPending]="isoptionpending[option.option_id] || false"
                         [option]="option"
                         [btnLabel]="'Update'"
-                        (formSubmit)="updateOption($event)"></sur-que-opt-form>
+                        (formSubmit)="updateOption($event)"></sur-que-opt-form> -->
         <hr>
-        <p class="text-muted no-marg">Add Option</p>
+        <!-- <p class="text-muted no-marg">Add Option</p>
         <sur-que-opt-form
             [isPending]="isoptionpending[0] || false"
-            (formSubmit)="addOption($event)"></sur-que-opt-form>
+            (formSubmit)="addOption($event)"></sur-que-opt-form> -->
     </div>
 </div>
 

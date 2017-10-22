@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   styleUrls: ['./q-form.component.scss']
 })
 export class QuestionFormComponent implements OnInit, OnDestroy {
+  @Input() btbLabel = 'Save';
   @Input() set formValue(val: any) {
     this._question.next(new Question(val));
   }
@@ -26,17 +27,9 @@ export class QuestionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setForm();
-    this.formValueSubscription = this._question.subscribe(data => {
-      this.form.patchValue(data);
-    });
+    this.formValueSubscription = this._question.subscribe(data => this.form.patchValue(data));
   }
-
-
-  formStatusReset() {
-    console.log('yeah');
-    this.form.reset(this.form.value);
-  }
-
+  
   onSubmit() {
     markControlsAsTouched(this.form);
     if (this.form.invalid) return;
