@@ -1,5 +1,6 @@
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/Rx';
 
 import { Question, QuestionOptionChildren } from '../models/question.model';
@@ -10,12 +11,13 @@ import { Question, QuestionOptionChildren } from '../models/question.model';
   templateUrl: './question-carousel.component.html',
   styleUrls: ['./question-carousel.component.scss']
 })
-export class QuestionCarouselComponent implements OnInit {
+export class QuestionCarouselComponent implements OnInit, OnDestroy {
   @Input() questions: QuestionOptionChildren[];
   @Output() questionFormSubmitted = new EventEmitter<Question>();
   private _activeIndx = new BehaviorSubject<number>(0);
   modalForm: AvailableForms;
   formTemplate: any;
+  modalInstance: NgbModalRef;
 
   constructor(private modalService: NgbModal) { }
 
@@ -31,7 +33,7 @@ export class QuestionCarouselComponent implements OnInit {
 
 
   private openModal(content) {
-    this.modalService.open(content);
+    this.modalInstance = this.modalService.open(content);
   }
 
 
@@ -50,7 +52,12 @@ export class QuestionCarouselComponent implements OnInit {
   }
 
   saveQuestion(data: Question) {
+    if (this.modalInstance) this.modalInstance.close();
     this.questionFormSubmitted.emit(data);
+  }
+
+  ngOnDestroy() {
+    if (this.modalInstance) this.modalInstance.close();
   }
 
 }

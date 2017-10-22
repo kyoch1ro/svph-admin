@@ -85,11 +85,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this._durSrvc.add(updatedItem).take(1).subscribe(res => console.log(res))
   }
   saveQuestion(data: Question) {
-    if (data.question_id > 0) {
-      this.updateQuestion(data);
-    }else {
-      this.addQuestion(data);
-    }
+    return (data.question_id > 0) ? this.updateQuestion(data) : this.addQuestion(data)
   }
 
   //#region HELPERS

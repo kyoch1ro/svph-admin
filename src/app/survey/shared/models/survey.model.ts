@@ -53,10 +53,11 @@ export class SurveyQuestion extends Survey {
             const parent_indx = this.questions.findIndex(x => x.question_id === question.question_parent);
             const children_indx = this.questions[parent_indx].childrens.findIndex(x => x.question_id === question.question_id);
             this.questions[parent_indx].childrens[children_indx] =
-            Object.assign({}, this.questions[parent_indx].childrens[children_indx],  question);
+              new QuestionOptionChildren(Object.assign({}, this.questions[parent_indx].childrens[children_indx],  question));
         }else {
             const indx = this.questions.findIndex(x => x.question_id === question.question_id);
-            this.questions[indx] = Object.assign({}, this.questions[indx], question);
+            this.questions[indx] =
+                new QuestionOptionChildren(Object.assign({}, this.questions[indx],  question));
         }
     }
 
