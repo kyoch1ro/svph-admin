@@ -96,15 +96,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   saveOption(data: Option) {
     console.log(data);
-    return this.updateOption(data);
-    // if (data.option_id === 0) {
-    //   this.survey.addOption(data);
-    // }else {
-    //   this.survey.updateOption(data);
-    // }
-    // console.log(data);
-    
-    // return (data.question_id > 0) ? this.updateQuestion(data) : this.addQuestion(data)
+    return (data.option_id > 0 ) ? this.updateOption(data) : this.addOption(data);
   }
 
   //#region HELPERS
@@ -133,13 +125,24 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   private updateOption(resource: Option) {
+    this.notification.create(SavingNotification);
     this._optionSrvc
         .update(resource)
         .take(1)
-        .subscribe(data => console.log(data));
-
+        .subscribe(data => {
+          this.notification.create();
+          this.survey.updateOption(resource);
+          console.log(data);
+        });
   }
 
+  private addOption(resource: Option) {
+    this.notification.create(SavingNotification);
+    this._optionSrvc
+        .create(resource)
+        .take(1)
+        .subscribe(data => console.log(data));
+  }
 
   //#endregion
 

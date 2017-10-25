@@ -82,7 +82,7 @@ export class SurveyQuestion extends Survey {
     updateOption(val: Option) {
         const parentOption = this.findParentQuestion(this.questions, val);
         const indx = parentOption.options.findIndex(x => x.option_id === val.option_id);
-        parentOption.options[indx] = Object.assign({},parentOption.options[indx] , val);
+        parentOption.options[indx] = Object.assign({}, parentOption.options[indx] , val);
     }
 
     private findParentQuestion(items: QuestionOptionChildren[], option: Option): QuestionOptionChildren {
