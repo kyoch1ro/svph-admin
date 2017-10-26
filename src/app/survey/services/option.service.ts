@@ -17,6 +17,11 @@ export class OptionService extends DataService {
     super(http, url);
   }
 
+
+  save(resource: any) {
+    const id = +resource['option_id'];
+    return (id === 0) ? this.create(resource) : this.update(resource);
+  }
   update(data: any): Observable<any> {
     const id = data['option_id'];
     if (!id) { return Observable.throw(new BadInputError('Id is not defined'))}

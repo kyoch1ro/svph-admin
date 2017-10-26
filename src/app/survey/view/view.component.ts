@@ -1,3 +1,4 @@
+import { CarouselOutput, OutType } from '../shared/question-carousel/question-carousel.component';
 import { Option } from '../shared/models/option.model';
 import {
     MainNotificationService,
@@ -90,59 +91,88 @@ export class ViewComponent implements OnInit, OnDestroy {
     const updatedItem = Object.assign({}, data, { survey_id: this.survey.id});
     this._durSrvc.add(updatedItem).take(1).subscribe(res => console.log(res))
   }
-  saveQuestion(data: Question) {
-    return (data.question_id > 0) ? this.updateQuestion(data) : this.addQuestion(data)
-  }
 
-  saveOption(data: Option) {
-    console.log(data);
-    return (data.option_id > 0 ) ? this.updateOption(data) : this.addOption(data);
-  }
-
-  //#region HELPERS
-  private updateQuestion(resource: Question) {
+  save(event: CarouselOutput) {
     this.notification.create(SavingNotification);
-    this._questionSrvc
-      .update(resource)
-      .take(1)
-      .subscribe(data => {
-        this.notification.create();
-        this.survey.updateQuestion(resource);
-      }
-      )
+    switch (event.type) {
+      case OutType.option:
+        this.saveOption(event.resource);
+        break;
+      case OutType.question:
+        this.saveQuestion(event.resource);
+        break;
+      default:
+        console.log('Error')
+    }
   }
 
-  private addQuestion(resource: Question) {
-    this.notification.create(SavingNotification);
+  private saveQuestion(data: any) {
     this._questionSrvc
-        .create(resource)
-        .take(1)
-        .subscribe(data => {
+        .save(data)
+        .subscribe(x => {
           this.notification.create();
-          resource.question_id = data['question']['question_id'];
-          this.survey.addQuestion(resource);
+          this.survey.saveQuestion(data)
         })
   }
 
-  private updateOption(resource: Option) {
-    this.notification.create(SavingNotification);
+  private saveOption(data: any) {
     this._optionSrvc
-        .update(resource)
-        .take(1)
-        .subscribe(data => {
+        .save(data)
+        .subscribe(x => {
           this.notification.create();
-          this.survey.updateOption(resource);
-          console.log(data);
-        });
+          this.survey.saveOption(data)
+        })
+    // console.log(data);
+    // return (data.option_id > 0 ) ? this.updateOption(data) : this.addOption(data);
   }
 
-  private addOption(resource: Option) {
-    this.notification.create(SavingNotification);
-    this._optionSrvc
-        .create(resource)
-        .take(1)
-        .subscribe(data => console.log(data));
-  }
+  //#region HELPERS
+  // private updateQuestion(resource: Question) {
+    
+  //   this._questionSrvc
+  //     .update(resource)
+  //     .take(1)
+  //     .subscribe(data => {
+  //       this.notification.create();
+        
+  //     }
+  //     )
+  // }
+
+  // private addQuestion(resource: Question) {
+  //   this.notification.create(SavingNotification);
+  //   this._questionSrvc
+  //       .create(resource)
+  //       .take(1)
+  //       .subscribe(data => {
+  //         this.notification.create();
+  //         resource.question_id = data['question']['question_id'];
+  //         this.survey.addQuestion(resource);
+  //       })
+  // }
+
+
+
+
+  // private updateOption(resource: Option) {
+  //   this.notification.create(SavingNotification);
+  //   this._optionSrvc
+  //       .update(resource)
+  //       .take(1)
+  //       .subscribe(data => {
+  //         this.notification.create();
+  //         this.survey.updateOption(resource);
+  //         console.log(data);
+  //       });
+  // }
+
+  // private addOption(resource: Option) {
+  //   this.notification.create(SavingNotification);
+  //   this._optionSrvc
+  //       .create(resource)
+  //       .take(1)
+  //       .subscribe(data => console.log(data));
+  // }
 
   //#endregion
 

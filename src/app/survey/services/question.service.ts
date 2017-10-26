@@ -18,6 +18,13 @@ export class QuestionService extends DataService {
     super(http, url);
   }
 
+  save(resource) {
+    const id = +resource['question_id'];
+    return (id === 0) ? this.create(resource) : this.update(resource);
+  }
+
+
+
   getById(id: number): Observable<any> {
     return;
   }

@@ -2,9 +2,6 @@ import { Duration } from './duration.model';
 import { Option } from './option.model';
 import { Question, QuestionOptionChildren } from './question.model';
 
-
-
-
 export class Survey {
     id: number;
     created_at: string;
@@ -35,7 +32,6 @@ export class Survey {
     }
 }
 
-
 export class SurveyQuestion extends Survey {
     questions: QuestionOptionChildren[];
     constructor(obj?: any) {
@@ -45,24 +41,30 @@ export class SurveyQuestion extends Survey {
     setQuestions(val: QuestionOptionChildren[]) {
         this.questions = val;
     }
-
-    // refactor, see addOption
-    updateQuestion(question: Question) {
-        const quest = new QuestionOptionChildren(question);
-        if (question.question_parent > 0) {
-            const parent_indx = this.questions.findIndex(x => x.question_id === question.question_parent);
-            const children_indx = this.questions[parent_indx].childrens.findIndex(x => x.question_id === question.question_id);
-            this.questions[parent_indx].childrens[children_indx] =
-              new QuestionOptionChildren(Object.assign({}, this.questions[parent_indx].childrens[children_indx],  question));
-        }else {
-            const indx = this.questions.findIndex(x => x.question_id === question.question_id);
-            this.questions[indx] =
-                new QuestionOptionChildren(Object.assign({}, this.questions[indx],  question));
+    saveQuestion(question: Question) {
+        return (question.question_id === 0) ? this.addQuestion(question) : this.updateQuestions(question);
+    }
+    saveOption(opt: Option) {
+        return (opt.option_id === 0) ? this.addOption(opt) : this.updateOption(opt);
+    }
+    updateQuestions(questions) {
+        this.questions = this.updatedQuestionList(this.questions, questions);
+    }
+    private updatedQuestionList(questions: QuestionOptionChildren[], item: Question) {
+        if (questions) {
+            return questions.map(x => {
+                if (x.question_id === item.question_id) {
+                    x = new QuestionOptionChildren(Object.assign({}, x,  item))
+                    return x;
+                }
+                if (x.childrens) {
+                    x.childrens = this.updatedQuestionList(x.childrens, item);
+                    return x;
+                }
+            })
         }
     }
-
-    // refactor, see addOption
-    addQuestion(question: Question) {
+    private addQuestion(question: Question) {
         const quest = new QuestionOptionChildren(question);
         if (quest.question_parent === 0) {
             this.questions.push(quest);
@@ -71,20 +73,15 @@ export class SurveyQuestion extends Survey {
             this.questions[parent_indx].childrens.push(quest);
         }
     }
-
-
-    addOption(val: Option) {
+    private addOption(val: Option) {
         const optionQuestion = this.findParentQuestion(this.questions, val);
         optionQuestion.options.push(val);
     }
-
-
-    updateOption(val: Option) {
+    private updateOption(val: Option) {
         const parentOption = this.findParentQuestion(this.questions, val);
         const indx = parentOption.options.findIndex(x => x.option_id === val.option_id);
         parentOption.options[indx] = Object.assign({}, parentOption.options[indx] , val);
     }
-
     private findParentQuestion(items: QuestionOptionChildren[], option: Option): QuestionOptionChildren {
         if (items) {
             for (let i = 0; i < this.questions.length; i++) {

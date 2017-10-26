@@ -7,6 +7,16 @@ import { BehaviorSubject } from 'rxjs/Rx';
 
 import { Question, QuestionOptionChildren } from '../models/question.model';
 
+export enum OutType {
+  option = 0,
+  question = 1
+}
+
+export interface CarouselOutput {
+  resource: any,
+  type: OutType
+}
+
 
 @Component({
   selector: 'survey-question-carousel',
@@ -15,8 +25,7 @@ import { Question, QuestionOptionChildren } from '../models/question.model';
 })
 export class QuestionCarouselComponent implements OnInit, OnDestroy {
   @Input() questions: QuestionOptionChildren[];
-  @Output() questionFormSubmitted = new EventEmitter<Question>();
-  @Output() optionFormSubmitted = new EventEmitter<Option>();
+  @Output() formSubmitted = new EventEmitter<CarouselOutput>();
   private _activeIndx = new BehaviorSubject<number>(0);
   modalForm: AvailableForms;
   formTemplate: any;
@@ -60,12 +69,18 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
 
   saveQuestion(data: Question) {
     if (this.modalInstance) this.modalInstance.close();
-    this.questionFormSubmitted.emit(data);
+    this.formSubmitted.emit({
+      type: OutType.question,
+      resource: data
+    })
   }
 
   saveOption(data: Option) {
     if (this.modalInstance) this.modalInstance.close();
-    this.optionFormSubmitted.emit(data);
+    this.formSubmitted.emit({
+      type: OutType.option,
+      resource: data
+    })
   }
 
   ngOnDestroy() {

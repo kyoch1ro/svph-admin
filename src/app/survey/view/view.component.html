@@ -18,8 +18,7 @@
             <survey-question-carousel
                 *ngIf="survey"
                 [questions]="survey.questions"
-                (questionFormSubmitted)="saveQuestion($event)"
-                (optionFormSubmitted)="saveOption($event)"></survey-question-carousel>
+                (formSubmitted)="save($event)"></survey-question-carousel>
         </ng-template>
     </ngb-tab>
 
