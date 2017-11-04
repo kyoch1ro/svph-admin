@@ -23,6 +23,7 @@
         <survey-question-form
           [formValue]="activeQuestion"
           (formSubmit)="saveQuestion($event)"></survey-question-form>
+        <hr>
       </div>
       <div class="col-md-3" *ngIf="hasOptions">
         <h4 class="reset">Options</h4>
@@ -37,9 +38,30 @@
         </button>
       </div>
     </div>
-
+    <div>
+      <h4 class="reset">Sub Questions</h4>
+      <div *ngFor="let sub of activeQuestion.childrens; let i = index">
+        <div class="text-muted">Sub questions {{i + 1}} of {{activeQuestion.childrens.length}}</div>
+        <div class="row" >
+          <div class="col-md-9">
+              <survey-question-form
+                [formValue]="sub"
+                (formSubmit)="saveQuestion($event)"></survey-question-form>
+          </div>
+          <div class="col-md-3">
+              <option-form *ngFor="let opt of sub.options"
+                [formValue]="opt"
+                (formSubmit)="saveOption($event)"></option-form>
+              <button class="btn btn-outline-success btn-block c-pointer"
+                  (click)="addOption(content)">
+                  <i class="icon-plus"></i>
+                  Add Option
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
