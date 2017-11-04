@@ -33,10 +33,10 @@ export class Survey {
 }
 
 export class SurveyQuestion extends Survey {
-    questions: QuestionOptionChildren[];
+    questions: QuestionOptionChildren[] = [];
     constructor(obj?: any) {
         super(obj);
-        this.questions = obj && obj.questions || [];
+        if (obj && obj.questions) this.questions = obj.questions.map(x => new QuestionOptionChildren(x));
     }
     setQuestions(val: QuestionOptionChildren[]) {
         this.questions = val;
@@ -44,8 +44,8 @@ export class SurveyQuestion extends Survey {
     saveQuestion(question: Question) {
         return (question.question_id === 0) ? this.addQuestion(question) : this.updateQuestions(question);
     }
-    saveOption(opt: Option) {
-        return (opt.option_id === 0) ? this.addOption(opt) : this.updateOption(opt);
+    saveOption(opt: Option, isNew = false) {
+        return (opt.option_id === 0 || isNew === true) ? this.addOption(opt) : this.updateOption(opt);
     }
     updateQuestions(questions) {
         this.questions = this.updatedQuestionList(this.questions, questions);
@@ -74,8 +74,12 @@ export class SurveyQuestion extends Survey {
         }
     }
     private addOption(val: Option) {
-        const optionQuestion = this.findParentQuestion(this.questions, val);
-        optionQuestion.options.push(val);
+        try {
+            const optionQuestion = this.findParentQuestion(this.questions, val);
+            optionQuestion.options.push(val);
+        } catch (error) {
+            console.log(error);
+        }
     }
     private updateOption(val: Option) {
         const parentOption = this.findParentQuestion(this.questions, val);
@@ -84,10 +88,8 @@ export class SurveyQuestion extends Survey {
     }
     private findParentQuestion(items: QuestionOptionChildren[], option: Option): QuestionOptionChildren {
         if (items) {
-            for (let i = 0; i < this.questions.length; i++) {
-                if (items[i].question_id === option.question_id) {
-                    return items[i]
-                };
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].question_id === option.question_id) return items[i];
                 const found = this.findParentQuestion(items[i].childrens, option);
                 if (found) return found;
             }

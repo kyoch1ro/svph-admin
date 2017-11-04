@@ -42,6 +42,11 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
     this.openModal(content);
   }
 
+  addOption(content) {
+    this.modalForm = AvailableForms.optionForm;
+    this.formTemplate = { question_id: this.activeQuestion.question_id };
+    this.openModal(content);
+  }
 
 
   get hasOptions() {

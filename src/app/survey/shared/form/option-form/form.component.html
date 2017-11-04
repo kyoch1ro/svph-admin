@@ -1,29 +1,29 @@
 <form [formGroup]="form" 
+      class="pb-2"
       (ngSubmit)="onSubmit()">
     <div class="input-group">
-    <input type="text" class="form-control"
-            [formGroup]="form"
-            formControlName="option_caption">
-    <div *ngIf="+form.get('option_id').value > 0" ngbDropdown class="input-group-btn">
-      <button class="btn btn-primary"  
-              [disabled]="form.pending"  
-              type="button" ngbDropdownToggle>
-        Action
-      </button>
-      <div class="dropdown-menu">
-        <button type="submit"  class="dropdown-item">Update</button>
-        <button type="button" class="dropdown-item">Remove</button>
+      <input type="text" class="form-control"
+              [formGroup]="form"
+              formControlName="option_caption">
+      <div *ngIf="+form.get('option_id').value > 0" ngbDropdown class="input-group-btn">
+        <button class="btn btn-primary"  
+                [disabled]="form.pending"  
+                type="button" ngbDropdownToggle>
+          <i class="icon-options"></i>
+        </button>
+        <div class="dropdown-menu">
+          <button type="submit"  class="dropdown-item"><i class="icon-cloud-upload"></i>&nbsp;Update</button>
+          <button type="button" class="dropdown-item"><i class="icon-trash"></i>&nbsp;Remove</button>
+        </div>
       </div>
-    </div>
-    <button *ngIf="+form.get('option_id').value === 0" 
-            [disabled]="form.pending" 
-            class="btn btn-success"
-            type="submit">
-      {{ btnLabel }}
-    </button>
+      <button *ngIf="+form.get('option_id').value === 0" 
+              [disabled]="form.pending" 
+              class="btn btn-success"
+              type="submit">
+        {{ btnLabel }}
+      </button>
   </div>
-
-    <small class="form-text text-danger" 
-          *ngIf="form.controls['option_caption'].touched && form.controls['option_caption'].hasError('required')" >Option caption is required.</small>
+  <small class="form-text text-danger" 
+         *ngIf="form.controls['option_caption'].touched && form.controls['option_caption'].hasError('required')">Option caption is required.</small>
 </form>
 

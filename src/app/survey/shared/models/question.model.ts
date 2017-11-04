@@ -31,10 +31,10 @@ export class QuestionOption extends Question {
 }
 
 export class QuestionOptionChildren extends QuestionOption {
-    childrens: QuestionOptionChildren[];
+    childrens: QuestionOptionChildren[] = [];
     constructor(obj?: any) {
         super(obj);
-        this.childrens = obj && obj.childrens || [];
+        if (obj && obj.childrens) this.childrens = obj.childrens.map(x => new QuestionOptionChildren(x));
     }
 }
 

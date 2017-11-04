@@ -111,16 +111,18 @@ export class ViewComponent implements OnInit, OnDestroy {
         .save(data)
         .subscribe(x => {
           this.notification.create();
-          this.survey.saveQuestion(data)
+          this.survey.saveQuestion(data);
         })
   }
 
-  private saveOption(data: any) {
+  private saveOption(data: Option) {
     this._optionSrvc
         .save(data)
         .subscribe(x => {
+          const isNew = data.option_id === 0;
           this.notification.create();
-          this.survey.saveOption(data)
+          data.option_id = +(x['option'] as Option).option_id;
+          this.survey.saveOption(data, isNew);
         })
     // console.log(data);
     // return (data.option_id > 0 ) ? this.updateOption(data) : this.addOption(data);

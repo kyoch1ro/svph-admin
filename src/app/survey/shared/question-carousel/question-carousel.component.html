@@ -7,11 +7,16 @@
       (formSubmit)="saveQuestion($event)"></survey-question-form>
       <hr>
 
-
       <div *ngIf="hasOptions">
+        <h4>Options</h4>
         <option-form *ngFor="let opt of activeQuestion.options"
                       [formValue]="opt"
                       (formSubmit)="saveOption($event)"></option-form>
+        <button class="btn btn-outline-success btn-block c-pointer"
+          (click)="addOption(content)">
+          <i class="icon-plus"></i>
+          Add Option
+        </button>
       </div>
   </div>
   <div class="col-3">
@@ -28,12 +33,14 @@
   </div>
 </div>
 
-
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">
       <span *ngIf="modalForm === 0">
         Add&nbsp;<span *ngIf="formTemplate.question_parent">Sub&nbsp;</span>Question
+      </span>
+      <span *ngIf="modalForm === 1">
+          Add Option
       </span>
     </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -45,10 +52,10 @@
         *ngIf="modalForm === 0"
         [formValue]="formTemplate"
         (formSubmit)="saveQuestion($event)"></survey-question-form>
+
+      <option-form
+        *ngIf="modalForm === 1"
+        [formValue]="formTemplate"
+        (formSubmit)="saveOption($event)"></option-form>
   </div>
 </ng-template>
-  
-
-<pre>
-  {{questions | json}}
-</pre>
