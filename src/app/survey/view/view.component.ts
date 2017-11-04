@@ -106,12 +106,14 @@ export class ViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  private saveQuestion(data: any) {
+  private saveQuestion(data: Question) {
     this._questionSrvc
         .save(data)
         .subscribe(x => {
           this.notification.create();
-          this.survey.saveQuestion(data);
+          const isNew = data.question_id === 0;
+          data.question_id = (x['question'] as Question).question_id;
+          this.survey.saveQuestion(data, isNew);
         })
   }
 

@@ -1,36 +1,45 @@
 <div class="row">
-  <div class="col-9">
-    <h4 class="reset">Question</h4>
-    <div class="text-muted">Item {{activeIndx + 1}} of {{questions.length}}</div>
-    <survey-question-form
-      [formValue]="activeQuestion"
-      (formSubmit)="saveQuestion($event)"></survey-question-form>
-      <hr>
-
-      <div *ngIf="hasOptions">
-        <h4>Options</h4>
-        <option-form *ngFor="let opt of activeQuestion.options"
-                      [formValue]="opt"
-                      (formSubmit)="saveOption($event)"></option-form>
-        <button class="btn btn-outline-success btn-block c-pointer"
-          (click)="addOption(content)">
-          <i class="icon-plus"></i>
-          Add Option
-        </button>
-      </div>
-  </div>
-  <div class="col-3">
+  <div class="col-md-2">
       <ul class="list-group">
         <li *ngFor="let ques of questions; let i = index"
             [ngClass]="{'active' : i == activeIndx }"
             (click)="updateActiveIndex(i)"
-            class="list-group-item c-pointer">{{ques.question_caption}}</li>
+            class="list-group-item c-pointer">
+            <div class="truncate">
+              {{ques.question_caption }}
+            </div>
+        </li>
         <li class="list-group-item c-pointer add-item"
             (click)="addParentQuestion(content)">
             <i class="icon-plus"></i>&nbsp;Add Question
         </li>
       </ul>
   </div>
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md 9">
+        <h4 class="reset">Question</h4>
+        <div class="text-muted">Item {{activeIndx + 1}} of {{questions.length}}</div>
+        <survey-question-form
+          [formValue]="activeQuestion"
+          (formSubmit)="saveQuestion($event)"></survey-question-form>
+      </div>
+      <div class="col-md-3" *ngIf="hasOptions">
+        <h4 class="reset">Options</h4>
+        <div class="text-muted">{{activeQuestion.options.length}} active options.</div>
+        <option-form *ngFor="let opt of activeQuestion.options"
+                  [formValue]="opt"
+                  (formSubmit)="saveOption($event)"></option-form>
+        <button class="btn btn-outline-success btn-block c-pointer"
+                (click)="addOption(content)">
+          <i class="icon-plus"></i>
+          Add Option
+        </button>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">

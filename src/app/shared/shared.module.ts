@@ -9,6 +9,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AlertComponent } from './alert/alert.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { SaveSpinnerComponent } from './save-spinner/save-spinner.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { SaveSpinnerComponent } from './save-spinner/save-spinner.component';
     LoginFormComponent,
     AlertComponent,
     SaveSpinnerComponent,
+    TruncatePipe,
   ],
   exports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { SaveSpinnerComponent } from './save-spinner/save-spinner.component';
     LoginFormComponent,
     AlertComponent,
     NgbModule,
-    SaveSpinnerComponent
+    SaveSpinnerComponent,
+    TruncatePipe
   ]
 })
 export class SharedModule { }

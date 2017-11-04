@@ -41,8 +41,8 @@ export class SurveyQuestion extends Survey {
     setQuestions(val: QuestionOptionChildren[]) {
         this.questions = val;
     }
-    saveQuestion(question: Question) {
-        return (question.question_id === 0) ? this.addQuestion(question) : this.updateQuestions(question);
+    saveQuestion(question: Question, isNew = false) {
+        return (question.question_id === 0 || isNew === true) ? this.addQuestion(question) : this.updateQuestions(question);
     }
     saveOption(opt: Option, isNew = false) {
         return (opt.option_id === 0 || isNew === true) ? this.addOption(opt) : this.updateOption(opt);
