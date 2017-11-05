@@ -25,7 +25,7 @@
           (formSubmit)="saveQuestion($event)"></survey-question-form>
         <hr>
       </div>
-      <div class="col-md-3" *ngIf="hasOptions">
+      <div class="col-md-3" *ngIf="hasOptions(activeQuestion)">
         <h4 class="reset">Options</h4>
         <div class="text-muted">{{activeQuestion.options.length}} active options.</div>
         <option-form *ngFor="let opt of activeQuestion.options"
@@ -57,7 +57,7 @@
                     [formValue]="sub"
                     (formSubmit)="saveQuestion($event)"></survey-question-form>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3" *ngIf="hasOptions(sub)">
                   <option-form *ngFor="let opt of sub.options"
                     [formValue]="opt"
                     (formSubmit)="saveOption($event)"></option-form>
@@ -72,9 +72,10 @@
         </ngb-tab>
       </ngb-tabset>
       <div class="alert alert-warning" role="alert" *ngIf="activeQuestion.childrens.length === 0">
-          This Question doesnt have any sub questions. please  <a class="c-pointer" (click)="addSubQuestion(content)">add one</a>. 
+          This Question doesnt have any sub questions. please  <a class="c-pointer alert-link" (click)="addSubQuestion(content)">add one</a>. 
       </div>
     </section>
+    <br>
   </div>
 </div>
 

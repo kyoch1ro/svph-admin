@@ -55,10 +55,9 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
   }
 
 
-  get hasOptions() {
-    return !(this.activeQuestion.option_type === 'enums' || this.activeQuestion.option_type === 'text');
+  hasOptions(item: Question) {
+    return !(item.option_type === 'enums' || this.activeQuestion.option_type === 'text');
   }
-
   private openModal(content) {
     this.modalInstance = this.modalService.open(content);
   }
