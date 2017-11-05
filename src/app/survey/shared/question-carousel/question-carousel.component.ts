@@ -38,13 +38,19 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
 
   addParentQuestion(content) {
     this.modalForm = AvailableForms.questionForm;
-    this.formTemplate = { survey_id: this.activeQuestion.survey_id };
+    this.formTemplate = new Question({ survey_id: this.activeQuestion.survey_id });
     this.openModal(content);
   }
 
-  addOption(content) {
+  addSubQuestion(content) {
+    this.modalForm = AvailableForms.questionForm;
+    this.formTemplate = new Question({ survey_id: this.activeQuestion.survey_id, question_parent: this.activeQuestion.question_id });
+    this.openModal(content);
+  }
+  addOption(content, parentId?: number) {
     this.modalForm = AvailableForms.optionForm;
-    this.formTemplate = { question_id: this.activeQuestion.question_id };
+    const id = (parentId) ? parentId : this.activeQuestion.question_id;
+    this.formTemplate = new Option({ question_id: id});
     this.openModal(content);
   }
 
