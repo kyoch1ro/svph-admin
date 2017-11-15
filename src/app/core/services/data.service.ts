@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class DataService {
-
-  constructor(public http: Http, public url = 'test') { }
+  public url: string;
+  constructor(public http: Http) {}
 
   getAll(custom_url?: string ): Observable<any> {
     const url = (custom_url) ? custom_url : this.url;

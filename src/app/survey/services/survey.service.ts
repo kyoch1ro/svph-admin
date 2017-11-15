@@ -14,7 +14,8 @@ import { Observable } from 'rxjs/Observable';
 export class SurveyService extends DataService {
 
   constructor(http: Http, private _questionSrvc: QuestionService) {
-    super(http, `${apiUrl}/survey`);
+    super(http);
+    this.url = `${apiUrl}/survey`;
   }
 
   getSurveyWithQuestions(id: number): Observable<SurveyQuestion> {

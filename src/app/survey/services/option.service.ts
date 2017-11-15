@@ -13,8 +13,8 @@ import { DataService } from '../../core/services/data.service';
 export class OptionService extends DataService {
 
   constructor(http: Http) {
-    const url = `${apiUrl}/option`;
-    super(http, url);
+    super(http);
+    this.url = `${apiUrl}/option`;
   }
 
 

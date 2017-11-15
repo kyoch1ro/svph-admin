@@ -11,8 +11,8 @@ import { apiUrl, baseApiUrl } from 'app/core/global.const';
 export class SurveyTypeService extends DataService {
 
   constructor(http: Http) {
-    const url = `${apiUrl}/type`
-    super(http, url);
+    super(http);
+    this.url = `${apiUrl}/type`;
   }
 
 }

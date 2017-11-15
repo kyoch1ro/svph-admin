@@ -14,8 +14,8 @@ import { DataService } from '../../core/services/data.service';
 export class QuestionService extends DataService {
 
   constructor(http: Http) {
-    const url = `${apiUrl}/question`;
-    super(http, url);
+    super(http);
+    this.url = `${apiUrl}/question`;
   }
 
   save(resource) {
