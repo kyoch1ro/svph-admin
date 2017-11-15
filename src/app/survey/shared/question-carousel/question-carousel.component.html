@@ -16,66 +16,75 @@
       </ul>
   </div>
   <div class="col-md-10">
-    <div class="row">
-      <div class="col-md 9">
-        <h4 class="reset">Question</h4>
-        <div class="text-muted">Item {{activeIndx + 1}} of {{questions.length}}</div>
-        <survey-question-form
-          [formValue]="activeQuestion"
-          (formSubmit)="saveQuestion($event)"></survey-question-form>
-        <hr>
-      </div>
-      <div class="col-md-3" *ngIf="hasOptions(activeQuestion)">
-        <h4 class="reset">Options</h4>
-        <div class="text-muted">{{activeQuestion.options.length}} active options.</div>
-        <option-form *ngFor="let opt of activeQuestion.options"
-                  [formValue]="opt"
-                  (formSubmit)="saveOption($event)"></option-form>
-        <button class="btn btn-outline-success btn-block c-pointer"
-                (click)="addOption(content)">
-          <i class="icon-plus"></i>
-          Add Option
-        </button>
-      </div>
-    </div>
-    <hr>
-    <section>
-      <div class="heading clearfix">
-          <button class="float-right btn btn-outline-success c-pointer"
-                  (click)="addSubQuestion(content)"><i class="icon-plus"></i>&nbsp;Add Sub Question</button>
-          <h4 class="reset">Sub Questions</h4>
-          <div class="text-muted">There are {{activeQuestion.childrens.length}} active sub questions.</div>
-      </div>
-      <br>
-      <ngb-tabset type="pills" *ngIf="activeQuestion.childrens.length">
-        <ngb-tab  *ngFor="let sub of activeQuestion.childrens; let i = index">
-          <ng-template ngbTabTitle>Sub Question {{i + 1}}</ng-template>
-          <ng-template ngbTabContent>
-            <div class="row">
-              <div class="col-md-9">
-                  <survey-question-form
-                    [formValue]="sub"
-                    (formSubmit)="saveQuestion($event)"></survey-question-form>
-              </div>
-              <div class="col-md-3" *ngIf="hasOptions(sub)">
-                  <option-form *ngFor="let opt of sub.options"
+    <section *ngIf="questions.length">
+      <div class="row">
+        <div class="col-md 9">
+          <h4 class="reset">Question</h4>
+          <div class="text-muted">Item {{activeIndx + 1}} of {{questions.length}}</div>
+          <survey-question-form
+            [formValue]="activeQuestion"
+            (formSubmit)="saveQuestion($event)"></survey-question-form>
+          <hr>
+        </div>
+
+
+        <div class="col-md-3" *ngIf="hasOptions(activeQuestion)">
+          <h4 class="reset">Options</h4>
+          <div class="text-muted">{{activeQuestion.options.length}} active options.</div>
+          <option-form *ngFor="let opt of activeQuestion.options"
                     [formValue]="opt"
                     (formSubmit)="saveOption($event)"></option-form>
-                  <button class="btn btn-outline-success btn-block c-pointer"
-                      (click)="addOption(content, sub.question_id)">
-                      <i class="icon-plus"></i>
-                      Add Option
-                  </button>
-              </div>
-            </div>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
-      <div class="alert alert-warning" role="alert" *ngIf="activeQuestion.childrens.length === 0">
-          This Question doesnt have any sub questions. please  <a class="c-pointer alert-link" (click)="addSubQuestion(content)">add one</a>. 
+          <button class="btn btn-outline-success btn-block c-pointer"
+                  (click)="addOption(content)">
+            <i class="icon-plus"></i>
+            Add Option
+          </button>
+        </div>
       </div>
+      <hr>
+      <div>
+        <div class="heading clearfix">
+            <button class="float-right btn btn-outline-success c-pointer"
+                    (click)="addSubQuestion(content)"><i class="icon-plus"></i>&nbsp;Add Sub Question</button>
+            <h4 class="reset">Sub Questions</h4>
+            <div class="text-muted">There are {{activeQuestion.childrens.length}} active sub questions.</div>
+        </div>
+        <br>
+        <ngb-tabset type="pills" *ngIf="activeQuestion.childrens.length">
+          <ngb-tab  *ngFor="let sub of activeQuestion.childrens; let i = index">
+            <ng-template ngbTabTitle>Sub Question {{i + 1}}</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-md-9">
+                    <survey-question-form
+                      [formValue]="sub"
+                      (formSubmit)="saveQuestion($event)"></survey-question-form>
+                </div>
+                <div class="col-md-3" *ngIf="hasOptions(sub)">
+                    <option-form *ngFor="let opt of sub.options"
+                      [formValue]="opt"
+                      (formSubmit)="saveOption($event)"></option-form>
+                    <button class="btn btn-outline-success btn-block c-pointer"
+                        (click)="addOption(content, sub.question_id)">
+                        <i class="icon-plus"></i>
+                        Add Option
+                    </button>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+        <div class="alert alert-warning" role="alert" *ngIf="activeQuestion.childrens.length === 0">
+            This Question doesnt have any sub questions. please  <a class="c-pointer alert-link" (click)="addSubQuestion(content)">add one</a>. 
+        </div>
+      </div>
+      <br>
     </section>
-    <br>
+    <section *ngIf="!questions.length">
+        <div class="alert alert-warning" role="alert">
+          This survey doesnt have any questions, please <span class="alert-link c-pointer" (click)="addParentQuestion(content)">add one</span>.
+        </div>
+    </section>
   </div>
 </div>
 

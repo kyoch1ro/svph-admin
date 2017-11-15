@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Option } from '../models/option.model';
 import { QuestionTypes } from '../../../core/consts/question-type.const';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
@@ -27,18 +28,25 @@ export class QuestionCarouselComponent implements OnInit, OnDestroy {
   @Input() questions: QuestionOptionChildren[];
   @Output() formSubmitted = new EventEmitter<CarouselOutput>();
   private _activeIndx = new BehaviorSubject<number>(0);
+  surveyId: number;
   modalForm: AvailableForms;
   formTemplate: any;
   modalInstance: NgbModalRef;
 
-  constructor(private modalService: NgbModal) { }
+
+
+  constructor(private modalService: NgbModal,
+              private _router: ActivatedRoute) { }
 
   ngOnInit() {
+    this._router.paramMap.subscribe(params => {
+      this.surveyId = +params.get('id');
+    })
   }
 
   addParentQuestion(content) {
     this.modalForm = AvailableForms.questionForm;
-    this.formTemplate = new Question({ survey_id: this.activeQuestion.survey_id });
+    this.formTemplate = new Question({ survey_id: this.surveyId });
     this.openModal(content);
   }
 
