@@ -6,7 +6,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
 
-import { MainNotificationService, SavingNotification } from '../../core/services/main-notification.service';
+import {
+    MainNotificationService,
+    NotificationType,
+    SavingNotification,
+} from '../../core/services/main-notification.service';
 import { DurationService } from '../services/duration.service';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
@@ -16,7 +20,7 @@ import { SURVEY_FORM_PROVIDER } from '../shared/form/survey-form/form.service';
 import { Duration } from '../shared/models/duration.model';
 import { Option } from '../shared/models/option.model';
 import { Question } from '../shared/models/question.model';
-import { SurveyQuestion } from '../shared/models/survey.model';
+import { Survey, SurveyQuestion } from '../shared/models/survey.model';
 import { CarouselOutput, OutType } from '../shared/question-carousel/question-carousel.component';
 
 @Component({
@@ -125,7 +129,11 @@ export class ViewComponent implements OnInit, OnDestroy {
       }
     )
   }
-  updateSurvey(event) {
+
+
+  updateSurvey(event: Survey) {
+    const canSave = this.isSurveyCanPublished(event);
+    if (!canSave) return;
     this.notification.create(SavingNotification);
     this._surveySrvc
         .update(event)
@@ -136,6 +144,49 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.survey = new SurveyQuestion(Object.assign({}, this.survey, event))
           }
         );
+  }
+
+
+
+  private isSurveyCanPublished(event: Survey) {
+    let canpublished = true;
+    if (event.survey_isactive && !this.survey.questions.length) {
+      this.notification.create({
+        message: 'Cannot published, there are no questions for this survey.',
+        type: NotificationType.danger
+      });
+      this.survey = new SurveyQuestion(Object.assign({}, this.survey, { survey_isactive: 0}))
+      canpublished = false;
+    }
+
+
+    if (event.survey_isactive && !this.survey.durations.length) {
+      this.notification.create({
+        message: 'Cannot published, there are no active duration for this survey.',
+        type: NotificationType.danger
+      });
+      this.survey = new SurveyQuestion(Object.assign({}, this.survey, { survey_isactive: 0}))
+      canpublished = false;
+    }else {
+      const time_now = new Date();
+      let hasActiveDuration = false;
+      this.survey.durations.forEach(x => {
+        const end_time = new Date(x.end_date);
+        if (end_time > time_now) {
+          hasActiveDuration = true;
+          return;
+        }
+      })
+      if (!hasActiveDuration) {
+        this.notification.create({
+          message: 'Cannot published, there are no active duration for this survey.',
+          type: NotificationType.danger
+        });
+        this.survey = new SurveyQuestion(Object.assign({}, this.survey, { survey_isactive: 0}))
+        canpublished = false;
+      }
+    }
+    return canpublished;
   }
 
   ngOnDestroy() {
