@@ -1,12 +1,12 @@
-import { Duration } from '../../../models/duration.model';
-
-import { SurveyFormService } from '../form.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IFormComponent } from 'app/core/contracts/i-form-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Duration } from '../../models/duration.model';
+import { SurveyFormService } from '../survey-form/form.service';
+
+
 // MAKE THIS DUMB COMPONENT REMOVED THE SURVEYFORM SERVICE
 
 @Component({
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './duration.component.html',
   styleUrls: ['./duration.component.scss']
 })
-export class DurationComponent implements OnInit, IFormComponent {
+export class DurationFormComponent implements OnInit, IFormComponent {
   @Input() set duration(val: Duration){
     this._duration.next(val);
   }

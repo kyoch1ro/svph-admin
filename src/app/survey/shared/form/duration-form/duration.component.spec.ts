@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DurationComponent } from './duration.component';
+import { DurationFormComponent } from './duration.component';
 
 describe('DurationComponent', () => {
-  let component: DurationComponent;
-  let fixture: ComponentFixture<DurationComponent>;
+  let component: DurationFormComponent;
+  let fixture: ComponentFixture<DurationFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DurationComponent ]
+      declarations: [ DurationFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DurationComponent);
+    fixture = TestBed.createComponent(DurationFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
