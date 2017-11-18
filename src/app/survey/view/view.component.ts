@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
@@ -31,15 +32,18 @@ import { CarouselOutput, OutType } from '../shared/question-carousel/question-ca
 })
 export class ViewComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyFormComponent) surveyForm: SurveyFormComponent;
+  @ViewChild('content') private content;
   survey: SurveyQuestion;
   id_param_subscription: ISubscription;
   activeTab = 'survey';
+  modalInstance: any;
 
   constructor(private _surveySrvc: SurveyService,
               private _questionSrvc: QuestionService,
               private _optionSrvc: OptionService,
               private _durSrvc: DurationService,
               private _route: ActivatedRoute,
+              private modalService: NgbModal,
               private notification: MainNotificationService) {  }
 
   ngOnInit() {
@@ -142,8 +146,31 @@ export class ViewComponent implements OnInit, OnDestroy {
           data => {
             this.notification.create();
             this.survey = new SurveyQuestion(Object.assign({}, this.survey, event))
+          },
+          err => {},
+          () => {
+            if (+event.survey_isactive === 1) this.modalInstance = this.modalService.open(this.content);
           }
         );
+  }
+
+
+
+  notifyUsers() {
+    if (this.modalInstance) this.modalInstance.close();
+    this.notification.create({
+      message: 'Sending notification email to users.',
+      type: NotificationType.warning
+    }, 0);
+
+    this._surveySrvc
+        .notifyUserSurvey(this.survey as Survey)
+        .take(1)
+        .subscribe(
+          data => {
+            this.notification.create();
+          }
+        )
   }
 
 
@@ -191,6 +218,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.id_param_subscription.unsubscribe();
+    if (this.modalInstance) this.modalInstance.close();
   }
 
 }

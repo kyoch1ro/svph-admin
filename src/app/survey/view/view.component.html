@@ -39,3 +39,15 @@
         </ng-template>
     </ngb-tab>
   </ngb-tabset>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+        <h4>Notify Users?</h4>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" (click)="notifyUsers()">Yes</button>
+        <button class="btn btn-faded" (click)="d('no')">No</button>
+    </div>
+</ng-template>
+      

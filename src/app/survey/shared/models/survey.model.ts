@@ -13,8 +13,8 @@ export class Survey {
     survey_title: string;
     survey_type_id: number;
     updated_at: string;
-    respondents: number;
-    img: string;
+    respondents?: number;
+    img?: string;
 
     constructor(obj?: any) {
         this.id                 = obj && obj.id || 0;
@@ -31,6 +31,12 @@ export class Survey {
         if (obj && obj.durations) this.durations = obj.durations.map(x => new Duration(x));
     }
 }
+
+
+
+
+
+
 
 export class SurveyQuestion extends Survey {
     questions: QuestionOptionChildren[] = [];

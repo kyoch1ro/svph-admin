@@ -10,13 +10,16 @@ export class MainNotificationService {
   constructor() { }
 
 
-  create(val?: INotification) {
+  create(val?: INotification, timeout = 3000) {
     if (this.timer) clearTimeout(this.timer);
     const msg: INotification = (val) ? val : SuccessNotification;
+
     this.notification.next(msg);
-    this.timer = setTimeout(() => {
-      this.notification.next(null);
-    }, 3000);
+    if (timeout > 0) {
+      this.timer = setTimeout(() => {
+        this.notification.next(null);
+      }, timeout);
+    }
   }
 
 

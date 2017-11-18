@@ -1,6 +1,6 @@
 import { QuestionOptionChildren } from '../shared/models/question.model';
 import { QuestionService } from './question.service';
-import { SurveyQuestion } from '../shared/models/survey.model';
+import { Survey, SurveyQuestion } from '../shared/models/survey.model';
 import { BadInputError } from '../../core/error-handlers/bad-input-error';
 import { DataService } from '../../core/services/data.service';
 import { Injectable } from '@angular/core';
@@ -60,6 +60,14 @@ export class SurveyService extends DataService {
     if (!id) { return Observable.throw(new BadInputError('Id is not defined.'))};
     const custom_url = `${this.url}/${id}`;
     return super.update(data, custom_url);
+  }
+
+
+  notifyUserSurvey(data: Survey) {
+    const token = AuthService.getToken();
+    return this.http.post(
+      `${apiUrl}/NotifyUserSurvey?token=${token}`, data)
+        .map((res: Response) => res.json());
   }
 
 }
