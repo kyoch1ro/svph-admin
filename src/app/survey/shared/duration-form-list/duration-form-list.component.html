@@ -1,11 +1,7 @@
 <sur-duration-form
     *ngFor="let dur of durations"
     [formValue]="dur"
-    (formSubmit)="formSubmitted.emit($event)"></sur-duration-form>
-
-
-
-
+    (formSubmit)="submitted($event)"></sur-duration-form>
 
 
   <button *ngIf="!hasActiveDuration" class="btn btn-outline-success btn-block c-pointer"
@@ -25,6 +21,6 @@
   </button>
 </div>
 <div class="modal-body ">
-  <sur-duration-form [formValue]="formTemplate" (formSubmit)="formSubmitted.emit($event)"></sur-duration-form>
+  <sur-duration-form [formValue]="formTemplate" (formSubmit)="submitted($event)"></sur-duration-form>
 </div>
 </ng-template>

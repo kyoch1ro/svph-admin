@@ -32,9 +32,13 @@ export class DurationFormListComponent implements OnInit, OnDestroy {
         return;
       }
     })
-
-
     return hasActive;
+  }
+
+
+  submitted(data) {
+    if (this.modalInstance) this.modalInstance.close();
+    this.formSubmitted.emit(data);
   }
   addDuration(content) {
     this.modalInstance = this.modalService.open(content, {
