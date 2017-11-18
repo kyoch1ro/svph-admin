@@ -26,7 +26,6 @@ import { SurveyTypeService } from '../../../services/survey-type.service';
 })
 export class SurveyFormComponent implements OnInit, IFormComponent, OnDestroy  {
   @Input() set survey(val: Survey){
-    console.log(val);
     this._survey.next(val);
   }
   @Input() btnLabel = 'Submit';

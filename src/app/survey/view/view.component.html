@@ -17,125 +17,25 @@
         <ng-template ngbTabContent>
             <survey-question-carousel
                 *ngIf="survey"
+                [surveyId]="survey.id"
                 [questions]="survey.questions"
                 (formSubmitted)="save($event)"></survey-question-carousel>
         </ng-template>
     </ngb-tab>
-
-    
-
-    
-
-
-
-    <ngb-tab [id]="3">
+    <ngb-tab [id]="'durations'">
         <ng-template ngbTabTitle>
-            <i class="icon-wrench"></i>&nbsp;Settings
+            <i class="icon-wrench"></i>&nbsp;Duration
         </ng-template>
         <ng-template ngbTabContent>
-            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
-        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
-        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
-        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
-        sint qui sapiente accusamus tattooed echo park.</p>
+            <h4 class="reset">Duration</h4>
+            <div class="text-muted">Survey Durations</div>
+            <br>
+            <div *ngIf="survey">
+                <sur-duration-form-list 
+                    [surveyId]="survey.id"
+                    [durations]="survey.durations"
+                    (formSubmitted)="saveDuration($event)"></sur-duration-form-list>
+            </div>
         </ng-template>
     </ngb-tab>
   </ngb-tabset>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="row">
-    <div class="col-md-3 push-md-9">
-        <div class="card">
-                <div class="card-header">
-                    <i class="fa fa-cog" aria-hidden="true"></i> Actions
-                </div>
-                <div class="card-block">
-                    <button class="btn btn-success btn-block">Publish Survey</button>
-                    <button class="btn btn-info btn-block">Statistics</button>
-                    <hr>
-                    <p class="text-danger text-center">Delete this survey</p>
-                </div>
-        </div>
-    </div>
-    <div class="col-md-9 pull-md-3">
-        <div class="card">
-                <div class="card-header">
-                    <span *ngIf="!survey">
-                        <i class="fa fa-spinner fa-spin fa-fw"></i> Loading...
-                    </span>
-                    <span *ngIf="survey">
-                        <i class="fa fa-file-text-o" aria-hidden="true"></i> Survey
-                    </span>
-                </div>
-                <div class="card-block">
-
-                </div>
-        </div>
-    </div>
-</div>
-  
-<div class="card">
-    <div class="card-header">
-        <button (click)="open(questionAdd)" class="float-right btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Question</button>
-        Survey Questions
-    </div>
-    <div *ngIf="survey" class="card-block question " >
-        
-            <div *ngFor="let question of survey.questions; let i = index">
-                    <p class="text-muted no-marg">Survey Question #{{i+1}}</p>
-                    <sur-que-form 
-                        [isPending]="isQuestionPending[question.question_id] || false"
-                        [btnLabel]="'Update'"
-                        [question]="question"
-                        [isPending]="isQuestionPending[0] || false"
-                        (formSubmit)="updateQuestion($event)"
-                        (newSubQuestion)="addSubQuestion(i,$event)"></sur-que-form>
-                        <br>
-                    <div *ngIf="question.childrens && question.childrens.length" class="q-holder">
-                        <div class="sub-question">
-                            <div *ngFor="let sub of question.childrens; let j = index">
-                                <p class="text-muted no-marg">{{question.question_caption}} Sub question #{{j+1}}</p>
-                                <sur-que-form 
-                                    [isPending]="isQuestionPending[sub.question_id] || false"
-                                    [btnLabel]="'Update'"
-                                    [question]="sub"
-                                    (formSubmit)="updateQuestion($event)"></sur-que-form>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-    </div>
-</div>
-
-<ng-template #questionAdd let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">New Survey Question</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-      <sur-que-form [isPending]="isQuestionPending[0] || false"
-                    (formSubmit)="addQuestion($event)"></sur-que-form>
-
-  </div>
-</ng-template> -->

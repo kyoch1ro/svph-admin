@@ -26,22 +26,19 @@ export interface CarouselOutput {
 })
 export class QuestionCarouselComponent implements OnInit, OnDestroy {
   @Input() questions: QuestionOptionChildren[];
+  @Input() surveyId: number;
   @Output() formSubmitted = new EventEmitter<CarouselOutput>();
   private _activeIndx = new BehaviorSubject<number>(0);
-  surveyId: number;
+ 
   modalForm: AvailableForms;
   formTemplate: any;
   modalInstance: NgbModalRef;
 
 
 
-  constructor(private modalService: NgbModal,
-              private _router: ActivatedRoute) { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
-    this._router.paramMap.subscribe(params => {
-      this.surveyId = +params.get('id');
-    })
   }
 
   addParentQuestion(content) {

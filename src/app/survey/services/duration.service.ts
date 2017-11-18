@@ -1,46 +1,34 @@
-import { Duration } from '../shared/models/duration.model';
-
+import { BadInputError } from '../../core/error-handlers/bad-input-error';
+import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../../core/services/auth.service';
+
 import { apiUrl } from '../../core/global.const';
 import { HttpHelper } from '../../core/helpers/http-helper';
-import { ISurveyDurationService } from '../../core/contracts/i-http-services';
-
-import { Injectable } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
+import { DataService } from '../../core/services/data.service';
+import { Duration } from '../shared/models/duration.model';
 
 @Injectable()
-export class DurationService implements ISurveyDurationService<Duration> {
+export class DurationService extends DataService {
 
-  constructor(private _http: Http) { }
+  constructor(http: Http) {
+    super(http);
+    this.url = `${apiUrl}/duration`;
+  }
 
-    getById(id: number): Observable<Duration> {
-      return
-    }
-    list(id?: number): Observable<Duration> {
-      return
-    }
-    add(item: Duration): Observable<Duration> {
-      const token = AuthService.getToken();
-      return this._http.post(`${apiUrl}/duration?token=${token}`, item, HttpHelper.RequestOptions).map(data => data.json());
-    }
-    delete(id: number): Observable<Duration> {
-      return
-    }
-    update(item: Duration): Observable<Duration> {
-      const token = AuthService.getToken();
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('X-HTTP-Method-Override', 'PUT');
-      const options = new RequestOptions({
-        headers: headers
-      })
-      return this._http.post(`${apiUrl}/duration/${item.id}?token=${token}`,
-        JSON.stringify(item), options).map(data => data.json());
-    }
-    count(): Observable<Duration> {
-      return
-    }
+  save(resource) {
+    const id = +resource['id'];
+    return (id === 0) ? this.create(resource) : this.update(resource);
+  }
+
+  update(data: Duration) {
+    const id = data['id'];
+    if (!id) { return Observable.throw(new BadInputError('Id is not defined.'))} ;
+    const url = `${this.url}/${id}`;
+    return super.update(data, url);
+  }
+
 }
 
 

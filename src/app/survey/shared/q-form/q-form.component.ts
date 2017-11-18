@@ -29,7 +29,7 @@ export class QuestionFormComponent implements OnInit, OnDestroy {
     this.setForm();
     this.formValueSubscription = this._question.subscribe(data => this.form.patchValue(data));
   }
-  
+
   onSubmit() {
     markControlsAsTouched(this.form);
     if (this.form.invalid) return;

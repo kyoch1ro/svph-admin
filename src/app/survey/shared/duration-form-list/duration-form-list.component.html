@@ -1,0 +1,30 @@
+<sur-duration-form
+    *ngFor="let dur of durations"
+    [formValue]="dur"
+    (formSubmit)="formSubmitted.emit($event)"></sur-duration-form>
+
+
+
+
+
+
+  <button *ngIf="!hasActiveDuration" class="btn btn-outline-success btn-block c-pointer"
+        (click)="addDuration(content)">
+    <i class="icon-plus"></i>
+    Add Duration
+  </button>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+<div class="modal-header">
+  <h4 class="modal-title">
+    Add Duration
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body ">
+  <sur-duration-form [formValue]="formTemplate" (formSubmit)="formSubmitted.emit($event)"></sur-duration-form>
+</div>
+</ng-template>

@@ -5,7 +5,7 @@ import { Question, QuestionOptionChildren } from './question.model';
 export class Survey {
     id: number;
     created_at: string;
-    durations: Duration[];
+    durations: Duration[] = [];
     survey_category_id: number;
     survey_isactive: number;
     survey_isdeleted: number;
@@ -19,7 +19,6 @@ export class Survey {
     constructor(obj?: any) {
         this.id                 = obj && obj.id || 0;
         this.created_at         = obj && obj.created_at || '';
-        this.durations          = obj && obj.durations || [];
         this.survey_category_id = obj && obj.survey_category_id || 0;
         this.survey_isactive    = obj && obj.survey_isactive || 0;
         this.survey_isdeleted   = obj && obj.survey_isdeleted || 0;
@@ -29,6 +28,7 @@ export class Survey {
         this.updated_at         = obj && obj.updated_at || '';
         this.respondents        = obj && obj.respondents || 0;
         this.img                = obj && obj.img || '';
+        if (obj && obj.durations) this.durations = obj.durations.map(x => new Duration(x));
     }
 }
 
@@ -50,6 +50,20 @@ export class SurveyQuestion extends Survey {
     updateQuestions(questions) {
         this.questions = this.updatedQuestionList(this.questions, questions);
     }
+
+    saveDuration(data: Duration, isNew = false) {
+        return (data.id === 0 || isNew === true) ? this.addDuration(data) : this.updateDuration(data);
+    }
+
+    private addDuration(data: Duration) {
+        this.durations.push(data);
+    }
+    private updateDuration(data: Duration) {
+       const indx = this.durations.findIndex(x => x.id === +data.id);
+       this.durations[indx] = new Duration(data);
+    }
+
+
     private updatedQuestionList(questions: QuestionOptionChildren[], item: Question) {
         if (questions) {
             return questions.map(x => {
