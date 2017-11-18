@@ -36,7 +36,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyFormComponent) surveyForm: SurveyFormComponent;
   survey: SurveyQuestion;
   id_param_subscription: ISubscription;
-  activeTab = 'questions';
+  activeTab = 'survey';
 
 
 

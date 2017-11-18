@@ -62,6 +62,14 @@ export class SurveyFormComponent implements OnInit, IFormComponent, OnDestroy  {
     this.modalService.open(content);
   }
 
+
+  set isPublished(val) {
+    const stat = val === true ? 1 : 0;
+    this.form.get('survey_isactive').setValue(stat);
+  }
+  get isPublished() {
+    return +this.form.get('survey_isactive').value === 1;
+  }
   //#region GETTERS
   get survey() {
     return this._survey.getValue();

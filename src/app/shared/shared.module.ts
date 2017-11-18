@@ -1,3 +1,4 @@
+import { SwitchComponent } from './switch/switch.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     AlertComponent,
     SaveSpinnerComponent,
     TruncatePipe,
+    SwitchComponent
   ],
   exports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     AlertComponent,
     NgbModule,
     SaveSpinnerComponent,
-    TruncatePipe
+    TruncatePipe,
+    SwitchComponent
   ]
 })
 export class SharedModule { }
