@@ -136,7 +136,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
 
   updateSurvey(event: Survey) {
-    const canSave = this.isSurveyCanPublished(event);
+    const canSave = (+event.survey_isactive === 1) ? this.isSurveyCanPublished(event) : true;
     if (!canSave) return;
     this.notification.create(SavingNotification);
     this._surveySrvc
@@ -177,7 +177,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   private isSurveyCanPublished(event: Survey) {
     let canpublished = true;
-    if (event.survey_isactive && !this.survey.questions.length) {
+    if (this.survey.questions.length) {
       this.notification.create({
         message: 'Cannot published, there are no questions for this survey.',
         type: NotificationType.danger
@@ -187,7 +187,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     }
 
 
-    if (event.survey_isactive && !this.survey.durations.length) {
+    if (this.survey.durations.length) {
       this.notification.create({
         message: 'Cannot published, there are no active duration for this survey.',
         type: NotificationType.danger
