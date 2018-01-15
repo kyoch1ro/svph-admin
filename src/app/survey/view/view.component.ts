@@ -94,7 +94,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         .subscribe(x => {
           this.notification.create();
           const isNew = data.question_id === 0;
-          if (isNew && (x['question'].option_type === 'enums' || x['question'].option_type === 'text')) {
+          if (x['question'].option_type === 'enums' || x['question'].option_type === 'text') {
             this._addDefaultOption(x['question'].question_id);
           }
           data.question_id = (x['question'] as Question).question_id;
