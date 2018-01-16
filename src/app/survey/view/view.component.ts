@@ -33,6 +33,8 @@ import { CarouselOutput, OutType } from '../shared/question-carousel/question-ca
 export class ViewComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyFormComponent) surveyForm: SurveyFormComponent;
   @ViewChild('content') private content;
+
+  smsNotifyPending = false;
   survey: SurveyQuestion;
   id_param_subscription: ISubscription;
   activeTab = 'survey';
@@ -71,6 +73,18 @@ export class ViewComponent implements OnInit, OnDestroy {
       default:
         console.log('Error')
     }
+  }
+
+  sendSMS() {
+    const survey = new Survey(this.survey);
+    this.smsNotifyPending = true;
+    this._surveySrvc
+        .notifyThruSMS(survey)
+        .subscribe(x => {
+          this.notification.create();
+          this.smsNotifyPending = false;
+        })
+
   }
 
   private saveDuration(data: Duration) {
@@ -155,6 +169,18 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
 
+  notifyUserEmail() {
+    this._surveySrvc
+    .notifyUserSurvey(new Survey(this.survey))
+    .take(1)
+    .subscribe(
+      data => {
+        this.notification.create();
+      }
+    )
+  }
+
+
 
   notifyUsers() {
     if (this.modalInstance) this.modalInstance.close();
@@ -163,21 +189,14 @@ export class ViewComponent implements OnInit, OnDestroy {
       type: NotificationType.warning
     }, 0);
 
-    this._surveySrvc
-        .notifyUserSurvey(this.survey as Survey)
-        .take(1)
-        .subscribe(
-          data => {
-            this.notification.create();
-          }
-        )
+    this.notifyUserEmail();
   }
 
 
 
   private isSurveyCanPublished(event: Survey) {
     let canpublished = true;
-    if (this.survey.questions.length) {
+    if (!this.survey.questions.length) {
       this.notification.create({
         message: 'Cannot published, there are no questions for this survey.',
         type: NotificationType.danger
@@ -185,9 +204,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.survey = new SurveyQuestion(Object.assign({}, this.survey, { survey_isactive: 0}))
       canpublished = false;
     }
-
-
-    if (this.survey.durations.length) {
+    if (!this.survey.durations.length) {
       this.notification.create({
         message: 'Cannot published, there are no active duration for this survey.',
         type: NotificationType.danger

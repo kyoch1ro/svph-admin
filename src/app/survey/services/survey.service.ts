@@ -70,6 +70,14 @@ export class SurveyService extends DataService {
         .map((res: Response) => res.json());
   }
 
+
+  notifyThruSMS(data: Survey) {
+    const token = AuthService.getToken();
+    return this.http.post(
+      `${apiUrl}/SMSNotification?token=${token}`, data
+    ).map((res: Response) => res.json())
+  }
+
 }
 
 
