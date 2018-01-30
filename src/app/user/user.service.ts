@@ -28,7 +28,13 @@ export class UserService implements IUserService{
     }, options).map(data => data.json());
   }
 
-  getOtherInfo(id: number): Observable<any>{
+
+  usersCount() {
+    const token = AuthService.getToken();
+    return this._http.get(`${apiUrl}/countUser?token=${token}`).map(x => x.json());
+  }
+
+  getOtherInfo(id: number): Observable<any> {
     const token = AuthService.getToken();
     return this._http.get(`${apiUrl}/otherInfo/${id}?token=${token}`)
     .map((res: Response) => res.json());

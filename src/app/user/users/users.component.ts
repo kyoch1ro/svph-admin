@@ -13,8 +13,9 @@ import { UserService } from './../user.service';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+  approved = '';
   // removed the IUserService
-  constructor(@Inject(UserService) private _userSrvc: IUserService,
+  constructor(private _userSrvc: UserService,
               private _route: Router) { }
   ngOnInit() {
     const subs: ISubscription = this._userSrvc.list().subscribe(
@@ -22,6 +23,13 @@ export class UsersComponent implements OnInit {
       err => {},
       () => subs.unsubscribe()
     )
+
+
+    this._userSrvc
+        .usersCount()
+        .take(1).subscribe(x => {
+          this.approved = x['approvedusers'] + '/' + x['allusers'];
+        });
   }
 
   view(id: number) {
